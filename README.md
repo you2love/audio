@@ -7,7 +7,7 @@
 ```
 audio-tutorial/
 ├── index.html              # 主页面（更新）
-├── audio-basics.html       # 音频基础知识
+├── index.html       # 音频基础知识
 ├── algorithms.html         # 常用算法详解（更新）
 ├── ai-audio.html          # AI音频处理（新增）
 ├── python-examples.html   # Python示例（更新）
@@ -34,7 +34,7 @@ audio-tutorial/
 
 ## 内容概览
 
-### 1. 音频基础 (audio-basics.html)
+### 1. 音频基础 (index.html)
 - 声音的本质与传播
 - 模拟信号与数字信号
 - 采样率与位深度（ AI优化标准）
