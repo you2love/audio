@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>常用算法 - 计算机音频处理学习指南 </title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="index.html">首页</a></li>
+                <li><a href="audio-basics.html">音频基础</a></li>
+                <li><a href="algorithms.html">常用算法</a></li>
+                <li><a href="ai-audio.html">AI音频处理</a></li>
+                <li><a href="python-examples.html">Python示例</a></li>
+                <li><a href="golang-examples.html">Golang示例</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section class="section">
+            <h2>🔄 快速傅里叶变换 (FFT) 进化版</h2>
+            <p>FFT仍然是数字信号处理的核心算法，但年我们有了AI增强的FFT处理。</p>
+            
+            <div class="content-block">
+                <h4>传统FFT原理</h4>
+                <p>FFT是离散傅里叶变换 (DFT) 的一种快速计算方法，将计算复杂度从O(N²)降低到O(NlogN)。</p>
+                
+                <div class="math-formula">
+                    DFT公式：X[k] = Σ(n=0到N-1) x[n] × e^(-j2πkn/N)
+                </div>
+            </div>
+
+            <div class="algorithm-card">
+                <h4>年FFT增强技术</h4>
+                <ul>
+                    <li><strong>AI超分辨率FFT</strong>：通过深度学习提高频率分辨率</li>
+                    <li><strong>自适应窗口</strong>：AI根据信号特性自动选择最优窗函数</li>
+                    <li><strong>实时FFT加速</strong>：GPU/NPU加速的FFT实现</li>
+                    <li><strong>噪声自适应FFT</strong>：AI自动估计噪声水平并调整处理</li>
+                </ul>
+            </div>
+
+            <div class="diagram">
+                <svg viewBox="0 0 700 450" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="fftGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <rect width="100%" height="100%" fill="#f8f9fa"/>
+                    
+                    <text x="350" y="30" text-anchor="middle" font-size="16" fill="#333" font-weight="bold">AI增强FFT处理流程</text>
+                    
+                    <rect x="50" y="60" width="180" height="120" fill="white" stroke="#0f3460" stroke-width="2" rx="10"/>
+                    <text x="140" y="90" text-anchor="middle" font-size="13" fill="#333" font-weight="bold">时域输入信号</text>
+                    <path d="M 70 130 Q 95 80, 120 130 Q 145 100, 170 130" fill="none" stroke="#667eea" stroke-width="2"/>
+                    <text x="140" y="160" text-anchor="middle" font-size="10" fill="#666">x[n]</text>
+                    
+                    <rect x="260" y="60" width="180" height="120" fill="white" stroke="#e94560" stroke-width="2" rx="10"/>
+                    <text x="350" y="85" text-anchor="middle" font-size="13" fill="#333" font-weight="bold">AI预处理</text>
+                    <text x="350" y="105" text-anchor="middle" font-size="10" fill="#666">智能去噪</text>
+                    <text x="350" y="120" text-anchor="middle" font-size="10" fill="#666">自动增益</text>
+                    <text x="350" y="135" text-anchor="middle" font-size="10" fill="#666">窗口优化</text>
+                    <rect x="290" y="145" width="120" height="25" fill="#e94560" rx="5"/>
+                    <text x="350" y="162" text-anchor="middle" font-size="10" fill="white">AI模型</text>
+                    
+                    <rect x="470" y="60" width="180" height="120" fill="white" stroke="#28a745" stroke-width="2" rx="10"/>
+                    <text x="560" y="90" text-anchor="middle" font-size="13" fill="#333" font-weight="bold">FFT处理</text>
+                    <rect x="490" y="100" width="140" height="60" fill="#f8f9fa" stroke="#28a745" stroke-width="1"/>
+                    <text x="560" y="130" text-anchor="middle" font-size="11" fill="#28aograd1" stroke-width="2"/>
+                    <rect x="500" y="145" width="30" height="40" fill="#28a745"/>
+                    <rect x="540" y="145" width="30" height="40" fill="#667eea"/>
+                    <rect x="580" y="145" width="30" height="40" fill="#e94560"/>
+                    <text x="560" y="160" text-anchor="middle" font-size="10" fill="#666">X[k]</text>
+                    
+                    <line x1="230" y1="120" x2="255" y2="120" stroke="#e94560" stroke-width="2"/>
+                    <line x1="440" y1="120" x2="465" y2="120" stroke="#28a745" stroke-width="2"/>
+                    
+                    <rect x="50" y="220" width="600" height="200" fill="white" stroke="#0f3460" stroke-width="2" rx="15"/>
+                    <text x="350" y="250" text-anchor="middle" font-size="14" fill="#333" font-weight="bold">年FFT应用场景</text>
+                    
+                    <rect x="70" y="270" width="130" height="130" fill="#667eea" rx="10"/>
+                    <text x="135" y="300" text-anchor="middle" font-size="12" fill="white" font-weight="bold">实时频谱</text>
+                    <text x="135" y="325" text-anchor="middle" font-size="10" fill="white">音乐可视化</text>
+                    <text x="135" y="345" text-anchor="middle" font-size="10" fill="white">AI实时分析</text>
+                    <text x="135" y="365" text-anchor="middle" font-size="10" fill="white">60fps+</text>
+                    
+                    <rect x="220" y="270" width="130" height="130" fill="#e94560" rx="10"/>
+                    <text x="285" y="300" text-anchor="middle" font-size="12" fill="white" font-weight="bold">语音识别</text>
+                    <text x="285" y="325" text-anchor="middle" font-size="10" fill="white">特征提取</text>
+                    <text x="285" y="345" text-anchor="middle" font-size="10" fill="white">声纹分析</text>
+                    <text x="285" y="365" text-anchor="middle" font-size="10" fill="white">Whisper集成</text>
+                    
+                    <rect x="370" y="270" width="130" height="130" fill="#28a745" rx="10"/>
+                    <text x="435" y="300" text-anchor="middle" font-size="12" fill="white" font-weight="bold">音高检测</span>
+                    <text x="435" y="325" text-anchor="middle" font-size="10" fill="white">自动调音</text>
+                    <text x="435" y="345" text-anchor="middle" font-size="10" fill="white">和弦识别</text>
+                    <text x="435" y="365" text-anchor="middle" font-size="10" fill="white">AI音乐分析</text>
+                    
+                    <rect x="520" y="270" width="130" height="130" fill="#764ba2" rx="10"/>
+                    <text x="585" y="300" text-anchor="middle" font-size="12" fill="white" font-weight="bold">音频压缩</text>
+                    <text x="585" y="325" text-anchor="middle" font-size="10" fill="white">EnCodec</text>
+                    <text x="585" y="345" text-anchor="middle" font-size="10" fill="white">神经编码</text>
+                    <text x="585" y="365" text-anchor="middle" font-size="10" fill="white">10x压缩率</text>
+                </svg>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🎛️ AI增强数字滤波器</h2>
+            <p>年，滤波器设计与AI深度融合，实现了自适应和智能化的信号处理。</p>
+            
+            <div class="algorithm-card">
+                <h4>传统滤波器分类</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>类型</th>
+                            <th>通带特性</th>
+                            <th>应用</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>低通滤波器 (LPF)</strong></td>
+                            <td>允许低频通过，衰减高频</td>
+                            <td>AI降噪预处理</td>
+                        </tr>
+                        <tr>
+                            <td><strong>高通滤波器 (HPF)</strong></td>
+                            <td>允许高频通过，衰减低频</td>
+                            <td>语音增强</td>
+                        </tr>
+                        <tr>
+                            <td><strong>带通滤波器 (BPF)</strong></td>
+                            <td>允许特定频段通过</td>
+                            <td>乐器分离</td>
+                        </tr>
+                        <tr>
+                            <td><strong>带阻滤波器 (Notch)</strong></td>
+                            <td>衰减特定频段</td>
+                            <td>去除电源干扰</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="content-block">
+                <h4>年AI滤波器新技术</h4>
+                <ul>
+                    <li><strong>神经网络滤波器</strong>：端到端学习的频率响应</li>
+                    <li><strong>自适应滤波</strong>：根据环境自动调整参数</li>
+                    <li><strong>时变滤波器</strong>：随时间动态变化的滤波特性</li>
+                    <li><strong>多尺度滤波</strong>：同时处理多个频带</li>
+                </ul>
+            </div>
+
+            <div class="diagram">
+                <svg viewBox="0 0 700 400" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="100%" height="100%" fill="#f8f9fa"/>
+                    
+                    <text x="350" y="30" text-anchor="middle" font-size="16" fill="#333" font-weight="bold">传统滤波器 vs AI自适应滤波器</text>
+                    
+                    <rect x="50" y="50" width="280" height="150" fill="white" stroke="#0f3460" stroke-width="2" rx="10"/>
+                    <text x="190" y="80" text-anchor="middle" font-size="13" fill="#333" font-weight="bold">传统滤波器</text>
+                    <line x1="70" y1="120" x2="150" y2="120" stroke="#ccc"/>
+                    <path d="M 70 80 L 150 80 L 150 170 L 250 170" fill="none" stroke="#667eea" stroke-width="2"/>
+                    <text x="280" y="150" font-size="10" fill="#666">fc</text>
+                    <rect x="70" y="170" width="120" height="20" fill="#f8f9fa" stroke="#0f3460"/>
+                    <text x="130" y="185" text-anchor="middle" font-size="9" fill="#333">固定参数</text>
+                    
+                    <rect x="370" y="50" width="280" height="150" fill="white" stroke="#e94560" stroke-width="2" rx="10"/>
+                    <text x="510" y="80" text-anchor="middle" font-size="13" fill="#333" font-weight="bold">AI自适应滤波器</text>
+                    <line x1="390" y1="120" x2="470" y2="120" stroke="#ccc"/>
+                    <path d="M 390 100 L 450 100 Q 500 130, 550 100 L 630 100" fill="none" stroke="#e94560" stroke-width="2"/>
+                    <rect x="450" y="90" width="40" height="30" fill="#667eea" rx="3"/>
+                    <text x="470" y="110" text-anchor="middle" font-size="8" fill="white">AI</text>
+                    <rect x="390" y="170" width="120" height="20" fill="#f8f9fa" stroke="#e94560"/>
+                    <text x="450" y="185" text-anchor="middle" font-size="9" fill="#333">动态调整</text>
+                    
+                    <rect x="50" y="230" width="600" height="150" fill="white" stroke="#0f3460" stroke-width="2" rx="10"/>
+                    <text x="350" y="260" text-anchor="middle" font-size="14" fill="#333" font-weight="bold">年AI滤波器应用</text>
+                    
+                    <rect x="70" y="280" width="180" height="80" fill="#667eea" rx="8"/>
+                    <text x="160" y="305" text-anchor="middle" font-size="11" fill="white" font-weight="bold">实时语音增强</text>
+                    <text x="160" y="330" text-anchor="middle" font-size="9" fill="white">RNNoise集成</text>
+                    <text x="160" y="350" text-anchor="middle" font-size="9" fill="white">30ms延迟</text>
+                    
+                    <rect x="260" y="280" width="180" height="80" fill="#e94560" rx="8"/>
+                    <text x="350" y="305" text-anchor="middle" font-size="11" fill="white" font-weight="bold">音乐分离</text>
+                    <text x="350" y="330" text-anchor="middle" font-size="9" fill="white">Demucs SVD</text>
+                    <text x="350" y="350" text-anchor="middle" font-size="9" fill="white"> stems分离</text>
+                    
+                    <rect x="450" y="280" width="180" height="80" fill="#28a745" rx="8"/>
+                    <text x="540" y="305" text-anchor="middle" font-size="11" fill="white" font-weight="bold">回声消除</text>
+                    <text x="540" y="330" text-anchor="middle" font-size="9" fill="white">深度学习</text>
+                    <text x="540" y="350" text-anchor="middle" font-size="9" fill="white"> AEC-Free</text>
+                </svg>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>📉 AI驱动的窗函数与频谱处理</h2>
+            <p>年，AI技术使得窗函数选择和频谱处理更加智能化。</p>
+            
+            <div class="algorithm-card">
+                <h4>传统窗函数</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>窗函数</th>
+                            <th>特点</th>
+                            <th>AI增强应用</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>矩形窗</td>
+                            <td>主瓣最窄，旁瓣高</td>
+                            <td>瞬态检测AI辅助</td>
+                        </tr>
+                        <tr>
+                            <td>Hanning窗</td>
+                            <td>旁瓣较低</td>
+                            <td>语音特征提取</td>
+                        </tr>
+                        <tr>
+                            <td>Hamming窗</td>
+                            <td>旁瓣抑制更好</td>
+                            <td>AI语音识别</td>
+                        </tr>
+                        <tr>
+                            <td>Blackman窗</td>
+                            <td>旁瓣最低</td>
+                            <td>高精度分析</td>
+                        </tr>
+                        <tr>
+                            <td>Learnable Window</td>
+                            <td>AI可学习</td>
+                            <td>任务自适应</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="content-block">
+                <h4>年神经频谱处理</h4>
+                <ul>
+                    <li><strong>频谱超分辨率</strong>：将低分辨率频谱增强为高分辨率</li>
+                    <li><strong>时频掩蔽</strong>：AI学习最优时频掩码进行源分离</li>
+                    <li><strong>注意力机制</strong>：在频谱上应用Transformer进行长程依赖建模</li>
+                    <li><strong>扩散模型</strong>：从噪声中重建干净频谱</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🎵 AI增强音频特征提取</h2>
+            
+            <div class="algorithm-card">
+                <h4>传统特征 vs AI特征</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>特征类型</th>
+                            <th>传统方法</th>
+                            <th>AI增强方法</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>MFCC</strong></td>
+                            <td>人工设计滤波器组</td>
+                            <td>可学习MFCC层</td>
+                        </tr>
+                        <tr>
+                            <td><strong>频谱质心</strong></td>
+                            <td>手工计算</td>
+                            <td>注意力加权</td>
+                        </tr>
+                        <tr>
+                            <td><strong>过零率</strong></td>
+                            <td>简单统计</td>
+                            <td>时序建模</td>
+                        </tr>
+                        <tr>
+                            <td><strong>新特征</strong></td>
+                            <td>-</td>
+                            <td>嵌入向量、注意力图</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="flowchart">
+                <p><strong>年AI特征提取流程：</strong></p>
+                <ol>
+                    <li><strong>原始特征提取</strong>：计算传统声学特征（MFCC、频谱等）</li>
+                    <li><strong>表示学习</strong>：使用神经网络学习更优特征表示</li>
+                    <li><strong>预训练模型</strong>：利用大规模数据集预训练的音频编码器</li>
+                    <li><strong>微调适应</strong>：针对特定任务进行微调</li>
+                    <li><strong>端到端学习</strong>：直接从原始波形学习的模型（如Wav2Vec 2.0）</li>
+                </ol>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🔊 AI动态范围处理</h2>
+            
+            <div class="algorithm-card">
+                <h4>年AI动态处理</h4>
+                <ul>
+                    <li><strong>智能压缩器</strong>：基于内容的自适应压缩</li>
+                    <li><strong>AI限幅器</strong>：深度学习预测最优限幅策略</li>
+                    <li><strong>自适应噪声门</strong>：AI自动学习噪声阈值</li>
+                    <li><strong>语音增强</strong>：实时AI语音增强（RNNoise、DeepNetSpeech）</li>
+                </ul>
+            </div>
+
+            <div class="diagram">
+                <svg viewBox="0 0 700 350" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="100%" height="100%" fill="#f8f9fa"/>
+                    
+                    <text x="350" y="30" text-anchor="middle" font-size="16" fill="#333" font-weight="bold">AI音频增强系统架构</text>
+                    
+                    <rect x="50" y="60" width="200" height="100" fill="white" stroke="#0f3460" stroke-width="2" rx="10"/>
+                    <text x="150" y="85" text-anchor="middle" font-size="12" fill="#333" font-weight="bold">输入音频</text>
+                    <path d="M 70 110 Q 95 90, 120 110 Q 145 130, 170 110" fill="none" stroke="#667eea" stroke-width="2"/>
+                    <text x="150" y="140" text-anchor="middle" font-size="10" fill="#666">带噪声信号</text>
+                    
+                    <rect x="280" y="60" width="200" height="100" fill="white" stroke="#e94560" stroke-width="2" rx="10"/>
+                    <text x="380" y="85" text-anchor="middle" font-size="12" fill="#333" font-weight="bold">AI处理模块</text>
+                    <rect x="310" y="100" width="140" height="50" fill="#f8f9fa" stroke="#e94560"/>
+                    <line x1="310" y1="110" x2="450" y2="110" stroke="#e94560" stroke-width="2"/>
+                    <circle cx="330" cy="115" r="8" fill="#667eea"/>
+                    <circle cx="350" cy="125" r="8" fill="#667eea"/>
+                    <circle cx="370" cy="115" r="8" fill="#667eea"/>
+                    <text x="380" y="130" font-size="9" fill="#666">Transformer</text>
+                    
+                    <rect x="510" y="60" width="140" height="100" fill="white" stroke="#28a745" stroke-width="2" rx="10"/>
+                    <text x="580" y="85" text-anchor="middle" font-size="12" fill="#333" font-weight="bold">输出音频</text>
+                    <path d="M 530 110 Q 555 100, 580 110 Q 605 120, 630 110" fill="none" stroke="#28a745" stroke-width="2"/>
+                    <text x="580" y="140" text-anchor="middle" font-size="10" fill="#666">干净信号</text>
+                    
+                    <line x1="250" y1="110" x2="275" y2="110" stroke="#e94560" stroke-width="2"/>
+                    <line x1="480" y1="110" x2="505" y2="110" stroke="#28a745" stroke-width="2"/>
+                    
+                    <rect x="50" y="190" width="600" height="140" fill="white" stroke="#0f3460" stroke-width="2" rx="10"/>
+                    <text x="350" y="215" text-anchor="middle" font-size="13" fill="#333" font-weight="bold">年主流AI语音增强模型</text>
+                    
+                    <rect x="70" y="230" width="140" height="80" fill="#667eea" rx="8"/>
+                    <text x="140" y="255" text-anchor="middle" font-size="11" fill="white" font-weight="bold">RNNoise</text>
+                    <text x="140" y="280" text-anchor="middle" font-size="9" fill="white">RNN实时降噪</text>
+                    <text x="140" y="298" text-anchor="middle" font-size="9" fill="white">&lt;5ms延迟</text>
+                    
+                    <rect x="230" y="230" width="140" height="80" fill="#e94560" rx="8"/>
+                    <text x="300" y="255" text-anchor="middle" font-size="11" fill="white" font-weight="bold">DeepFilterNet</text>
+                    <text x="300" y="280" text-anchor="middle" font-size="9" fill="white">深度滤波</text>
+                    <text x="300" y="298" text-anchor="middle" font-size="9" fill="white">高效推理</text>
+                    
+                    <rect x="390" y="230" width="140" height="80" fill="#28a745" rx="8"/>
+                    <text x="460" y="255" text-anchor="middle" font-size="11" fill="white" font-weight="bold">SpeechBrain</text>
+                    <text x="460" y="280" text-anchor="middle" font-size="9" fill="white">端到端</text>
+                    <text x="460" y="298" text-anchor="middle" font-size="9" fill="white">多功能</text>
+                    
+                    <rect x="510" y="230" width="140" height="80" fill="#764ba2" rx="8"/>
+                    <text x="580" y="255" text-anchor="middle" font-size="11" fill="white" font-weight="bold">MossFormer</text>
+                    <text x="580" y="280" text-anchor="middle" font-size="9" fill="white">Transformer</text>
+                    <text x="580" y="298" text-anchor="middle" font-size="9" fill="white">SOTA性能</text>
+                </svg>
+            </div>
+        </section>
+    </div>
+
+
+    <a href="#" class="back-to-top">↑ 返回顶部</a>
+</body>
+</html>

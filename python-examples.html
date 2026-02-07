@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python音频处理示例 - 计算机音频处理学习指南 </title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="index.html">首页</a></li>
+                <li><a href="audio-basics.html">音频基础</a></li>
+                <li><a href="algorithms.html">常用算法</a></li>
+                <li><a href="ai-audio.html">AI音频处理</a></li>
+                <li><a href="python-examples.html">Python示例</a></li>
+                <li><a href="golang-examples.html">Golang示例</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section class="section">
+            <h2>📦 环境准备 (版)</h2>
+            
+            <div class="content-block">
+                <h4>安装所需库</h4>
+                <div class="code-block">
+                    <pre><span class="comment"># 传统音频处理</span>
+pip install numpy scipy matplotlib librosa soundfile pyaudio
+
+<span class="comment"># AI/深度学习音频处理 (推荐)</span>
+pip install torch torchaudio torchvision
+pip install transformers datasets
+pip install speechbrain
+pip install audiolm-pytorch audiocraft
+pip install onnxruntime onnx
+
+<span class="comment"># 实时音频处理</span>
+pip install sounddevice noisereduce
+</pre>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h4>年推荐环境</h4>
+                <ul>
+                    <li><strong>PyTorch 2.5+</strong>：支持GPU加速和量化推理</li>
+                    <li><strong>Transformers</strong>：HuggingFace预训练模型库</li>
+                    <li><strong>SpeechBrain</strong>：端到端语音处理</li>
+                    <li><strong>ONNX Runtime</strong>：跨平台AI推理</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🎵 示例1：AI语音识别 (Whisper)</h2>
+            
+            <div class="example-section">
+                <h3>使用OpenAI Whisper进行语音识别</h3>
+                
+                <div class="language-tabs">
+                    <button class="language-tab python active" onclick="showCode('python1')">Python</button>
+                </div>
+                
+                <div id="python1" class="code-block">
+                    <pre><span class="keyword">import</span> torch
+<span class="keyword">import</span> torchaudio
+<span class="keyword">from</span> transformers <span class="keyword">import</span> WhisperProcessor, WhisperForConditionalGeneration
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np
+
+<span class="keyword">class</span> <span class="function">AIWhisperRecognizer</span>:
+    <span class="string">"""
+    版AI语音识别器
+    使用OpenAI Whisper模型进行高精度语音识别
+    """</span>
+    
+    <span class="keyword">def</span> <span class="function">__init__</span>(self, model_size=<span class="string">"medium"</span>, device=<span class="string">"cuda"</span>):
+        <span class="string">"""
+        初始化Whisper模型
+        
+        参数:
+            model_size: 模型大小 ("tiny", "base", "small", "medium", "large")
+            device: 运行设备 ("cuda", "cpu", "mps")
+        """</span>
+        self.device = torch.device(device <span class="keyword">if</span> torch.cuda.is_available() <span class="keyword">else</span> <span class="string">"cpu"</span>)
+        print(f<span class="string">"Loading Whisper {model_size} on {self.device}..."</span>)
+        
+        self.processor = WhisperProcessor.from_pretrained(
+            <span class="string">f"openai/whisper-{model_size}"</span>
+        )
+        self.model = WhisperForConditionalGeneration.from_pretrained(
+            <span class="string">f"openai/whisper-{model_size}"</span>
+        )
+        self.model.to(self.device)
+        self.model.config.forced_decoder_ids = <span class="keyword">None</span>
+        
+    <span class="keyword">def</span> <span class="function">transcribe</span>(self, audio_path, language=<span class="string">"zh"</span>):
+        <span class="string">"""
+        转录音频文件
+        
+        参数:
+            audio_path: 音频文件路径
+            language: 语言 ("zh" for Chinese, "en" for English)
+            
+        返回:
+            dict: 转录结果，包含文本和时间戳
+        """</span>
+        <span class="comment"># 加载音频</span>
+        waveform, sample_rate = torchaudio.load(audio_path)
+        
+        <span class="comment"># 重采样到16kHz</span>
+        <span class="keyword">if</span> sample_rate != <span class="number">16000</span>:
+            resampler = torchaudio.transforms.Resample(sample_rate, <span class="number">16000</span>)
+            waveform = resampler(waveform)
+        
+        <span class="comment"># 预处理</span>
+        input_features = self.processor(
+            waveform.squeeze().numpy(),
+            sampling_rate=<span class="number">16000</span>,
+            return_tensors=<span class="string">"pt"</span>
+        ).input_features
+        
+        <span class="comment"># 推理</span>
+        self.model.eval()
+        <span class="keyword">with</span> torch.no_grad():
+            predicted_ids = self.model.generate(
+                input_features.to(self.device),
+                language=language
+            )
+        
+        <span class="comment"># 解码</span>
+        transcription = self.processor.batch_decode(
+            predicted_ids, skip_special_tokens=<span class="keyword">True</span>
+        )[<span class="number">0</span>]
+        
+        <span class="keyword">return</span> {
+            <span class="string">"text"</span>: transcription,
+            <span class="string">"language"</span>: language,
+            <span class="string">"model"</span>: <span class="string">f"whisper-{self.model.config.model_name_or_path.split('-')[-1]}"</span>
+        }
+
+<span class="comment"># 使用示例</span>
+<span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:
+    recognizer = AIWhisperRecognizer(model_size=<span class="string">"medium"</span>, device=<span class="string">"cuda"</span>)
+    
+    <span class="comment"># 转录音频</span>
+    result = recognizer.transcribe(<span class="string">"speech.wav"</span>, language=<span class="string">"zh"</span>)
+    print(<span class="string">f"转录结果: {result['text']}"</span>)</pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2">🎵 示例2：AI语音增强 (RNNoise)</h2>
+            
+            <div class="example-section">
+                <h3>使用深度学习进行实时语音降噪</h3>
+                
+                <div class="language-tabs">
+                    <button class="language-tab python active" onclick="showCode('python2')">Python</button>
+                </div>
+                
+                <div id="python2" class="code-block">
+                    <pre><span class="keyword">import</span> numpy <span class="keyword">as</span> np
+<span class="keyword">import</span> torch
+<span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn
+<span class="keyword">import</span> torchaudio
+
+<span class="keyword">class</span> <span class="function">Denoiser</span>(nn.Module):
+    <span class="string">"""
+    版轻量级语音降噪模型
+    基于时域卷积网络的实时降噪
+    """</span>
+    
+    <span class="keyword">def</span> <span class="function">__init__</span>(self):
+        <span class="keyword">super</span>(Denoiser, self).__init__()
+        
+        <span class="comment"># 编码器</span>
+        self.encoder = nn.Sequential(
+            nn.Conv1d(<span class="number">1</span>, <span class="number">32</span>, <span class="number">8</span>, stride=<span class="number">4</span>, padding=<span class="number">2</span>),
+            nn.ReLU(),
+            nn.Conv1d(<span class="number">32</span>, <span class="number">64</span>, <span class="number">8</span>, stride=<span class="number">4</span>, padding=<span class="number">2</span>),
+            nn.ReLU(),
+            nn.Conv1d(<span class="number">64</span>, <span class="number">128</span>, <span class="number">8</span>, stride=<span class="number">4</span>, padding=<span class="number">2</span>),
+            nn.ReLU(),
+            nn.Conv1d(<span class="number">128</span>, <span class="number">256</span>, <span class="number">8</span>, stride=<span class="number">4</span>, padding=<span class="number">2</span>),
+        )
+        
+        <span class="comment"># 解码器</span>
+        self.decoder = nn.Sequential(
+            nn.ConvTranspose1d(<span class="number">256</span>, <span class="number">128</span>, <span class="number">8</span>, stride=<span class="number">4</span>, padding=<span class="number">2</span>),
+            nn.ReLU(),
+            nn.ConvTranspose1d(<span class="number">128</span>, <span class="number">64</span>, <span class="number">8</span>, stride=<span class="number">4</span>, padding=<span class="number">2</span>),
+            nn.ReLU(),
+            nn.ConvTranspose1d(<span class="number">64</span>, <span class="number">32</span>, <span class="number">8</span>, stride=<span class="number">4</span>, padding=<span class="number">2</span>),
+            nn.ReLU(),
+            nn.ConvTranspose1d(<span class="number">32</span>, <span class="number">1</span>, <span class="number">8</span>, stride=<span class="number">4</span>, padding=<span class="number">2</span>),
+            nn.Tanh()
+        )
+        
+    <span class="keyword">def</span> <span class="function">forward</span>(self, x):
+        <span class="string">"""
+        前向传播
+        
+        参数:
+            x: 输入音频 tensor [batch, 1, samples]
+            
+        返回:
+            增强后的音频
+        """</span>
+        encoded = self.encoder(x)
+        decoded = self.decoder(encoded)
+        <span class="keyword">return</span> decoded
+
+<span class="keyword">class</span> <span class="function">RealTimeNoiseSuppressor</span>:
+    <span class="string">"""
+    实时语音降噪处理器
+    年优化版，支持流式处理
+    """</span>
+    
+    <span class="keyword">def</span> <span class="function">__init__</span>(self, model_path=<span class="keyword">None</span>, sample_rate=<span class="number">16000</span>):
+        <span class="string">"""
+        初始化降噪器
+        
+        参数:
+            model_path: 预训练模型路径
+            sample_rate: 采样率
+        """</span>
+        self.sample_rate = sample_rate
+        self.model = Denoiser()
+        
+        <span class="keyword">if</span> model_path:
+            self.model.load_state_dict(torch.load(model_path))
+        
+        self.model.eval()
+        self.device = torch.device(<span class="string">"cuda"</span> <span class="keyword">if</span> torch.cuda.is_available() <span class="keyword">else</span> <span class="string">"cpu"</span>)
+        self.model.to(self.device)
+        
+        <span class="comment"># 缓存区</span>
+        self.buffer = torch.zeros(<span class="number">1</span>, <span class="number">1</span>, <span class="number">16000</span> * <span class="number">2</span>)  <span class="comment"># 2秒缓存</span>
+        
+    <span class="keyword">def</span> <span class="function">process_chunk</span>(self, audio_chunk):
+        <span class="string">"""
+        处理音频块（实时模式）
+        
+        参数:
+            audio_chunk: numpy数组或tensor
+            
+        返回:
+            增强后的音频
+        """</span>
+        <span class="keyword">if</span> isinstance(audio_chunk, np.ndarray):
+            audio_chunk = torch.from_numpy(audio_chunk).float().unsqueeze(<span class="number">0</span>).unsqueeze(<span class="number">0</span>)
+        
+        <span class="keyword">with</span> torch.no_grad():
+            enhanced = self.model(audio_chunk.to(self.device))
+        
+        <span class="keyword">return</span> enhanced.cpu().squeeze().numpy()
+
+<span class="comment"># 使用示例</span>
+<span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:
+    <span class="comment"># 创建降噪器</span>
+    suppressor = RealTimeNoiseSuppressor()
+    
+    <span class="comment"># 处理音频文件</span>
+    waveform, sr = torchaudio.load(<span class="string">"noisy_speech.wav"</span>)
+    enhanced = suppressor.process_chunk(waveform)
+    
+    <span class="comment"># 保存结果</span>
+    torchaudio.save(<span class="string">"enhanced_speech.wav"</span>, 
+                   torch.from_numpy(enhanced).unsqueeze(<span class="number">0</span>), sr)</pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2">🎵 示例3：AI音乐生成 (MusicGen)</h2>
+            
+            <div class="example-section">
+                <h3>使用Meta MusicGen生成音乐</h3>
+                
+                <div class="language-tabs">
+                    <button class="language-tab python active" onclick="showCode('python3')">Python</button>
+                </div>
+                
+                <div id="python3" class="code-block">
+                    <pre><span class="keyword">import</span> torch
+<span class="keyword">import</span> torchaudio
+<span class="keyword">from</span> audiocraft.models <span class="keyword">import</span> MusicGen
+<span class="keyword">from</span> audiocraft.utils <span class="keyword">import</span> play_audio
+
+<span class="keyword">class</span> <span class="function">AIMusicGenerator</span>:
+    <span class="string">"""
+    版AI音乐生成器
+    使用Meta MusicGen根据文本描述生成音乐
+    """</span>
+    
+    <span class="keyword">def</span> <span class="function">__init__</span>(self, model_size=<span class="string">"medium"</span>):
+        <span class="string">"""
+        初始化音乐生成模型
+        
+        参数:
+            model_size: 模型大小 ("small", "medium", "large", "melody")
+        """</span>
+        print(f<span class="string">"Loading MusicGen {model_size}..."</span>)
+        self.model = MusicGen.get_pretrained(model_size)
+        self.device = <span class="string">"cuda"</span> <span class="keyword">if</span> torch.cuda.is_available() <span class="keyword">else</span> <span class="string">"cpu"</span>
+        self.model.to(self.device)
+        
+    <span class="keyword">def</span> <span class="function">generate</span>(self, description, duration=<span class="number">10</span>, tempo=<span class="keyword">None</span>):
+        <span class="string">"""
+        根据文本描述生成音乐
+        
+        参数:
+            description: 音乐描述 (英文)
+                示例: "a relaxing piano melody with soft strings"
+                示例: "electronic dance music with strong beat"
+            duration: 生成时长（秒）
+            tempo: BPM (可选)
+            
+        返回:
+            生成的音频tensor
+        """</span>
+        self.model.set_generation_params(
+            duration=duration,
+            tempo=tempo
+        )
+        
+        <span class="keyword">with</span> torch.no_grad():
+            audio = self.model.generate([
+                description
+            ])
+        
+        <span class="keyword">return</span> audio.cpu()
+    
+    <span class="keyword">def</span> <span class="function">generate_melody_control</span>(self, melody_audio_path, duration=<span class="number">10</span>):
+        <span class="string">"""
+        基于参考旋律生成音乐
+        
+        参数:
+            melody_audio_path: 参考旋律音频路径
+            duration: 生成时长
+            
+        返回:
+            生成的音频tensor
+        """</span>
+        <span class="comment"># 加载参考旋律</span>
+        melody, sr = torchaudio.load(melody_audio_path)
+        
+        self.model.set_generation_params(duration=duration)
+        
+        <span class="keyword">with</span> torch.no_grad():
+            audio = self.model.generate_with_chroma(
+                [melody],
+                description=<span class="string">"continue the melody style"</span>
+            )
+        
+        <span class="keyword">return</span> audio.cpu()
+    
+    <span class="keyword">def</span> <span class="function">save_audio</span>(self, audio_tensor, output_path, sample_rate=<span class="number">32000</span>):
+        <span class="string">"""
+        保存生成的音频
+        """</span>
+        torchaudio.save(output_path, audio_tensor.squeeze(), sample_rate)
+
+<span class="comment"># 使用示例</span>
+<span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:
+    <span class="comment"># 初始化生成器</span>
+    generator = AIMusicGenerator(model_size=<span class="string">"medium"</span>)
+    
+    <span class="comment"># 生成音乐</span>
+    prompt = <span class="string">"a calm ambient electronic music with soft pads and gentle rhythm"</span>
+    audio = generator.generate(prompt, duration=<span class="number">15</span>, tempo=<span class="number">80</span>)
+    
+    <span class="comment"># 保存</span>
+    generator.save_audio(audio, <span class="string">"generated_music.wav"</span>)
+    
+    <span class="comment"># 播放</span>
+    play_audio(audio.squeeze())</pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2">🎵 示例4：AI音频特征提取 (Wav2Vec 2.0)</h2>
+            
+            <div class="example-section">
+                <h3>使用预训练模型提取高级音频表示</h3>
+                
+                <div class="language-tabs">
+                    <button class="language-tab python active" onclick="showCode('python4')">Python</button>
+                </div>
+                
+                <div id="python4" class="code-block">
+                    <pre><span class="keyword">import</span> torch
+<span class="keyword">import</span> torchaudio
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np
+<span class="keyword">from</span> transformers <span class="keyword">import</span> Wav2Vec2Processor, Wav2Vec2Model
+<span class="keyword">from</span> sklearn.decomposition <span class="keyword">import</span> PCA
+
+<span class="keyword">class</span> <span class="function">AudioFeatureExtractor</span>:
+    <span class="string">"""
+    版高级音频特征提取器
+    使用Wav2Vec 2.0预训练模型提取音频嵌入
+    """</span>
+    
+    <span class="keyword">def</span> <span class="function">__init__</span>(self, model_name=<span class="string">"facebook/wav2vec2-base-960h"</span>):
+        <span class="string">"""
+        初始化特征提取器
+        
+        参数:
+            model_name: HuggingFace模型名称
+        """</span>
+        self.processor = Wav2Vec2Processor.from_pretrained(model_name)
+        self.model = Wav2Vec2Model.from_pretrained(model_name)
+        self.device = <span class="string">"cuda"</span> <span class="keyword">if</span> torch.cuda.is_available() <span class="keyword">else</span> <span class="string">"cpu"</span>
+        self.model.to(self.device)
+        self.model.eval()
+        
+    <span class="keyword">def</span> <span class="function">extract_features</span>(self, audio_path):
+        <span class="string">"""
+        提取音频特征嵌入
+        
+        参数:
+            audio_path: 音频文件路径
+            
+        返回:
+            audio_embeddings: 帧级别嵌入
+            sentence_embedding: 句子级别嵌入
+        """</span>
+        <span class="comment"># 加载音频</span>
+        waveform, sample_rate = torchaudio.load(audio_path)
+        
+        <span class="comment"># 重采样到16kHz</span>
+        <span class="keyword">if</span> sample_rate != <span class="number">16000</span>:
+            resampler = torchaudio.transforms.Resample(sample_rate, <span class="number">16000</span>)
+            waveform = resampler(waveform)
+        
+        <span class="comment"># 预处理</span>
+        input_values = self.processor(
+            waveform.squeeze().numpy(),
+            sampling_rate=<span class="number">16000</span>,
+            return_tensors=<span class="string">"pt"</span>
+        ).input_values
+        
+        <span class="comment">"># 推理</span>
+        <span class="keyword">with</span> torch.no_grad():
+            output = self.model(input_values.to(self.device))
+            
+        <span class="comment"># 提取嵌入</span>
+        audio_embeddings = output.last_hidden_state.cpu()
+        
+        <span class="comment"># 全局平均池化得到句子嵌入</span>
+        sentence_embedding = torch.mean(audio_embeddings, dim=<span class="number">1</span>)
+        
+        <span class="keyword">return</span> {
+            <span class="string">"frame_embeddings"</span>: audio_embeddings,
+            <span class="string">"sentence_embedding"</span>: sentence_embedding,
+            <span class="string">"sample_rate"</span>: sample_rate
+        }
+    
+    <span class="keyword">def</span> <span class="function">similarity_search</span>(self, query_path, reference_paths):
+        <span class="string">"""
+        音频相似度搜索
+        
+        参数:
+            query_path: 查询音频路径
+            reference_paths: 参考音频路径列表
+            
+        返回:
+            相似度排序列表
+        """</span>
+        <span class="comment"># 提取查询音频嵌入</span>
+        query_features = self.extract_features(query_path)
+        query_embedding = query_features[<span class="string">"sentence_embedding"</span>]
+        
+        similarities = []
+        <span class="keyword">for</span> ref_path <span class="keyword">in</span> reference_paths:
+            ref_features = self.extract_features(ref_path)
+            ref_embedding = ref_features[<span class="string">"sentence_embedding"</span>]
+            
+            <span class="comment"># 余弦相似度</span>
+            cos_sim = torch.nn.functional.cosine_similarity(
+                query_embedding, ref_embedding
+            ).item()
+            
+            similarities.append((ref_path, cos_sim))
+        
+        <span class="comment"># 排序</span>
+        similarities.sort(key=<span class="keyword">lambda</span> x: x[<span class="number">1</span>], reverse=<span class="keyword">True</span>)
+        
+        <span class="keyword">return</span> similarities
+
+<span class="comment"># 使用示例</span>
+<span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:
+    <span class="comment"># 初始化特征提取器</span>
+    extractor = AudioFeatureExtractor(
+        model_name=<span class="string">"facebook/wav2vec2-base-960h"</span>
+    )
+    
+    <span class="comment"># 提取特征</span>
+    features = extractor.extract_features(<span class="string">"speech.wav"</span>)
+    print(f<span class="string">"Frame embeddings shape: {features['frame_embeddings'].shape}"</span>)
+    print(f<span class="string">"Sentence embedding shape: {features['sentence_embedding'].shape}"</span>)</pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2">🎵 示例5：AI音频分离 (Demucs)</h2>
+            
+            <div class="example-section">
+                <h3>使用Demucs进行音乐源分离</h3>
+                
+                <div class="language-tabs">
+                    <button class="language-tab python active" onclick="showCode('python5')">Python</button>
+                </div>
+                
+                <div id="python5" class="code-block">
+                    <pre><span class="keyword">import</span> torch
+<span class="keyword">import</span> torchaudio
+<span class="keyword">from</span> demucs <span class="keyword">import</span> pretrained
+<span class="keyword">from</span> demucs.audio <span class="keyword">import</span> AudioFile
+
+<span class="keyword">class</span> <span class="function">MusicSourceSeparator</span>:
+    <span class="string">"""
+    版AI音乐源分离器
+    使用Demucs模型将音乐分离为人声、伴奏、鼓、贝斯等
+    """</span>
+    
+    <span class="keyword">def</span> <span class="function">__init__</span>(self, model=<span class="string">"demucs"</span>, device=<span class="string">"cuda"</span>):
+        <span class="string">"""
+        初始化分离器
+        
+        参数:
+            model: 模型选择
+                - "demucs": 标准版
+                - "demucs-mmi": 更精确但更慢
+                - "htdemucs": 最高质量
+            device: 运行设备
+        """</span>
+        self.device = torch.device(device <span class="keyword">if</span> torch.cuda.is_available() <span class="keyword">else</span> <span class="string">"cpu"</span>)
+        
+        print(f<span class="string">"Loading {model} on {self.device}..."</span>)
+        self.model = pretrained.get_model(model)
+        self.model.to(self.device)
+        
+    <span class="keyword">def</span> <span class="function">separate</span>(self, audio_path, output_dir=<span class="string">"./"</span>):
+        <span class="string">"""
+        分离音乐源
+        
+        参数:
+            audio_path: 输入音乐文件路径
+            output_dir: 输出目录
+            
+        返回:
+            dict: 分离后的各音轨
+        """</span>
+        <span class="comment"># 加载音频</span>
+        audio = AudioFile(audio_path).read(streams=<span class="number">0</span>)
+        
+        <span class="comment"># 分离</span>
+        <span class="keyword">with</span> torch.no_grad():
+            estimates = self.model(audio.unsqueeze(<span class="number">0</span>).to(self.device))
+        
+        <span class="comment"># 获取音轨名称</span>
+        sources = self.model.sources
+        
+        <span class="keyword">return</span> {
+            source: estimates[<span class="number">0</span>, i].cpu()
+            <span class="keyword">for</span> i, source <span class="keyword">in</span> enumerate(sources)
+        }
+    
+    <span class="keyword">def</span> <span class="function">save_stems</span>(self, stems, output_dir=<span class="string">"./"</span>, sample_rate=<span class="number">44100</span>):
+        <span class="string">"""
+        保存分离后的音轨
+        """</span>
+        <span class="keyword">for</span> name, audio <span class="keyword">in</span> stems.items():
+            output_path = <span class="string">f"{output_dir}/{name}.wav"</span>
+            torchaudio.save(output_path, audio, sample_rate)
+            print(f<span class="string">"Saved: {output_path}"</span>)
+
+<span class="comment"># 使用示例</span>
+<span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:
+    <span class="comment"># 初始化分离器</span>
+    separator = MusicSourceSeparator(model=<span class="string">"htdemucs"</span>, device=<span class="string">"cuda"</span>)
+    
+    <span class="comment"># 分离音乐</span>
+    stems = separator.separate(<span class="string">"song.wav"</span>)
+    
+    <span class="comment"># 保存各音轨</span>
+    separator.save_stems(stems, output_dir=<span class="string">"separated"</span>)
+    
+    <span class="comment"># 使用分离后的音轨</span>
+    vocals = stems[<span class="string">"vocals"</span>]
+    drums = stems[<span class="string">"drums"</span>]
+    bass = stems[<span class="string">"bass"</span>]
+    other = stems[<span class="string">"other"</span>]</pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🎵 示例6：ONNX模型部署</h2>
+            
+            <div class="example-section">
+                <h3>跨平台AI音频模型部署</h3>
+                
+                <div class="language-tabs">
+                    <button class="language-tab python active" onclick="showCode('python6')">Python</button>
+                </div>
+                
+                <div id="python6" class="code-block">
+                    <pre><span class="keyword">import</span> torch
+<span class="keyword">import</span> onnxruntime <span class="keyword">as</span> ort
+<span class="keyword">import</span> numpy <span class="keyword">as</span> np
+<span class="keyword">import</span> torchaudio
+
+<span class="keyword">class</span> <span class="function">ONNXAudioProcessor</span>:
+    <span class="string">"""
+    版ONNX音频处理引擎
+    支持跨平台部署和硬件加速推理
+    """</span>
+    
+    <span class="keyword">def</span> <span class="function">__init__</span>(self, model_path, providers=[<span class="string">"CUDAExecutionProvider"</span>, 
+                                              <span class="string">"CPUExecutionProvider"</span>]):
+        <span class="string">"""
+        初始化ONNX推理引擎
+        
+        参数:
+            model_path: ONNX模型文件路径
+            providers: 执行提供程序 (CUDA, TensorRT, CoreML, NPU等)
+        """</span>
+        <span class="comment"># 检查可用的providers</span>
+        available = ort.get_available_providers()
+        providers = [p <span class="keyword">for</span> p <span class="keyword">in</span> providers <span class="keyword">if</span> p <span class="keyword">in</span> available]
+        
+        print(f<span class="string">"Using providers: {providers}"</span>)
+        self.session = ort.InferenceSession(model_path, providers=providers)
+        
+        <span class="comment">"># 获取模型信息</span>
+        self.input_name = self.session.get_inputs()[<span class="number">0</span>].name
+        self.output_names = [o.name <span class="keyword">for</span> o <span class="keyword">in</span> self.session.get_outputs()]
+        
+    <span class="keyword">def</span> <span class="function">infer</span>(self, input_data):
+        <span class="string">"""
+        执行推理
+        
+        参数:
+            input_data: 输入音频tensor或numpy数组
+            
+        返回:
+            模型输出
+        """</span>
+        <span class="keyword">if</span> isinstance(input_data, torch.Tensor):
+            input_data = input_data.numpy()
+        
+        <span class="comment"># 执行推理</span>
+        outputs = self.session.run(self.output_names, {self.input_name: input_data})
+        
+        <span class="keyword">return</span> outputs
+
+<span class="keyword">class</span> <span class="function">ModelConverter</span>:
+    <span class="string">"""
+    PyTorch模型转ONNX
+    """</span>
+    
+    <span class="keyword">def</span> <span class="function">__init__</span>(self, torch_model):
+        self.model = torch_model
+        
+    <span class="keyword">def</span> <span class="function">export</span>(self, dummy_input, output_path, input_names=[<span class="string">"audio"</span>],
+                   output_names=[<span class="string">"output"</span>], dynamic_axes=None):
+        <span class="string">"""
+        导出ONNX模型
+        
+        参数:
+            dummy_input: 示例输入
+            output_path: 输出路径
+            input_names: 输入名称
+            output_names: 输出名称
+            dynamic_axes: 动态轴（支持变长输入）
+        """</span>
+        torch.onnx.export(
+            self.model,
+            dummy_input,
+            output_path,
+            input_names=input_names,
+            output_names=output_names,
+            dynamic_axes=dynamic_axes,
+            opset_version=<span class="number">17</span>  <span class="comment"># ONNX Opset 17 ()
+        )
+        print(f<span class="string">"Exported to: {output_path}"</span>)
+
+<span class="comment"># 使用示例</span>
+<span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:
+    <span class="comment"># 转换PyTorch模型为ONNX</span>
+    class SimpleAudioModel(torch.nn.Module):
+        <span class="keyword">def</span> forward(self, x):
+            <span class="keyword">return</span> x * <span class="number">0.5</span>  <span class="comment"># 简单示例
+    
+    model = SimpleAudioModel()
+    converter = ModelConverter(model)
+    
+    dummy_input = torch.randn(<span class="number">1</span>, <span class="number">16000</span>)  <span class="comment"># 1秒音频
+    converter.export(
+        dummy_input,
+        "audio_model.onnx",
+        input_names=[<span class="string">"waveform"</span>],
+        output_names=[<span class="string">"output"</span>],
+        dynamic_axes={<span class="string">"waveform"</span>: {<span class="number">0</span>: <span class="string">"batch"</span>, <span class="number">1</span>: <span class="string">"samples"</span>}}
+    )
+    
+    <span class="comment"># 使用ONNX模型推理</span>
+    engine = ONNXAudioProcessor(<span class="string">"audio_model.onnx"</span>)
+    test_audio = np.random.randn(<span class="number">16000</span>).astype(np.float32)
+    output = engine.infer(test_audio)</pre>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+    <a href="#" class="back-to-top">↑ 返回顶部</a>
+</body>
+</html>

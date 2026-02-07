@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI音频处理 - 计算机音频处理学习指南 </title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="index.html">首页</a></li>
+                <li><a href="audio-basics.html">音频基础</a></li>
+                <li><a href="algorithms.html">常用算法</a></li>
+                <li><a href="ai-audio.html">AI音频处理</a></li>
+                <li><a href="python-examples.html">Python示例</a></li>
+                <li><a href="golang-examples.html">Golang示例</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section class="section">
+            <h2>🚀 AI音频处理概述</h2>
+            <p>年，AI已经彻底改变了音频处理领域。从传统的信号处理到现代的深度学习方法，AI在音频分析、生成和增强方面取得了突破性进展。</p>
+            
+            <div class="content-block">
+                <h4>年AI音频处理核心领域</h4>
+                <ul>
+                    <li><strong>语音识别与合成</strong>：端到端神经网络，接近人类水平</li>
+                    <li><strong>音乐生成</strong>：文本到音乐的生成模型</li>
+                    <li><strong>语音增强</strong>：实时AI降噪和回声消除</li>
+                    <li><strong>音频源分离</strong>：人声、乐器、背景音分离</li>
+                    <li><strong>空间音频</strong>：AI驱动的3D音频渲染</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🧠 深度学习音频模型架构</h2>
+            
+            <div class="algorithm-card">
+                <h4>1. Transformer架构</h4>
+                <p>Transformer模型在音频处理中展现了强大的长程依赖建模能力。</p>
+                <ul>
+                    <li>Audio Spectrogram Transformer (AST)</li>
+                    <li>Music Transformer</li>
+                    <li>Speech Transformer</li>
+                    <li>多模态Transformer（音频+文本+视觉）</li>
+                </ul>
+            </div>
+
+            <div class="algorithm-card">
+                <h4>2. 扩散模型 (Diffusion Models)</h4>
+                <p>扩散模型在高质量音频生成方面表现出色。</p>
+                <ul>
+                    <li>AudioLDM - 文本到音频生成</li>
+                    <li>MusicGen - 高保真音乐生成</li>
+                    <li>Stable Audio - 实时音频生成</li>
+                    <li>Spectrogram Diffusion</li>
+                </ul>
+            </div>
+
+            <div class="algorithm-card">
+                <h4>3. 神经网络音频编解码器</h4>
+                <p>AI驱动的音频压缩技术，实现超高压缩率。</p>
+                <ul>
+                    <li>EnCodec - Meta的神经编解码器</li>
+                    <li>SoundStream - Google的Hi-Fi编解码器</li>
+                    <li>WaveNet Codec</li>
+                    <li>神经无损音频编解码</li>
+                </ul>
+            </div>
+
+            <div class="diagram">
+                <svg viewBox="0 0 750 500" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="100%" height="100%" fill="#f8f9fa"/>
+                    
+                    <text x="375" y="30" text-anchor="middle" font-size="16" fill="#333" font-weight="bold">年AI音频模型架构全景</text>
+                    
+                    <rect x="50" y="50" width="650" height="420" fill="white" stroke="#0f3460" stroke-width="2" rx="15"/>
+                    
+                    <text x="150" y="80" text-anchor="middle" font-size="14" fill="#333" font-weight="bold">音频编码器</text>
+                    <rect x="70" y="90" width="160" height="100" fill="#667eea" rx="8"/>
+                    <text x="150" y="115" text-anchor="middle" font-size="10" fill="white">Wav2Vec 2.0</text>
+                    <text x="150" y="135" text-anchor="middle" font-size="9" fill="white">HuBERT</text>
+                    <text x="150" y="155" text-anchor="middle" font-size="9" fill="white">Data2Vec</text>
+                    
+                    <rect x="260" y="90" width="160" height="100" fill="#e94560" rx="8"/>
+                    <text x="340" y="115" text-anchor="middle" font-size="10" fill="white">AST</text>
+                    <text x="340" y="135" text-anchor="middle" font-size="9" fill="white">ViT-Spec</text>
+                    <text x="340" y="155" text-anchor="middle" font-size="9" fill="white">BEATs</text>
+                    
+                    <rect x="450" y="90" width="160" height="100" fill="#28a745" rx="8"/>
+                    <text x="530" y="115" text-anchor="middle" font-size="10" fill="white">Demucs</text>
+                    <text x="530" y="135" text-anchor="middle" font-size="9" fill="white">Conv-TasNet</text>
+                    <text x="530" y="155" text-anchor="middle" font-size="9" fill="white">Spexformer</text>
+                    
+                    <text x="375" y="230" text-anchor="middle" font-size="14" fill="#333" font-weight="bold">核心处理层</text>
+                    
+                    <rect x="70" y="250" width="180" height="100" fill="#764ba2" rx="8"/>
+                    <text x="160" y="280" text-anchor="middle" font-size="11" fill="white" font-weight="bold">Transformer</text>
+                    <text x="160" y="305" text-anchor="middle" font-size="9" fill="white">自注意力机制</text>
+                    <text x="160" y="325" text-anchor="middle" font-size="9" fill="white">长程依赖</text>
+                    
+                    <rect x="280" y="250" width="180" height="100" fill="#f39c12" rx="8"/>
+                    <text x="370" y="280" text-anchor="middle" font-size="11" fill="white" font-weight="bold">扩散模型</text>
+                    <text x="370" y="305" text-anchor="middle" font-size="9" fill="white">去噪扩散</text>
+                    <text x="370" y="325" text-anchor="middle" font-size="9" fill="white">潜在扩散</text>
+                    
+                    <rect x="490" y="250" width="180" height="100" fill="#e74c3c" rx="8"/>
+                    <text x="580" y="280" text-anchor="middle" font-size="11" fill="white" font-weight="bold">时序建模</text>
+                    <text x="580" y="305" text-anchor="middle" font-size="9" fill="white">LSTM/GRU</text>
+                    <text x="580" y="325" text-anchor="middle" font-size="9" fill="white">TCN</text>
+                    
+                    <text x="375" y="390" text-anchor="middle" font-size="14" fill="#333" font-weight="bold">年主流应用</text>
+                    
+                    <rect x="70" y="410" width="120" height="50" fill="#667eea" rx="5"/>
+                    <text x="130" y="435" text-anchor="middle" font-size="10" fill="white">语音识别</text>
+                    <text x="130" y="450" font-size="8" fill="white">Whisper</text>
+                    
+                    <rect x="210" y="410" width="120" height="50" fill="#e94560" rx="5"/>
+                    <text x="270" y="435" text-anchor="middle" font-size="10" fill="white">语音合成</text>
+                    <text x="270" y="450" font-size="8" fill="white">VALL-E</text>
+                    
+                    <rect x="350" y="410" width="120" height="50" fill="#28a745" rx="5"/>
+                    <text x="410" y="435" text-anchor="middle" font-size="10" fill="white">音乐生成</text>
+                    <text x="410" y="450" font-size="8" fill="white">MusicGen</text>
+                    
+                    <rect x="490" y="410" width="120" height="50" fill="#764ba2" rx="5"/>
+                    <text x="550" y="435" text-anchor="middle" font-size="10" fill="white">声音转换</text>
+                    <text x="550" y="450" font-size="8" fill="white">SO-VITS</text>
+                    
+                    <rect x="620" y="410" width="120" height="50" fill="#f39c12" rx="5"/>
+                    <text x="680" y="435" text-anchor="middle" font-size="10" fill="white">音效生成</text>
+                    <text x="680" y="450" font-size="8" fill="white">AudioLDM</text>
+                </svg>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2">🎵 生成式AI音频</h2>
+            
+            <div class="algorithm-card">
+                <h4>文本到音频生成</h4>
+                <p>年，基于提示词的音频生成已成为现实。</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>模型</th>
+                            <th>特点</th>
+                            <th>应用场景</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>AudioLDM 2</td>
+                            <td>潜在扩散，10秒音频</td>
+                            <td>音效生成</td>
+                        </tr>
+                        <tr>
+                            <td>MusicGen</td>
+                            <td>高保真音乐，文本控制</td>
+                            <td>音乐创作</td>
+                        </tr>
+                        <tr>
+                            <td>Stable Audio 2</td>
+                            <td>实时生成，结构控制</td>
+                            <td>配乐生成</td>
+                        </tr>
+                        <tr>
+                            <td>Jukebox</td>
+                            <td>长音频，多乐器</td>
+                            <td>完整歌曲</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="algorithm-card">
+                <h4>语音合成与克隆</h4>
+                <p>神经语音技术已经实现几乎完美的人类语音合成。</p>
+                <ul>
+                    <li><strong>VALL-E</strong>：3秒克隆任意人声</li>
+                    <li><strong>Bark</strong>：多语言语音合成</li>
+                    <li><strong>ElevenLabs</strong>：商业级语音生成</li>
+                    <li><strong>Coqui TTS</strong>：开源语音合成</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2">🔊 实时AI音频处理</h2>
+            <p>年，AI音频处理已经能够在边缘设备上实现实时运行。</p>
+            
+            <div class="content-block">
+                <h4>端侧AI音频技术</h4>
+                <ul>
+                    <li><strong>模型量化</strong>：INT8/4-bit量化，内存减少10x</li>
+                    <li><strong>知识蒸馏</strong>：小模型大学习</li>
+                    <li><strong>NPU加速</strong>：专用神经网络处理单元</li>
+                    <li><strong>流式处理</strong>：chunk-based在线推理</li>
+                </ul>
+            </div>
+
+            <div class="diagram">
+                <svg viewBox="0 0 750 400" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="100%" height="100%" fill="#f8f9fa"/>
+                    
+                    <text x="375" y="30" text-anchor="middle" font-size="16" fill="#333" font-weight="bold">实时AI音频处理流水线</text>
+                    
+                    <rect x="50" y="60" width="150" height="80" fill="white" stroke="#667eea" stroke-width="2" rx="10"/>
+                    <text x="125" y="85" text-anchor="middle" font-size="11" fill="#333" font-weight="bold">音频输入</text>
+                    <text x="125" y="110" text-anchor="middle" font-size="9" fill="#666">16kHz采样</text>
+                    <text x="125" y="125" font-size="9" fill="#666">16-bit PCM</text>
+                    
+                    <rect x="230" y="60" width="150" height="80" fill="white" stroke="#e94560" stroke-width="2" rx="10"/>
+                    <text x="305" y="85" text-anchor="middle" font-size="11" fill="#333" font-weight="bold">特征提取</text>
+                    <text x="305" y="110" text-anchor="middle" font-size="9" fill="#666">STFT/梅尔谱</text>
+                    <text x="305" y="125" font-size="9" fill="#666">实时计算</text>
+                    
+                    <rect x="410" y="60" width="150" height="80" fill="white" stroke="#28a745" stroke-width="2" rx="10"/>
+                    <text x="485" y="85" text-anchor="middle" font-size="11" fill="#333" font-weight="bold">AI推理</text>
+                    <text x="485" y="110" text-anchor="middle" font-size="9" fill="#666">量化模型</text>
+                    <text x="485" y="125" font-size="9" fill="#666">&lt;10ms延迟</text>
+                    
+                    <rect x="590" y="60" width="150" height="80" fill="white" stroke="#764ba2" stroke-width="2" rx="10"/>
+                    <text x="665" y="85" text-anchor="middle" font-size="11" fill="#333" font-weight="bold">输出</text>
+                    <text x="665" y="110" text-anchor="middle" font-size="9" fill="#666">增强音频</text>
+                    <text x="665" y="125" font-size="9" fill="#666">实时输出</text>
+                    
+                    <line x1="200" y1="100" x2="225" y2="100" stroke="#667eea" stroke-width="2"/>
+                    <line x1="380" y1="100" x2="405" y2="100" stroke="#e94560" stroke-width="2"/>
+                    <line x1="560" y1="100" x2="585" y2="100" stroke="#28a745" stroke-width="2"/>
+                    
+                    <rect x="50" y="180" width="650" height="200" fill="white" stroke="#0f3460" stroke-width="2" rx="15"/>
+                    <text x="375" y="210" text-anchor="middle" font-size="14" fill="#333" font-weight="bold">年实时AI音频框架</text>
+                    
+                    <rect x="70" y="230" width="180" height="130" fill="#667eea" rx="10"/>
+                    <text x="160" y="255" text-anchor="middle" font-size="12" fill="white" font-weight="bold">PyTorch Audio</text>
+                    <text x="160" y="285" text-anchor="middle" font-size="10" fill="white">• 实时STFT</text>
+                    <text x="160" y="305" text-anchor="middle" font-size="10" fill="white">• 量化支持</text>
+                    <text x="160" y="325" text-anchor="middle" font-size="10" fill="white">• GPU加速</text>
+                    <text x="160" y="345" text-anchor="middle" font-size="10" fill="white">• 流式API</text>
+                    
+                    <rect x="270" y="230" width="180" height="130" fill="#e94560" rx="10"/>
+                    <text x="360" y="255" text-anchor="middle" font-size="12" fill="white" font-weight="bold">ONNX Runtime</text>
+                    <text x="360" y="285" text-anchor="middle" font-size="10" fill="white">• 跨平台部署</text>
+                    <text x="360" y="305" text-anchor="middle" font-size="10" fill="white">• NPU加速</text>
+                    <text x="360" y="325" text-anchor="middle" font-size="10" fill="white">• Edge TPU</text>
+                    <text x="360" y="345" text-anchor="middle" font-size="10" fill="white">• CoreML</text>
+                    
+                    <rect x="470" y="230" width="180" height="130" fill="#28a745" rx="10"/>
+                    <text x="560" y="255" text-anchor="middle" font-size="12" fill="white" font-weight="bold">SpeechBrain</text>
+                    <text x="560" y="285" text-anchor="middle" font-size="10" fill="white">• 端到端</text>
+                    <text x="560" y="305" text-anchor="middle" font-size="10" fill="white">• 预训练模型</text>
+                    <text x="560" y="325" text-anchor="middle" font-size="10" fill="white">• 实时推理</text>
+                    <text x="560" y="345" text-anchor="middle" font-size="10" fill="white">• 管道构建</text>
+                </svg>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2">🛠️ 预训练音频模型 ()</h2>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>模型</th>
+                        <th>类型</th>
+                        <th>特点</th>
+                        <th>使用场景</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Whisper</strong></td>
+                        <td>语音识别</td>
+                        <td>多语言98%准确率</td>
+                        <td>转录、翻译</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Wav2Vec 2.0</strong></td>
+                        <td>表示学习</td>
+                        <td>自监督预训练</td>
+                        <td>特征提取、微调</td>
+                    </tr>
+                    <tr>
+                        <td><strong>HuBERT</strong></td>
+                        <td>表示学习</td>
+                        <td>聚类伪标签</td>
+                        <td>语音分析</td>
+                    </tr>
+                    <tr>
+                        <td><strong>CLAP</strong></td>
+                        <td>多模态</td>
+                        <td>音频-文本对比</td>
+                        <td>零样本分类</td>
+                    </tr>
+                    <tr>
+                        <td><strong>MusicGen</strong></td>
+                        <td>音乐生成</td>
+                        <td>文本到音乐</td>
+                        <td>作曲、配乐</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Demucs</strong></td>
+                        <td>源分离</td>
+                        <td>人声/伴奏分离</td>
+                        <td>混音、修音</td>
+                    </tr>
+                    <tr>
+                        <td><strong>RNNoise</strong></td>
+                        <td>语音增强</td>
+                        <td>实时RNN降噪</td>
+                        <td>通话降噪</td>
+                    </tr>
+                    <tr>
+                        <td><strong>OpenVoice</strong></td>
+                        <td>语音克隆</td>
+                        <td>即时声音克隆</td>
+                        <td>配音、虚拟人</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="section">
+            <h2">📊 性能对比 ()</h2>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>任务</th>
+                        <th>传统方法</th>
+                        <th>AI方法 (2024)</th>
+                        <th>AI方法 ()</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>语音识别(WER↓)</td>
+                        <td>25.0%</td>
+                        <td>8.0%</td>
+                        <td>5.0%</td>
+                    </tr>
+                    <tr>
+                        <td>语音合成(MOS↑)</td>
+                        <td>3.5</td>
+                        <td>4.5</td>
+                        <td>4.8</td>
+                    </tr>
+                    <tr>
+                        <td>音乐源分离(SDR↑)</td>
+                        <td>6.0 dB</td>
+                        <td>10.0 dB</td>
+                        <td>12.0 dB</td>
+                    </tr>
+                    <tr>
+                        <td>语音增强(PESQ↑)</td>
+                        <td>2.5</td>
+                        <td>3.2</td>
+                        <td>3.8</td>
+                    </tr>
+                    <tr>
+                        <td>实时性(延迟↓)</td>
+                        <td>5 ms</td>
+                        <td>20 ms</td>
+                        <td>5 ms</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="info-box success">
+                <h4>年技术突破</h4>
+                <ul>
+                    <li>多模态音频理解：同时处理音频、文本和视觉信息</li>
+                    <li>少样本/零样本学习：极少样本即可完成复杂任务</li>
+                    <li>持续学习：模型可在运行中不断改进</li>
+                    <li>端侧大模型：10B参数模型可在手机运行</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
+
+    <a href="#" class="back-to-top">↑ 返回顶部</a>
+</body>
+</html>

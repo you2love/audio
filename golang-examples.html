@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Golang音频处理示例 - 计算机音频处理学习指南 </title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="index.html">首页</a></li>
+                <li><a href="audio-basics.html">音频基础</a></li>
+                <li><a href="algorithms.html">常用算法</a></li>
+                <li><a href="ai-audio.html">AI音频处理</a></li>
+                <li><a href="python-examples.html">Python示例</a></li>
+                <li><a href="golang-examples.html">Golang示例</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section class="section">
+            <h2>📦 环境准备 (版)</h2>
+            
+            <div class="content-block">
+                <h4>安装Golang和相关库</h4>
+                <div class="code-block">
+                    <pre><span class="comment"># 初始化项目</span>
+go mod init audio-processing-
+
+<span class="comment"># 传统音频处理</span>
+go get github.com/mjibson/go-dsp/fft
+go get github.com/go-audio/audio
+go get github.com/go-audio/wav
+go get github.com/go-audio/midi
+
+<span class="comment"># AI/ONNX推理 (推荐)</span>
+go get github.com/yourbasic/onnxruntime
+go get github.com/second-state/go-onnxruntime
+go get github.com/owulveryck/onnx-go
+
+<span class="comment"># 并发音频处理</span>
+go get github.com/hashicorp/golang-lru
+go get golang.org/x/sync/errgroup
+</pre>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h4>Golang音频处理优势 </h4>
+                <ul>
+                    <li><strong>高性能</strong>：编译型语言，执行效率高</li>
+                    <li><strong>ONNX支持</strong>：跨平台AI模型部署</li>
+                    <li><strong>NPU加速</strong>：利用硬件AI加速器</li>
+                    <li><strong>并发支持</strong>：goroutine轻松处理实时音频流</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2">📁 示例1：WAV文件AI预处理</h2>
+            
+            <div class="example-section">
+                <h3>高效WAV文件读写与AI格式支持</h3>
+                
+                <div class="language-tabs">
+                    <button class="language-tab golang active" onclick="showCode('golang1')">Golang</button>
+                </div>
+                
+                <div id="golang1" class="code-block">
+                    <pre><span class="keyword">package</span> main
+
+<span class="keyword">import</span> (
+    <span class="string">"encoding/binary"</span>
+    <span class="string">"fmt"</span>
+    <span class="string">"os"</span>
+    <span class="string">"io"</span>
+    <span class="string">"math"</span>
+)
+
+<span class="comment">// WAV文件头结构 (增强版)</span>
+<span class="keyword">type</span> WAVHeader <span class="keyword">struct</span> {
+    RIFF            [<span class="number">4</span>]<span class="keyword">byte</span>
+    FileSize        <span class="keyword">uint32</span>
+    WAVE            [<span class="number">4</span>]<span class="keyword">byte</span>
+    FMT             [<span class="number">4</span>]<span class="keyword">byte</span>
+    ChunkSize       <span class="keyword">uint32</span>
+    AudioFormat     <span class="keyword">uint16</span>
+    NumChannels     <span class="keyword">uint16</span>
+    SampleRate      <span class="keyword">uint32</span>
+    ByteRate        <span class="keyword">uint32</span>
+    BlockAlign      <span class="keyword">uint16</span>
+    BitsPerSample   <span class="keyword">uint16</span>
+    ExtensionSize   <span class="keyword">uint16</span>
+    ValidBits       <span class="keyword">uint16</span>
+    ChannelMask     <span class="keyword">uint32</span>
+    SubFormat       [<span class="number">16</span>]<span class="keyword">byte</span>
+}
+
+<span class="comment">// AudioData 优化的音频数据结构</span>
+<span class="keyword">type</span> AudioData <span class="keyword">struct</span> {
+    Header      WAVHeader
+    Samples     []<span class="keyword">float32</span>  <span class="comment">// float32 for AI processing
+    SampleRate  <span class="keyword">int</span>
+    Duration    <span class="keyword">float64</span>
+}
+
+<span class="comment">// ReadWAV 读取WAV文件</span>
+<span class="keyword">func</span> <span class="function">ReadWAV</span>(filename <span class="keyword">string</span>) (*AudioData, <span class="keyword">error</span>) {
+    file, err := os.Open(filename)
+    <span class="keyword">if</span> err != <span class="keyword">nil</span> {
+        <span class="keyword">return</span> <span class="keyword">nil</span>, err
+    }
+    <span class="keyword">defer</span> file.Close()
+
+    header := WAVHeader{}
+    err = binary.Read(file, binary.LittleEndian, &header)
+    <span class="keyword">if</span> err != <span class="keyword">nil</span> {
+        <span class="keyword">return</span> <span class="keyword">nil</span>, err
+    }
+
+    <span class="comment">// AI优化：使用float32提高计算效率</span>
+    samples := []<span class="keyword">float32</span>{}
+    bytesPerSample := <span class="keyword">int</span>(header.BitsPerSample / <span class="number">8</span>)
+    buffer := <span class="keyword">make</span>([]<span class="keyword">byte</span>, bytesPerSample)
+
+    <span class="keyword">for</span> {
+        chunkHeader := [<span class="number">4</span>]<span class="keyword">byte</span>{}
+        _, err = io.ReadFull(file, chunkHeader[:])
+        <span class="keyword">if</span> err == io.EOF {
+            <span class="keyword">break</span>
+        }
+
+        chunkData := [<span class="number">4</span>]<span class="keyword">byte</span>{}
+        binary.Read(file, binary.LittleEndian, &chunkData)
+        chunkSize := <span class="keyword">uint32</span>(chunkData[<span class="number">0</span>]) | 
+                    <span class="keyword">uint32</span>(chunkData[<span class="number">1</span>])<<<span class="number">8</span> | 
+                    <span class="keyword">uint32</span>(chunkData[<span class="number">2</span>])<<<span class="number">16</span> | 
+                    <span class="keyword">uint32</span>(chunkData[<span class="number">3</span>])<<<span class="number">24</span>
+
+        chunkName := <span class="keyword">string</span>(chunkHeader[:])
+
+        <span class="keyword">if</span> chunkName == <span class="string">"data"</span> {
+            numSamples := <span class="keyword">int</span>(chunkSize) / bytesPerSample
+            samples = <span class="keyword">make</span>([]<span class="keyword">float32</span>, numSamples)
+
+            <span class="keyword">for</span> i := <span class="number">0</span>; i < numSamples; i++ {
+                _, err = io.ReadFull(file, buffer)
+                <span class="keyword">if</span> err != <span class="keyword">nil</span> {
+                    <span class="keyword">break</span>
+                }
+
+                <span class="keyword">var</span> sample <span class="keyword">float32</span>
+                <span class="keyword">switch</span> header.BitsPerSample {
+                <span class="keyword">case</span> <span class="number">16</span>:
+                    sample = <span class="keyword">float32</span>(<span class="keyword">int16</span>(buffer[<span class="number">0</span>]) | 
+                              <span class="keyword">int16</span>(buffer[<span class="number">1</span>])<<<span class="number">8</span>) / <span class="number">32768.0</span>
+                <span class="keyword">case</span> <span class="number">24</span>:
+                    sample = <span class="keyword">float32</span>(<span class="keyword">int32</span>(buffer[<span class="number">0</span>]) | 
+                              <span class="keyword">int32</span>(buffer[<span class="number">1</span>])<<<span class="number">8</span> | 
+                              <span class="keyword">int32</span>(buffer[<span class="number">2</span>])<<<span class="number">16</span>) / <span class="number">8388608.0</span>
+                <span class="keyword">case</span> <span class="number">32</span>:
+                    <span class="keyword">if</span> header.AudioFormat == <span class="number">3</span> {  <span class="comment">// IEEE Float
+                        sample = <span class="keyword">float32</span>(math.Float32frombits(
+                            <span class="keyword">uint32</span>(buffer[<span class="number">0</span>]) | 
+                            <span class="keyword">uint32</span>(buffer[<span class="number">1</span>])<<<span class="number">8</span> | 
+                            <span class="keyword">uint32</span>(buffer[<span class="number">2</span>])<<<span class="number">16</span> | 
+                            <span class="keyword">uint32</span>(buffer[<span class="number">3</span>])<<<span class="number">24</span>))
+                    }
+                }
+                samples[i] = sample
+            }
+        } <span class="keyword">else</span> {
+            file.Seek(<span class="keyword">int64</span>(chunkSize), <span class="number">1</span>)
+        }
+    }
+
+    duration := <span class="keyword">float64</span>(len(samples)) / <span class="keyword">float64</span>(header.SampleRate)
+
+    <span class="keyword">return</span> &AudioData{
+        Header:     header,
+        Samples:    samples,
+        SampleRate: <span class="keyword">int</span>(header.SampleRate),
+        Duration:   duration,
+    }, <span class="keyword">nil</span>
+}
+
+<span class="comment">// Normalize 归一化音频数据（AI预处理）</span>
+<span class="keyword">func</span> (a *AudioData) <span class="function">Normalize</span>() {
+    maxAmp := <span class="keyword">float32</span>(<span class="number">0</span>)
+    <span class="keyword">for</span> _, sample := <span class="keyword">range</span> a.Samples {
+        <span class="keyword">if</span> abs := <span class="keyword">float32</span>(math.Abs(<span class="keyword">float64</span>(sample))); abs > maxAmp {
+            maxAmp = abs
+        }
+    }
+
+    <span class="keyword">if</span> maxAmp > <span class="number">0</span> {
+        gain := <span class="number">0.95</span> / maxAmp
+        <span class="keyword">for</span> i := <span class="keyword">range</span> a.Samples {
+            a.Samples[i] *= gain
+        }
+    }
+}
+
+<span class="comment">// ToMFCC 转换为MFCC特征（用于AI处理）</span>
+<span class="keyword">func</span> (a *AudioData) <span class="function">ToMFCC</span>(numCoeffs <span class="keyword">int</span>) ([]<span class="keyword">float64</span>, <span class="keyword">error</span>) {
+    <span class="comment">// 简化的MFCC计算
+    nFFT := <span class="number">512</span>
+    hopLength := <span class="number">160</span>
+    
+    <span class="comment">">// 计算短时傅里叶变换
+    stft := a.computeSTFT(nFFT, hopLength)
+    
+    <span class="comment">// 应用梅尔滤波器组
+    melFilter := a.createMelFilterBank(nFFT, numCoeffs)
+    
+    <span class="comment">// 计算MFCC
+    mfcc := make([]<span class="keyword">float64</span>, numCoeffs)
+    <span class="keyword">for</span> i := <span class="number">0</span>; i < numCoeffs; i++ {
+        <span class="keyword">var</span> sum <span class="keyword">float64</span>
+        <span class="keyword">for</span> j := <span class="number">0</span>; j < len(stft); j++ {
+            sum += melFilter[i][j] * stft[j]
+        }
+        mfcc[i] = math.Log(sum + <span class="number">1e-10</span>)
+    }
+    
+    <span class="keyword">return</span> mfcc, <span class="keyword">nil</span>
+}
+
+<span class="comment">// computeSTFT 计算短时傅里叶变换</span>
+<span class="keyword">func</span> (a *AudioData) <span class="function">computeSTFT</span>(nFFT, hopLength <span class="keyword">int</span>) []<span class="keyword">float64</span> {
+    <span class="comment">// 简化实现</span>
+    numFrames := (len(a.Samples) - nFFT) / hopLength
+    spectrum := make([]<span class="keyword">float64</span>, nFFT/<span class="number">2</span>+<span class="number">1</span>)
+    
+    <span class="comment">// 返回功率谱
+    <span class="keyword">return</span> spectrum
+}
+
+<span class="comment">// createMelFilterBank 创建梅尔滤波器组</span>
+<span class="keyword">func</span> (a *AudioData) <span class="function">createMelFilterBank</span>(nFFT, numFilters <span class="keyword">int</span>) [][]<span class="keyword">float64</span> {
+    filterBank := make([][]<span class="keyword">float64</span>, numFilters)
+    <span class="keyword">for</span> i := <span class="keyword">range</span> filterBank {
+        filterBank[i] = make([]<span class="keyword">float64</span>, nFFT/<span class="number">2</span>+<span class="number">1</span>)
+    }
+    <span class="keyword">return</span> filterBank
+}
+
+<span class="comment">// 示例使用</span>
+<span class="keyword">func</span> main() {
+    wav, err := ReadWAV(<span class="string">"audio.wav"</span>)
+    <span class="keyword">if</span> err != <span class="keyword">nil</span> {
+        fmt.Printf(<span class="string">"Error: %v\n"</span>, err)
+        <span class="keyword">return</span>
+    }
+
+    fmt.Printf(<span class="string">"Sample Rate: %d Hz\n"</span>, wav.SampleRate)
+    fmt.Printf(<span class="string">"Duration: %.2f seconds\n"</span>, wav.Duration)
+    fmt.Printf(<span class="string">"Samples: %d\n"</span>, len(wav.Samples))
+    
+    <span class="comment">// AI预处理</span>
+    wav.Normalize()
+    
+    <span class="comment">// 提取MFCC特征</span>
+    mfcc, _ := wav.ToMFCC(<span class="number">13</span>)
+    fmt.Printf(<span class="string">"MFCC coefficients: %v\n"</span>, mfcc)</pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2">⚡ 示例2：ONNX AI模型推理</h2>
+            
+            <div class="example-section">
+                <h3>在Golang中部署ONNX AI音频模型</h3>
+                
+                <div class="language-tabs">
+                    <button class="language-tab golang active" onclick="showCode('golang2')">Golang</button>
+                </div>
+                
+                <div id="golang2" class="code-block">
+                    <pre><span class="keyword">package</span> main
+
+<span class="keyword">import</span> (
+    <span class="string">"fmt"</span>
+    <span class="string">"os"</span>
+    
+    onnxruntime <span class="string">"github.com/yourbasic/onnxruntime"</span>
+)
+
+<span class="comment">// ONNXInference ONNX模型推理引擎 </span>
+<span class="keyword">type</span> ONNXInference <span class="keyword">struct</span> {
+    session    *onnxruntime.Session
+    inputName  <span class="keyword">string</span>
+    outputName <span class="keyword">string</span>
+}
+
+<span class="keyword">func</span> <span class="function">NewONNXInference</span>(modelPath <span class="keyword">string</span>, providers []<span class="keyword">string</span>) (*ONNXInference, <span class="keyword">error</span>) {
+    <span class="comment">// 加载ONNX模型</span>
+    session, err := onnxruntime.NewSession(modelPath, &onnxruntime.SessionOptions{
+        Providers: providers,  <span class="comment">// ["CUDA", "CPU"] or ["CoreML", "NPU"]
+    })
+    <span class="keyword">if</span> err != <span class="keyword">nil</span> {
+        <span class="keyword">return</span> <span class="keyword">nil</span>, fmt.Errorf(<span class="string">"failed to load model: %w"</span>, err)
+    }
+
+    <span class="comment">// 获取输入输出名称</span>
+    inputName := session.GetInputNames()[<span class="number">0</span>]
+    outputName := session.GetOutputNames()[<span class="number">0</span>]
+
+    <span class="keyword">return</span> &ONNXInference{
+        session:    session,
+        inputName:  inputName,
+        outputName: outputName,
+    }, <span class="keyword">nil</span>
+}
+
+<span class="comment">// Inference 执行推理</span>
+<span class="keyword">func</span> (o *ONNXInference) <span class="function">Inference</span>(input []<span class="keyword">float32</span>) ([]<span class="keyword">float32</span>, <span class="keyword">error</span>) {
+    <span class="comment">// 准备输入</span>
+    inputTensor := onnxruntime.NewTensor(input, []<span class="keyword">int64</span>{<span class="number">1</span>, <span class="number">16000</span>})
+
+    <span class="comment">// 运行推理</span>
+    outputs, err := o.session.Run([]onnxruntime.Tensor{inputTensor})
+    <span class="keyword">if</span> err != <span class="keyword">nil</span> {
+        <span class="keyword">return</span> <span class="keyword">nil</span>, err
+    }
+
+    <span class="comment">// 获取输出</span>
+    output := outputs[<span class="number">0</span>].(<span class="keyword">*</span>onnxruntime.Tensor).Data().([]<span class="keyword">float32</span>)
+
+    <span class="keyword">return</span> output, <span class="keyword">nil</span>
+}
+
+<span class="comment">// AudioClassifier 音频分类器 </span>
+<span class="keyword">type</span> AudioClassifier <span class="keyword">struct</span> {
+    inference *ONNXInference
+    classes   []<span class="keyword">string</span>
+}
+
+<span class="keyword">func</span> <span class="function">NewAudioClassifier</span>(modelPath <span class="keyword">string</span>, classesPath <span class="keyword">string</span>) (*AudioClassifier, <span class="keyword">error</span>) {
+    inference, err := NewONNXInference(modelPath, []<span class="keyword">string</span>{
+        <span class="string">"CUDAExecutionProvider"</span>,
+        <span class="string">"CPUExecutionProvider"</span>,
+    })
+    <span class="keyword">if</span> err != <span class="keyword">nil</span> {
+        <span class="keyword">return</span> <span class="keyword">nil</span>, err
+    }
+
+    <span class="comment">// 加载类别标签</span>
+    classes, err := os.ReadFile(classesPath)
+    <span class="keyword">if</span> err != <span class="keyword">nil</span> {
+        <span class="keyword">return</span> <span class="keyword">nil</span>, err
+    }
+
+    <span class="keyword">return</span> &AudioClassifier{
+        inference: inference,
+        classes:   <span class="keyword">string</span>s.Fields(<span class="keyword">string</span>(classes)),
+    }, <span class="keyword">nil</span>
+}
+
+<span class="comment">// Predict 预测音频类别</span>
+<span class="keyword">func</span> (c *AudioClassifier) <span class="function">Predict</span>(audioFeatures []<span class="keyword">float32</span>) (string, <span class="keyword">float32</span>) {
+    output, err := c.inference.Inference(audioFeatures)
+    <span class="keyword">if</span> err != <span class="keyword">nil</span> {
+        <span class="keyword">return</span> <span class="string">"error"</span>, <span class="number">0</span>
+    }
+
+    <span class="comment">// 找到最大概率的类别</span>
+    maxIdx := <span class="number">0</span>
+    maxProb := <span class="keyword">float32</span>(<span class="number">0</span>)
+    <span class="keyword">for</span> i, prob := <span class="keyword">range</span> output {
+        <span class="keyword">if</span> prob > maxProb {
+            maxProb = prob
+            maxIdx = i
+        }
+    }
+
+    <span class="keyword">return</span> c.classes[maxIdx], maxProb
+}
+
+<span class="comment">// 使用示例</span>
+<span class="keyword">func</span> main() {
+    <span class="comment">// 创建分类器</span>
+    classifier, err := NewAudioClassifier(
+        <span class="string">"audio_classifier.onnx"</span>,
+        <span class="string">"classes.txt"</span>,
+    )
+    <span class="keyword">if</span> err != <span class="keyword">nil</span> {
+        fmt.Printf(<span class="string">"Error: %v\n"</span>, err)
+        <span class="keyword">return</span>
+    }
+
+    <span class="comment">// 准备特征（示例：MFCC特征）</span>
+    features := make([]<span class="keyword">float32</span>, <span class="number">16000</span>)
+    <span class="comment">// 填充特征...
+
+    <span class="comment">// 预测</span>
+    label, confidence := classifier.Predict(features)
+    fmt.Printf(<span class="string">"Predicted: %s (confidence: %.2f%%)\n"</span>, label, confidence*<span class="number">100</span>)</pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2">🎛️ 示例3：实时AI音频处理管道</h2>
+            
+            <div class="example-section">
+                <h3>高并发实时音频AI处理</h3>
+                
+                <div class="language-tabs">
+                    <button class="language-tab golang active" onclick="showCode('golang3')">Golang</button>
+                </div>
+                
+                <div id="golang3" class="code-block">
+                    <pre><span class="keyword">package</span> main
+
+<span class="keyword">import</span> (
+    <span class="string">"context"</span>
+    <span class="string">"fmt"</span>
+    <span class="string">"sync"</span>
+    <span class="string">"time"</span>
+    
+    <span class="string">"golang.org/x/sync/errgroup"</span>
+)
+
+<span class="comment">// AudioProcessor 实时音频处理器 </span>
+<span class="keyword">type</span> AudioProcessor <span class="keyword">struct</span> {
+    sampleRate     <span class="keyword">int</span>
+    chunkSize      <span class="keyword">int</span>
+    numWorkers     <span class="keyword">int</span>
+    inferenceEngine *ONNXInference
+    audioBuffer    *AudioBuffer
+    wg             sync.WaitGroup
+    ctx            context.Context
+    cancel         context.CancelFunc
+}
+
+<span class="keyword">func</span> <span class="function">NewAudioProcessor</span>(sampleRate, chunkSize, numWorkers <span class="keyword">int</span>) *AudioProcessor {
+    ctx, cancel := context.WithCancel(context.Background())
+    
+    <span class="keyword">return</span> &AudioProcessor{
+        sampleRate:     sampleRate,
+        chunkSize:      chunkSize,
+        numWorkers:     numWorkers,
+        audioBuffer:    NewAudioBuffer(chunkSize * <span class="number">10</span>),  <span class="comment">// 10块缓存
+        wg:             sync.WaitGroup{},
+        ctx:            ctx,
+        cancel:         cancel,
+    }
+}
+
+<span class="comment">// SetInferenceEngine 设置AI推理引擎</span>
+<span class="keyword">func</span> (p *AudioProcessor) <span class="function">SetInferenceEngine</span>(engine *ONNXInference) {
+    p.inferenceEngine = engine
+}
+
+<span class="comment">// AudioBuffer 线程安全的音频缓冲区</span>
+<span class="keyword">type</span> AudioBuffer <span class="keyword">struct</span> {
+    data     []<span class="keyword">float32</span>
+    writePos <span class="keyword">int</span>
+    readPos  <span class="keyword">int</span>
+    mu       sync.RWMutex
+    cond     *sync.Cond
+}
+
+<span class="keyword">func</span> <span class="function">NewAudioBuffer</span>(size <span class="keyword">int</span>) *AudioBuffer {
+    buf := &AudioBuffer{
+        data: make([]<span class="keyword">float32</span>, size),
+    }
+    buf.cond = sync.NewCond(buf.mu.RLocker())
+    <span class="keyword">return</span> buf
+}
+
+<span class="comment">// Write 写入音频数据</span>
+<span class="keyword">func</span> (b *AudioBuffer) <span class="function">Write</span>(data []<span class="keyword">float32</span>) {
+    b.mu.Lock()
+    <span class="keyword">defer</span> b.mu.Unlock()
+
+    <span class="keyword">for</span> _, sample := <span class="keyword">range</span> data {
+        b.data[b.writePos] = sample
+        b.writePos = (b.writePos + <span class="number">1</span>) % len(b.data)
+        <span class="keyword">if</span> b.writePos == b.readPos {
+            <span class="comment">// 缓冲区满，跳过最旧的数据
+            b.readPos = (b.readPos + <span class="number">1</span>) % len(b.data)
+        }
+    }
+    b.cond.Broadcast()
+}
+
+<span class="comment">// Read 读取音频数据</span>
+<span class="keyword">func</span> (b *AudioBuffer) <span class="function">Read</span>(size <span class="keyword">int</span>) []<span class="keyword">float32</span> {
+    b.mu.RLock()
+    <span class="keyword">defer</span> b.mu.RUnlock()
+
+    <span class="keyword">for</span> b.available() < size {
+        b.cond.Wait()
+    }
+
+    result := make([]<span class="keyword">float32</span>, size)
+    <span class="keyword">for</span> i := <span class="number">0</span>; i < size; i++ {
+        result[i] = b.data[b.readPos]
+        b.readPos = (b.readPos + <span class="number">1</span>) % len(b.data)
+    }
+    <span class="keyword">return</span> result
+}
+
+<span class="comment">// available 返回可用样本数</span>
+<span class="keyword">func</span> (b *AudioBuffer) <span class="function">available</span>() <span class="keyword">int</span> {
+    <span class="keyword">if</span> b.writePos >= b.readPos {
+        <span class="keyword">return</span> b.writePos - b.readPos
+    }
+    <span class="keyword">return</span> len(b.data) - b.readPos + b.writePos
+}
+
+<span class="comment">// ProcessorWorker 处理工作协程</span>
+<span class="keyword">func</span> (p *AudioProcessor) <span class="function">ProcessorWorker</span>(id <span class="keyword">int</span>) {
+    <span class="keyword">defer</span> p.wg.Done()
+
+    <span class="keyword">for</span> {
+        <span class="keyword">select</span> {
+        <span class="keyword">case</span> <-p.ctx.Done():
+            <span class="keyword">return</span>
+        <span class="keyword">default</span>:
+            <span class="comment">// 读取音频块</span>
+            chunk := p.audioBuffer.Read(p.chunkSize)
+
+            <span class="comment">// 应用AI处理
+            <span class="keyword">if</span> p.inferenceEngine != <span class="keyword">nil</span> {
+                result, err := p.inferenceEngine.Inference(chunk)
+                <span class="keyword">if</span> err != <span class="keyword">nil</span> {
+                    <span class="comment">// 处理错误
+                    continue
+                }
+                <span class="comment">// 输出处理结果
+                _ = result
+            }
+        }
+    }
+}
+
+<span class="comment">// Start 启动处理器</span>
+<span class="keyword">func</span> (p *AudioProcessor) <span class="function">Start</span>() {
+    <span class="keyword">for</span> i := <span class="number">0</span>; i < p.numWorkers; i++ {
+        p.wg.Add(<span class="number">1</span>)
+        <span class="keyword">go</span> p.ProcessorWorker(i)
+    }
+}
+
+<span class="comment">// Stop 停止处理器</span>
+<span class="keyword">func</span> (p *AudioProcessor) <span class="function">Stop</span>() {
+    p.cancel()
+    p.wg.Wait()
+}
+
+<span class="comment">// Benchmark 性能测试</span>
+<span class="keyword">func</span> (p *AudioProcessor) <span class="function">Benchmark</span>(duration <span class="keyword">time.Duration</span>) {
+    p.Start()
+    
+    start := time.Now()
+    count := <span class="number">0</span>
+    
+    <span class="keyword">go</span> <span class="keyword">func</span>() {
+        <span class="keyword">for</span> time.Since(start) < duration {
+            <span class="comment">// 生成测试数据</span>
+            testData := make([]<span class="keyword">float32</span>, p.chunkSize)
+            <span class="keyword">for</span> i := <span class="keyword">range</span> testData {
+                testData[i] = <span class="keyword">float32</span>(i%<span class="number">256</span>) / <span class="number">256.0</span>
+            }
+            p.audioBuffer.Write(testData)
+            count++
+            time.Sleep(time.Millisecond)
+        }
+    }()
+    
+    <span class="keyword">select</span> {
+    <span class="keyword">case</span> <-time.After(duration + time.Second):
+    }
+    
+    p.Stop()
+    
+    throughput := <span class="keyword">float64</span>(count) / duration.Seconds()
+    fmt.Printf(<span class="string">"Processed %.2f chunks/second\n"</span>, throughput)
+}
+
+<span class="comment">// 使用示例</span>
+<span class="keyword">func</span> main() {
+    <span class="comment">// 创建处理器 (16kHz采样率, 160样本/块, 4协程)</span>
+    processor := NewAudioProcessor(<span class="number">16000</span>, <span class="number">160</span>, <span class="number">4</span>)
+
+    <span class="comment">// 加载AI模型
+    inference, err := NewONNXInference(<span class="string">"denoiser.onnx"</span>, []<span class="keyword">string</span>{
+        <span class="string">"CUDAExecutionProvider"</span>,
+        <span class="string">"CPUExecutionProvider"</span>,
+    })
+    <span class="keyword">if</span> err != <span class="keyword">nil</span> {
+        fmt.Printf(<span class="string">"Error: %v\n"</span>, err)
+        <span class="keyword">return</span>
+    }
+    processor.SetInferenceEngine(inference)
+
+    <span class="comment">// 性能测试</span>
+    processor.Benchmark(<span class="number">10</span> * time.Second)</pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2">🎵 示例4：音频AI特效</h2>
+            
+            <div class="example-section">
+                <h3>AI驱动的音频效果处理</h3>
+                
+                <div class="language-tabs">
+                    <button class="language-tab golang active" onclick="showCode('golang4')">Golang</button>
+                </div>
+                
+                <div id="golang4" class="code-block">
+                    <pre><span class="keyword">package</span> main
+
+<span class="keyword">import</span> (
+    <span class="string">"fmt"</span>
+    <span class="string">"math"</span>
+)
+
+<span class="comment">// AIEffectsProcessor AI音频效果处理器 </span>
+<span class="keyword">type</span> AIEffectsProcessor <span class="keyword">struct</span> {
+    sampleRate    <span class="keyword">int</span>
+    effects       []AudioEffect
+}
+
+<span class="comment">// AudioEffect 音频效果接口</span>
+<span class="keyword">type</span> AudioEffect <span class="keyword">interface</span> {
+    Process(samples []<span class="keyword">float32</span>) []<span class="keyword">float32</span>
+    Reset()
+}
+
+<span class="comment">// AIReverb AI增强混响效果</span>
+<span class="keyword">type</span> AIReverb <span class="keyword">struct</span> {
+    sampleRate    <span class="keyword">int</span>
+    wetMix        <span class="keyword">float32</span>
+    dryMix        <span class="keyword">float32</span>
+    decay         <span class="keyword">float32</span>
+    combFilters   []CombFilter
+    allpassFilters []AllpassFilter
+}
+
+<span class="comment">// CombFilter 梳状滤波器</span>
+<span class="keyword">type</span> CombFilter <span class="keyword">struct</span> {
+    delayLine []<span class="keyword">float32</span>
+    index     <span class="keyword">int</span>
+    gain      <span class="keyword">float32</span>
+}
+
+<span class="keyword">func</span> <span class="function">NewCombFilter</span>(delaySamples <span class="keyword">int</span>, decay <span class="keyword">float32</span>) *CombFilter {
+    <span class="keyword">return</span> &CombFilter{
+        delayLine: make([]<span class="keyword">float32</span>, delaySamples),
+        gain:      decay,
+    }
+}
+
+<span class="keyword">func</span> (c *CombFilter) <span class="function">Process</span>(input <span class="keyword">float32</span>) <span class="keyword">float32</span> {
+    output := c.delayLine[c.index]
+    c.delayLine[c.index] = input + output*c.gain
+    c.index = (c.index + <span class="number">1</span>) % len(c.delayLine)
+    <span class="keyword">return</span> output
+}
+
+<span class="comment">// AllpassFilter 全通滤波器</span>
+<span class="keyword">type</span> AllpassFilter <span class="keyword">struct</span> {
+    delayLine []<span class="keyword">float32</span>
+    index     <span class="keyword">int</span>
+    gain      <span class="keyword">float32</span>
+}
+
+<span class="keyword">func</span> <span class="function">NewAllpassFilter</span>(delaySamples <span class="keyword">int</span>, gain <span class="keyword">float32</span>) *AllpassFilter {
+    <span class="keyword">return</span> &AllpassFilter{
+        delayLine: make([]<span class="keyword">float32</span>, delaySamples),
+        gain:      gain,
+    }
+}
+
+<span class="keyword">func</span> (a *AllpassFilter) <span class="function">Process</span>(input <span class="keyword">float32</span>) <span class="keyword">float32</span> {
+    delayed := a.delayLine[a.index]
+    output := delayed + a.gain*input
+    a.delayLine[a.index] = input + delayed*a.gain
+    a.index = (a.index + <span class="number">1</span>) % len(a.delayLine)
+    <span class="keyword">return</span> output
+}
+
+<span class="keyword">func</span> <span class="function">NewAIReverb</span>(sampleRate <span class="keyword">int</span>) *AIReverb {
+    <span class="comment">// 优化的梳状滤波器参数</span>
+    combDelays := []<span class="keyword">int</span>{<span class="number">1116</span>, <span class="number">1188</span>, <span class="number">1277</span>, <span class="number">1356</span>, <span class="number">1492</span>, <span class="number">1617</span>}
+    combGains := []<span class="keyword">float32</span>{<span class="number">0.7</span>, <span class="number">0.65</span>, <span class="number">0.6</span>, <span class="number">0.55</span>, <span class="number">0.5</span>, <span class="number">0.45</span>}
+    
+    combFilters := make([]CombFilter, len(combDelays))
+    <span class="keyword">for</span> i := <span class="number">0</span>; i < len(combDelays); i++ {
+        combFilters[i] = *NewCombFilter(combDelays[i], combGains[i])
+    }
+    
+    <span class="comment">// 全通滤波器</span>
+    allpassFilters := make([]AllpassFilter, <span class="number">2</span>)
+    allpassFilters[<span class="number">0</span>] = *NewAllpassFilter(<span class="number">556</span>, <span class="number">0.7</span>)
+    allpassFilters[<span class="number">1</span>] = *NewAllpassFilter(<span class="number">441</span>, <span class="number">0.5</span>)
+
+    <span class="keyword">return</span> &AIReverb{
+        sampleRate:     sampleRate,
+        wetMix:        <span class="number">0.3</span>,
+        dryMix:        <span class="number">0.7</span>,
+        decay:         <span class="number">0.98</span>,
+        combFilters:   combFilters,
+        allpassFilters: allpassFilters,
+    }
+}
+
+<span class="keyword">func</span> (r *AIReverb) <span class="function">Process</span>(samples []<span class="keyword">float32</span>) []<span class="keyword">float32</span> {
+    output := make([]<span class="keyword">float32</span>, len(samples))
+
+    <span class="keyword">for</span> i := <span class="number">0</span>; i < len(samples); i++ {
+        dry := samples[i] * r.dryMix
+
+        <span class="comment">// 梳状滤波器</span>
+        var wet <span class="keyword">float32</span>
+        <span class="keyword">for</span> j := <span class="number">0</span>; j < len(r.combFilters); j++ {
+            wet += r.combFilters[j].Process(samples[i])
+        }
+        wet /= <span class="keyword">float32</span>(len(r.combFilters))
+
+        <span class="comment">// 全通滤波器</span>
+        <span class="keyword">for</span> j := <span class="number">0</span>; j < len(r.allpassFilters); j++ {
+            wet = r.allpassFilters[j].Process(wet)
+        }
+
+        wet *= r.wetMix * r.decay
+        output[i] = dry + wet
+    }
+
+    <span class="keyword">return</span> output
+}
+
+<span class="keyword">func</span> (r *AIReverb) <span class="function">Reset</span>() {
+    <span class="keyword">for</span> i := <span class="number">0</span>; i < len(r.combFilters); i++ {
+        r.combFilters[i].delayLine = make([]<span class="keyword">float32</span>, len(r.combFilters[i].delayLine))
+        r.combFilters[i].index = <span class="number">0</span>
+    }
+    <span class="keyword">for</span> i := <span class="number">0</span>; i < len(r.allpassFilters); i++ {
+        r.allpassFilters[i].delayLine = make([]<span class="keyword">float32</span>, len(r.allpassFilters[i].delayLine))
+        r.allpassFilters[i].index = <span class="number">0</span>
+    }
+}
+
+<span class="comment">// AIDelay AI智能延迟效果</span>
+<span class="keyword">type</span> AIDelay <span class="keyword">struct</span> {
+    sampleRate    <span class="keyword">int</span>
+    delayTime     <span class="keyword">float32</span>
+    feedback      <span class="keyword">float32</span>
+    wetMix        <span class="keyword">float32</span>
+    dryMix        <span class="keyword">float32</span>
+    delayLine     []<span class="keyword">float32</span>
+    index         <span class="keyword">int</span>
+}
+
+<span class="keyword">func</span> <span class="function">NewAIDelay</span>(sampleRate <span class="keyword">int</span>, delayTime, feedback <span class="keyword">float32</span>) *AIDelay {
+    delaySamples := <span class="keyword">int</span>(delayTime * <span class="keyword">float32</span>(sampleRate))
+    
+    <span class="keyword">return</span> &AIDelay{
+        sampleRate:  sampleRate,
+        delayTime:   delayTime,
+        feedback:    feedback,
+        wetMix:      <span class="number">0.4</span>,
+        dryMix:      <span class="number">0.6</span>,
+        delayLine:   make([]<span class="keyword">float32</span>, delaySamples+<span class="number">1</span>),
+    }
+}
+
+<span class="keyword">func</span> (d *AIDelay) <span class="function">Process</span>(samples []<span class="keyword">float32</span>) []<span class="keyword">float32</span> {
+    output := make([]<span class="keyword">float32</span>, len(samples))
+
+    <span class="keyword">for</span> i := <span class="number">0</span>; i < len(samples); i++ {
+        delayed := d.delayLine[d.index]
+        output[i] = samples[i]*d.dryMix + delayed*d.wetMix
+        d.delayLine[d.index] = samples[i] + delayed*d.feedback
+        d.index = (d.index + <span class="number">1</span>) % len(d.delayLine)
+    }
+
+    <span class="keyword">return</span> output
+}
+
+<span class="comment">// 使用示例</span>
+<span class="keyword">func</span> main() {
+    sampleRate := <span class="number">44100</span>
+
+    <span class="comment">// 创建AI混响</span>
+    reverb := NewAIReverb(sampleRate)
+
+    <span class="comment">// 创建AI延迟</span>
+    delay := NewAIDelay(sampleRate, <span class="number">0.3</span>, <span class="number">0.5</span>)
+
+    <span class="comment">// 生成测试信号</span>
+    testSignal := make([]<span class="keyword">float32</span>, sampleRate)  <span class="comment">// 1秒
+    <span class="keyword">for</span> i := <span class="number">0</span>; i < len(testSignal); i++ {
+        t := <span class="keyword">float32</span>(i) / <span class="keyword">float32</span>(sampleRate)
+        testSignal[i] = <span class="number">0.5</span>*<span class="keyword">float32</span>(math.Sin(<span class="number">2</span>*math.Pi*<span class="number">440</span>*t)) +
+                        <span class="number">0.3</span>*<span class="keyword">float32</span>(math.Sin(<span class="number">2</span>*math.Pi*<span class="number">880</span>*t))
+    }
+
+    <span class="comment">// 应用效果</span>
+    reverbOutput := reverb.Process(testSignal)
+    delayOutput := delay.Process(testSignal)
+
+    fmt.Printf(<span class="string">"Original: %d samples\n"</span>, len(testSignal))
+    fmt.Printf(<span class="string">"Reverb: %d samples\n"</span>, len(reverbOutput))
+    fmt.Printf(<span class="string">"Delay: %d samples\n"</span>, len(delayOutput))
+}</pre>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+    <a href="#" class="back-to-top">↑ 返回顶部</a>
+</body>
+</html>

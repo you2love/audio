@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>音频基础 - 计算机音频处理学习指南 </title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="index.html">首页</a></li>
+                <li><a href="audio-basics.html">音频基础</a></li>
+                <li><a href="algorithms.html">常用算法</a></li>
+                <li><a href="ai-audio.html">AI音频处理</a></li>
+                <li><a href="python-examples.html">Python示例</a></li>
+                <li><a href="golang-examples.html">Golang示例</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section class="section">
+            <h2>🔊 声音的本质与AI感知</h2>
+            <p>声音是由物体振动产生的机械波，通过介质传播到我们的耳朵。年，AI系统已经能够像人类一样"感知"和"理解"声音内容。</p>
+            
+            <div class="content-block">
+                <h4>声音的物理特性</h4>
+                <ul>
+                    <li><strong>振幅 (Amplitude)</strong>：声音的强度或音量，决定声音有多大</li>
+                    <li><strong>频率 (Frequency)</strong>：振动的快慢，决定音调高低，单位Hz</li>
+                    <li><strong>波长 (Wavelength)</strong>：一个完整振动周期的长度</li>
+                    <li><strong>周期 (Period)</strong>：完成一次完整振动所需的时间</li>
+                </ul>
+            </div>
+
+            <div class="math-formula">
+                频率 f = 1/T (其中T为周期)
+            </div>
+
+            <div class="diagram">
+                <svg viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <rect width="100%" height="100%" fill="#f8f9fa"/>
+                    <line x1="50" y1="150" x2="550" y2="150" stroke="#0f3460" stroke-width="2"/>
+                    <text x="300" y="280" text-anchor="middle" font-size="14" fill="#333">时间</text>
+                    <text x="20" y="155" font-size="14" fill="#333">振幅</text>
+                    
+                    <path d="M 50 150 
+                             Q 100 50, 150 150 
+                             Q 200 250, 250 150 
+                             Q 300 50, 350 150 
+                             Q 400 250, 450 150 
+                             Q 500 50, 550 150" 
+                          fill="none" stroke="url(#grad1)" stroke-width="3"/>
+                    
+                    <line x1="250" y1="150" x2="250" y2="50" stroke="#e94560" stroke-width="2" stroke-dasharray="5,5"/>
+                    <line x1="200" y1="50" x2="300" y2="50" stroke="#e94560" stroke-width="2"/>
+                    <text x="180" y="105" font-size="12" fill="#e94560">振幅</text>
+                    
+                    <line x1="100" y1="180" x2="100" y2="270" stroke="#28a745" stroke-width="2"/>
+                    <line x1="200" y1="180" x2="200" y2="270" stroke="#28a745" stroke-width="2"/>
+                    <line x1="100" y1="260" x2="200" y2="260" stroke="#28a745" stroke-width="2"/>
+                    <text x="150" y="280" font-size="12" fill="#28a745">周期 T</text>
+                </svg>
+                <p><strong>正弦波示意图</strong>：声音波形的基本表示</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>📊 AI时代的音频数字化</h2>
+            
+            <div class="algorithm-card">
+                <h4>传统模拟信号</h4>
+                <p>模拟信号是连续的信号，可以在任意时间点取任意值。自然界中的声音就是模拟信号。</p>
+                <ul>
+                    <li>连续时间和连续振幅</li>
+                    <li>容易受到电磁干扰</li>
+                    <li>难以长期保存和复制</li>
+                    <li>音质理论上无限好</li>
+                </ul>
+            </div>
+
+            <div class="algorithm-card">
+                <h4>数字信号处理</h4>
+                <p>数字信号是离散的，只能取有限的离散值。计算机处理的是数字信号。</p>
+                <ul>
+                    <li>离散时间和离散振幅</li>
+                    <li>抗干扰能力强</li>
+                    <li>易于存储和传输</li>
+                    <li>精度受量化位数限制</li>
+                </ul>
+            </div>
+
+            <div class="diagram">
+                <svg viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#e94560;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#0f3460;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <rect width="100%" height="100%" fill="#f8f9fa"/>
+                    
+                    <text x="300" y="30" text-anchor="middle" font-size="16" fill="#333">AI增强的模数转换流程</text>
+                    
+                    <rect x="50" y="50" width="120" height="80" fill="white" stroke="#667eea" stroke-width="2"/>
+                    <text x="110" y="90" text-anchor="middle" font-size="12">模拟信号</text>
+                    
+                    <rect x="240" y="50" width="120" height="80" fill="white" stroke="#e94560" stroke-width="2"/>
+                    <text x="300" y="80" text-anchor="middle" font-size="12">ADC转换</text>
+                    <text x="300" y="100" text-anchor="middle" font-size="10" fill="#666">AI降噪预处理</text>
+                    
+                    <rect x="430" y="50" width="120" height="80" fill="white" stroke="#28a745" stroke-width="2"/>
+                    <text x="490" y="90" text-anchor="middle" font-size="12">数字信号</text>
+                    <text x="490" y="110" text-anchor="middle" font-size="10" fill="#666">AI优化编码</text>
+                    
+                    <line x1="170" y1="90" x2="240" y2="90" stroke="#667eea" stroke-width="2"/>
+                    <line x1="360" y1="90" x2="430" y2="90" stroke="#e94560" stroke-width="2"/>
+                    
+                    <rect x="50" y="200" width="500" height="150" fill="white" stroke="#0f3460" stroke-width="2" rx="10"/>
+                    <text x="300" y="230" text-anchor="middle" font-size="14" fill="#333" font-weight="bold">年采样率标准</text>
+                    
+                    <rect x="70" y="250" width="100" height="30" fill="#667eea"/>
+                    <text x="120" y="270" text-anchor="middle" font-size="11" fill="white">44.1kHz CD</text>
+                    <text x="180" y="270" font-size="10" fill="#666">标准音频</text>
+                    
+                    <rect x="200" y="250" width="100" height="30" fill="#e94560"/>
+                    <text x="250" y="270" text-anchor="middle" font-size="11" fill="white">48kHz 专业</text>
+                    <text x="310" y="270" font-size="10" fill="#666">视频制作</text>
+                    
+                    <rect x="330" y="250" width="100" height="30" fill="#28a745"/>
+                    <text x="380" y="270" text-anchor="middle" font-size="11" fill="white">96kHz Hi-Res</text>
+                    <text x="440" y="270" font-size="10" fill="#666">音乐制作</text>
+                    
+                    <rect x="460" y="250" width="80" height="30" fill="#764ba2"/>
+                    <text x="500" y="270" text-anchor="middle" font-size="11" fill="white">192kHz</text>
+                    <text x="500" y="300" font-size="10" fill="#666">AI处理</text>
+                </svg>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2">📈 AI优化采样率与位深度</h2>
+            
+            <div class="content-block">
+                <h4>采样率 (Sampling Rate) 新标准</h4>
+                <p>根据<span style="color:#e94560; font-weight:bold;">奈奎斯特采样定理</span>，采样率必须至少是信号最高频率的两倍。年，AI技术使得超采样和智能降采样成为可能。</p>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>采样率</th>
+                            <th>应用场景</th>
+                            <th>AI增强特性</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>8,000 Hz</td>
+                            <td>电话通信、AI语音识别</td>
+                            <td>AI语音增强预处理</td>
+                        </tr>
+                        <tr>
+                            <td>44,100 Hz</td>
+                            <td>CD音质、流媒体</td>
+                            <td>AI上采样至96kHz</td>
+                        </tr>
+                        <tr>
+                            <td>48,000 Hz</td>
+                            <td>专业音频、视频</td>
+                            <td>AI实时降噪</td>
+                        </tr>
+                        <tr>
+                            <td>96,000 Hz</td>
+                            <td>高清音频、AI音乐生成</td>
+                            <td>高保真AI合成</td>
+                        </tr>
+                        <tr>
+                            <td>192,000+ Hz</td>
+                            <td>AI音频分析和生成</td>
+                            <td>超分辨率音频处理</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="content-block">
+                <h4>位深度 (Bit Depth) 新发展</h4>
+                <p>AI时代的位深度处理更加智能化，可以根据内容动态调整量化精度。</p>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>位深度</th>
+                            <th>量化等级</th>
+                            <th>动态范围</th>
+                            <th>AI应用</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>16-bit</td>
+                            <td>65,536</td>
+                            <td>~96 dB</td>
+                            <td>标准音频存储</td>
+                        </tr>
+                        <tr>
+                            <td>24-bit</td>
+                            <td>16,777,216</td>
+                            <td>~144 dB</td>
+                            <td>专业录音</td>
+                        </tr>
+                        <tr>
+                            <td>32-bit float</td>
+                            <td>无限</td>
+                            <td>理论上无限</td>
+                            <td>AI处理中间格式</td>
+                        </tr>
+                        <tr>
+                            <td>AI自适应</td>
+                            <td>动态调整</td>
+                            <td>内容感知</td>
+                            <td>智能压缩存储</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="math-formula">
+                音频文件大小计算公式：<br>
+                文件大小(字节) = 采样率 × 位深度/8 × 声道数 × 时长(秒)
+            </div>
+
+            <div class="info-box">
+                <h4>年AI音频压缩</h4>
+                <p>神经音频编解码器（如EnCodec、SoundStream）可以实现比传统MP3/AAC高10倍压缩率，同时保持CD音质。</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🌊 AI增强的时域与频域分析</h2>
+            
+            <div class="algorithm-card">
+                <h4>时域分析 (Time Domain)</h4>
+                <p>时域是我们观察信号最自然的方式，显示信号振幅随时间变化的关系。年AI可以自动检测时域特征。</p>
+                <ul>
+                    <li>直观显示波形</li>
+                    <li>AI自动包络检测</li>
+                    <li>瞬态检测与分类</li>
+                    <li>异常检测</li>
+                </ul>
+            </div>
+
+            <div class="algorithm-card">
+                <h4>频域分析 (Frequency Domain)</h4>
+                <p>频域显示信号包含哪些频率成分及各成分的强度。AI极大提升了频域分析的精度和速度。</p>
+                <ul>
+                    <li>揭示隐藏的频率信息</li>
+                    <li>AI辅助音色分析</li>
+                    <li>多音高检测</li>
+                    <li>频谱超分辨率</li>
+                </ul>
+            </div>
+
+            <div class="diagram">
+                <svg viewBox="0 0 700 500" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="100%" height="100%" fill="#f8f9fa"/>
+                    
+                    <text x="350" y="30" text-anchor="middle" font-size="16" fill="#333" font-weight="bold">AI增强的时频分析架构</text>
+                    
+                    <rect x="50" y="60" width="250" height="180" fill="white" stroke="#667eea" stroke-width="2" rx="10"/>
+                    <text x="175" y="85" text-anchor="middle" font-size="14" fill="#333" font-weight="bold">时域信号</text>
+                    <path d="M 70 180 Q 100 120, 130 180 Q 160 100, 190 180 Q 220 130, 250 180" fill="none" stroke="#667eea" stroke-width="2"/>
+                    <text x="175" y="220" text-anchor="middle" font-size="11" fill="#666">原始波形</text>
+                    
+                    <rect x="400" y="60" width="250" height="180" fill="white" stroke="#e94560" stroke-width="2" rx="10"/>
+                    <text x="525" y="85" text-anchor="middle" font-size="14" fill="#333" font-weight="bold">AI处理频谱</text>
+                    <rect x="420" y="180" width="30" height="-80" fill="#e94560"/>
+                    <rect x="460" y="180" width="30" height="-120" fill="#667eea"/>
+                    <rect x="500" y="180" width="30" height="-60" fill="#28a745"/>
+                    <rect x="540" y="180" width="30" height="-100" fill="#764ba2"/>
+                    <rect x="580" y="180" width="30" height="-140" fill="#f39c12"/>
+                    <text x="525" y="220" text-anchor="middle" font-size="11" fill="#666">增强频谱</text>
+                    
+                    <line x1="320" y1="150" x2="390" y2="150" stroke="#e94560" stroke-width="2" stroke-dasharray="5,5"/>
+                    
+                    <rect x="150" y="280" width="400" height="180" fill="white" stroke="#0f3460" stroke-width="2" rx="10"/>
+                    <text x="350" y="305" text-anchor="middle" font-size="14" fill="#333" font-weight="bold">AI时频分析模型</text>
+                    
+                    <rect x="170" y="320" width="120" height="60" fill="#667eea" rx="5"/>
+                    <text x="230" y="345" text-anchor="middle" font-size="11" fill="white">特征提取</text>
+                    <text x="230" y="365" text-anchor="middle" font-size="9" fill="white">Mel谱/CQT</text>
+                    
+                    <rect x="310" y="320" width="120" height="60" fill="#e94560" rx="5"/>
+                    <text x="370" y="345" text-anchor="middle" font-size="11" fill="white">Transformer</text>
+                    <text x="370" y="365" text-anchor="middle" font-size="9" fill="white">时序建模</text>
+                    
+                    <rect x="450" y="320" width="120" height="60" fill="#28a745" rx="5"/>
+                    <text x="510" y="345" text-anchor="middle" font-size="11" fill="white">输出</text>
+                    <text x="510" y="365" text-anchor="middle" font-size="9" fill="white">分析结果</text>
+                    
+                    <line x1="230" y1="380" x2="370" y2="380" stroke="#666" stroke-width="1"/>
+                    <line x1="370" y1="380" x2="370" y2="320" stroke="#666" stroke-width="1"/>
+                    <line x1="370" y1="320" x2="450" y2="320" stroke="#666" stroke-width="1"/>
+                </svg>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🎚️ 声道与AI空间音频</h2>
+            
+            <div class="content-block">
+                <h4>声道类型 进化版</h4>
+                <ul>
+                    <li><strong>单声道 (Mono)</strong>：AI语音增强的基础</li>
+                    <li><strong>立体声 (Stereo)</strong>：AI上混成环绕声</li>
+                    <li><strong>空间音频</strong>：头部追踪、3D沉浸体验</li>
+                    <li><strong>对象音频</strong>：AI动态渲染场景音频</li>
+                </ul>
+            </div>
+
+            <div class="content-block">
+                <h4>AI增强音频格式</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>格式</th>
+                            <th>类型</th>
+                            <th>AI特性</th>
+                            <th>应用</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>WAV</td>
+                            <td>无损</td>
+                            <td>AI元数据嵌入</td>
+                            <td>专业音频</td>
+                        </tr>
+                        <tr>
+                            <td>FLAC</td>
+                            <td>无损压缩</td>
+                            <td>AI预测编码</td>
+                            <td>音乐存档</td>
+                        </tr>
+                        <tr>
+                            <td>Opus</td>
+                            <td>AI优化压缩</td>
+                            <td>神经网络编码</td>
+                            <td>实时通信</td>
+                        </tr>
+                        <tr>
+                            <td>EnCodec</td>
+                            <td>AI编解码器</td>
+                            <td>端到端学习</td>
+                            <td>流媒体</td>
+                        </tr>
+                        <tr>
+                            <td>Spatial Audio</td>
+                            <td>空间音频</td>
+                            <td>AI头部追踪</td>
+                            <td>VR/AR</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="info-box success">
+                <h4>年AI音频技术突破</h4>
+                <ul>
+                    <li>文本直接生成音乐（MusicGen、AudioCraft）</li>
+                    <li>零样本语音转换</li>
+                    <li>实时AI声音克隆</li>
+                    <li>AI驱动的空间音频渲染</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
+
+    <a href="#" class="back-to-top">↑ 返回顶部</a>
+</body>
+</html>
