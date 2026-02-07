@@ -23,7 +23,7 @@
 
     <div class="container">
         <section class="section">
-            <h2>🎵 在线音频传输概述</h2>
+            <h2>在线音频传输概述</h2>
             <p>现代音乐和音频网站采用多种协议来实现高效的在线音频传输。每种协议都有其特定的应用场景、优缺点和技术特点。</p>
             
             <div class="content-block">
@@ -39,7 +39,7 @@
         </section>
 
         <section class="section">
-            <h2>📡 HTTP渐进式下载</h2>
+            <h2>HTTP渐进式下载</h2>
             
             <div class="algorithm-card">
                 <h4>原理说明</h4>
@@ -55,52 +55,6 @@
                     <li>当缓存足够播放时开始解码播放</li>
                     <li>继续下载直到完成或用户停止</li>
                 </ol>
-            </div>
-
-            <div class="diagram">
-                <svg viewBox="0 0 700 350" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="100%" height="100%" fill="#f8f9fa"/>
-                    
-                    <text x="350" y="30" text-anchor="middle" font-size="16" fill="#333" font-weight="bold">HTTP渐进式下载流程</text>
-                    
-                    <rect x="50" y="60" width="150" height="80" fill="white" stroke="#667eea" stroke-width="2" rx="10"/>
-                    <text x="125" y="90" text-anchor="middle" font-size="12" fill="#333" font-weight="bold">客户端</text>
-                    <text x="125" y="115" text-anchor="middle" font-size="10" fill="#666">HTTP GET请求</text>
-                    
-                    <rect x="500" y="60" width="150" height="80" fill="white" stroke="#e94560" stroke-width="2" rx="10"/>
-                    <text x="575" y="90" text-anchor="middle" font-size="12" fill="#333" font-weight="bold">服务器</text>
-                    <text x="575" y="115" text-anchor="middle" font-size="10" fill="#666">返回音频流</text>
-                    
-                    <line x1="200" y1="100" x2="495" y2="100" stroke="#28a745" stroke-width="2"/>
-                    <line x1="495" y1="130" x2="200" y2="130" stroke="#28a745" stroke-width="2" stroke-dasharray="5,5"/>
-                    
-                    <text x="350" y="95" text-anchor="middle" font-size="10" fill="#28a745">HTTP请求</text>
-                    <text x="350" y="150" text-anchor="middle" font-size="10" fill="#28a745">音频数据流</text>
-                    
-                    <rect x="150" y="180" width="400" height="120" fill="white" stroke="#0f3460" stroke-width="2" rx="10"/>
-                    <text x="350" y="205" text-anchor="middle" font-size="12" fill="#333" font-weight="bold">客户端缓存与播放</text>
-                    
-                    <rect x="170" y="220" width="80" height="60" fill="#f8f9fa" stroke="#667eea"/>
-                    <text x="210" y="250" text-anchor="middle" font-size="9" fill="#333">已下载</text>
-                    <text x="210" y="265" text-anchor="middle" font-size="9" fill="#666">2MB</text>
-                    
-                    <rect x="260" y="220" width="80" height="60" fill="#667eea" rx="5"/>
-                    <text x="300" y="250" text-anchor="middle" font-size="9" fill="white">缓冲区</text>
-                    <text x="300" y="265" text-anchor="middle" font-size="9" fill="white">500KB</text>
-                    
-                    <rect x="350" y="220" width="80" height="60" fill="#28a745" rx="5"/>
-                    <text x="390" y="250" text-anchor="middle" font-size="9" fill="white">正在播放</text>
-                    <text x="390" y="265" text-anchor="middle" font-size="9" fill="white">♪ 0:30</text>
-                    
-                    <rect x="440" y="220" width="80" height="60" fill="#f8f9fa" stroke="#ccc"/>
-                    <text x="480" y="250" text-anchor="middle" font-size="9" fill="#999">待下载</text>
-                    <text x="480" y="265" text-anchor="middle" font-size="9" fill="#999">3MB</text>
-                    
-                    <line x1="210" y1="210" x2="210" y2="220" stroke="#667eea" stroke-width="2"/>
-                    <line x1="390" y1="210" x2="390" y2="220" stroke="#667eea" stroke-width="2"/>
-                    <line x1="210" y1="280" x2="480" y2="280" stroke="#667eea" stroke-width="2"/>
-                    <text x="350" y="295" text-anchor="middle" font-size="9" fill="#666">播放进度</text>
-                </svg>
             </div>
 
             <div class="info-box">
@@ -135,7 +89,7 @@
         </section>
 
         <section class="section">
-            <h2>📺 HLS - HTTP实时流媒体协议</h2>
+            <h2>HLS - HTTP实时流媒体协议</h2>
             
             <div class="algorithm-card">
                 <h4>协议概述</h4>
@@ -151,75 +105,23 @@
                 </ul>
             </div>
 
-            <div class="diagram">
-                <svg viewBox="0 0 750 400" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="100%" height="100%" fill="#f8f9fa"/>
-                    
-                    <text x="375" y="30" text-anchor="middle" font-size="16" fill="#333" font-weight="bold">HLS协议结构</text>
-                    
-                    <rect x="50" y="60" width="200" height="120" fill="white" stroke="#0f3460" stroke-width="2" rx="10"/>
-                    <text x="150" y="85" text-anchor="middle" font-size="12" fill="#333" font-weight="bold">Master Playlist</text>
-                    <text x="150" y="105" text-anchor="middle" font-size="10" fill="#666">master.m3u8</text>
-                    <rect x="70" y="120" width="160" height="50" fill="#f8f9fa" stroke="#667eea" rx="5"/>
-                    <text x="150" y="145" text-anchor="middle" font-size="9" fill="#333">#EXT-X-STREAM-INF:BANDWIDTH=1280000
-  low.m3u8</text>
-                    <text x="150" y="160" text-anchor="middle" font-size="9" fill="#333">#EXT-X-STREAM-INF:BANDWIDTH=2560000
-  high.m3u8</text>
-                    
-                    <rect x="280" y="60" width="200" height="120" fill="white" stroke="#e94560" stroke-width="2" rx="10"/>
-                    <text x="380" y="85" text-anchor="middle" font-size="12" fill="#333" font-weight="bold">low.m3u8 (480p)</text>
-                    <text x="380" y="105" text-anchor="middle" font-size="10" fill="#666">码率: 1280kbps</text>
-                    <rect x="300" y="120" width="160" height="50" fill="#f8f9fa" stroke="#e94560" rx="5"/>
-                    <text x="380" y="145" text-anchor="middle" font-size="9" fill="#333">#EXTINF:10.0,
-  segment0.ts</text>
-                    <text x="380" y="160" text-anchor="middle" font-size="9" fill="#333">#EXTINF:10.0,
-  segment1.ts</text>
-                    
-                    <rect x="510" y="60" width="200" height="120" fill="white" stroke="#28a745" stroke-width="2" rx="10"/>
-                    <text x="610" y="85" text-anchor="middle" font-size="12" fill="#333" font-weight="bold">high.m3u8 (1080p)</text>
-                    <text x="610" y="105" text-anchor="middle" font-size="10" fill="#666">码率: 2560kbps</text>
-                    <rect x="530" y="120" width="160" height="50" fill="#f8f9fa" stroke="#28a745" rx="5"/>
-                    <text x="610" y="145" text-anchor="middle" font-size="9" fill="#333">#EXTINF:10.0,
-  segment0.ts</text>
-                    <text x="610" y="160" text-anchor="middle" font-size="9" fill="#333">#EXTINF:10.0,
-  segment1.ts</text>
-                    
-                    <line x1="250" y1="120" x2="275" y2="120" stroke="#667eea" stroke-width="2"/>
-                    <text x="260" y="115" text-anchor="middle" font-size="8" fill="#667eea">请求</text>
-                    
-                    <rect x="50" y="220" width="650" height="160" fill="white" stroke="#0f3460" stroke-width="2" rx="10"/>
-                    <text x="375" y="245" text-anchor="middle" font-size="12" fill="#333" font-weight="bold">TS分片文件结构</text>
-                    
-                    <rect x="70" y="260" width="100" height="100" fill="#667eea" rx="5"/>
-                    <text x="120" y="285" text-anchor="middle" font-size="10" fill="white" font-weight="bold">PAT</text>
-                    <text x="120" y="305" text-anchor="middle" font-size="8" fill="white">Program</text>
-                    <text x="120" y="320" text-anchor="middle" font-size="8" fill="white">Association</text>
-                    <text x="120" y="335" text-anchor="middle" font-size="8" fill="white">Table</text>
-                    
-                    <rect x="190" y="260" width="100" height="100" fill="#e94560" rx="5"/>
-                    <text x="240" y="285" text-anchor="middle" font-size="10" fill="white" font-weight="bold">PMT</text>
-                    <text x="240" y="305" text-anchor="middle" font-size="8" fill="white">Program</text>
-                    <text x="240" y="320" text-anchor="middle" font-size="8" fill="white">Map</text>
-                    <text x="240" y="335" text-anchor="middle" font-size="8" fill="white">Table</text>
-                    
-                    <rect x="310" y="260" width="100" height="100" fill="#28a745" rx="5"/>
-                    <text x="360" y="285" text-anchor="middle" font-size="10" fill="white" font-weight="bold">AAC</text>
-                    <text x="360" y="305" text-anchor="middle" font-size="8" fill="white">Audio</text>
-                    <text x="360" y="320" text-anchor="middle" font-size="8" fill="white">Stream</text>
-                    <text x="360" y="335" text-anchor="middle" font-size="8" fill="white">Data</text>
-                    
-                    <rect x="430" y="260" width="100" height="100" fill="#764ba2" rx="5"/>
-                    <text x="480" y="285" text-anchor="middle" font-size="10" fill="white" font-weight="bold">H.264</text>
-                    <text x="480" y="305" text-anchor="middle" font-size="8" fill="white">Video</text>
-                    <text x="480" y="320" text-anchor="middle" font-size="8" fill="white">Stream</text>
-                    <text x="480" y="335" text-anchor="middle" font-size="8" fill="white">Data</text>
-                    
-                    <rect x="550" y="260" width="100" height="100" fill="#f39c12" rx="5"/>
-                    <text x="600" y="285" text-anchor="middle" font-size="10" fill="white" font-weight="bold">PCR</text>
-                    <text x="600" y="305" text-anchor="middle" font-size="8" fill="white">Program</text>
-                    <text x="600" y="320" text-anchor="middle" font-size="8" fill="white">Clock</text>
-                    <text x="600" y="335" text-anchor="middle" font-size="8" fill="white">Reference</text>
-                </svg>
+            <div class="content-block">
+                <h4>m3u8 Playlist示例</h4>
+                <div class="code-block">
+                    <pre>#EXTM3U
+#EXT-X-VERSION:3
+#EXT-X-TARGETDURATION:10
+#EXT-X-MEDIA-SEQUENCE:0
+
+#EXTINF:10.0,
+segment0.ts
+#EXTINF:10.0,
+segment1.ts
+#EXTINF:9.5,
+segment2.ts
+
+#EXT-X-ENDLIST</pre>
+                </div>
             </div>
 
             <div class="info-box">
@@ -251,29 +153,10 @@
                     </tbody>
                 </table>
             </div>
-
-            <div class="content-block">
-                <h4>m3u8 Playlist示例</h4>
-                <div class="code-block">
-                    <pre><span class="comment">#EXTM3U
-#EXT-X-VERSION:3
-#EXT-X-TARGETDURATION:10
-#EXT-X-MEDIA-SEQUENCE:0
-
-#EXTINF:10.0,
-segment0.ts
-#EXTINF:10.0,
-segment1.ts
-#EXTINF:9.5,
-segment2.ts
-
-#EXT-X-ENDLIST</pre>
-                </div>
-            </div>
         </section>
 
         <section class="section">
-            <h2>📊 DASH - 动态自适应流媒体</h2>
+            <h2>DASH - 动态自适应流媒体</h2>
             
             <div class="algorithm-card">
                 <h4>协议概述</h4>
@@ -307,122 +190,131 @@ segment2.ts
                             <td>FairPlay</td>
                         </tr>
                         <tr>
-                            <td>编码格式</td>
-                            <td>任何</td>
-                            <td>H.264/AAC推荐</td>
-                        </tr>
-                        <tr>
                             <td>浏览器支持</td>
                             <td>MSE原生支持</td>
                             <td>需特殊支持</td>
-                        </tr>
-                        <tr>
-                            <td>延迟</td>
-                            <td>10-30秒</td>
-                            <td>10-30秒</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
 
-            <div class="diagram">
-                <svg viewBox="0 0 750 380" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="100%" height="100%" fill="#f8f9fa"/>
-                    
-                    <text x="375" y="30" text-anchor="middle" font-size="16" fill="#333" font-weight="bold">DASH协议结构</text>
-                    
-                    <rect x="50" y="60" width="200" height="140" fill="white" stroke="#0f3460" stroke-width="2" rx="10"/>
-                    <text x="150" y="85" text-anchor="middle" font-size="12" fill="#333" font-weight="bold">MPD文件</text>
-                    <text x="150" y="105" text-anchor="middle" font-size="10" fill="#666">media presentation description</text>
-                    <rect x="70" y="120" width="160" height="70" fill="#f8f9fa" stroke="#667eea" rx="5"/>
-                    <text x="150" y="145" text-anchor="middle" font-size="9" fill="#333">&lt;?xml version="1.0"?&gt;
-&lt;MPD&gt;
-  &lt;Period&gt;
-    &lt;AdaptationSet&gt;
-      &lt;Representation&gt;
-        ...&lt;/text>
-                    
-                    <rect x="280" y="60" width="200" height="140" fill="white" stroke="#e94560" stroke-width="2" rx="10"/>
-                    <text x="380" y="85" text-anchor="middle" font-size="12" fill="#333" font-weight="bold">Period</text>
-                    <text x="380" y="105" text-anchor="middle" font-size="10" fill="#666">时间段定义</text>
-                    <rect x="300" y="120" width="160" height="70" fill="#f8f9fa" stroke="#e94560" rx="5"/>
-                    <text x="380" y="145" text-anchor="middle" font-size="9" fill="#333">&lt;Period duration="PT1H"&gt;
-  &lt;AdaptationSet&gt;
-    ...
-  &lt;/AdaptationSet&gt;
-&lt;/Period&gt;</text>
-                    
-                    <rect x="510" y="60" width="200" height="140" fill="white" stroke="#28a745" stroke-width="2" rx="10"/>
-                    <text x="610" y="85" text-anchor="middle" font-size="12" fill="#333" font-weight="bold">AdaptationSet</text>
-                    <text x="610" y="105" text-anchor="middle" font-size="10" fill="#666">自适应集（音/视频）</text>
-                    <rect x="530" y="120" width="160" height="70" fill="#f8f9fa" stroke="#28a745" rx="5"/>
-                    <text x="610" y="145" text-anchor="middle" font-size="9" fill="#333">&lt;AdaptationSet
-  contentType="audio"&gt;
-  &lt;Representation&gt;
-  &lt;/Representation&gt;
-&lt;/AdaptationSet&gt;</text>
-                    
-                    <rect x="50" y="240" width="660" height="120" fill="white" stroke="#0f3460" stroke-width="2" rx="10"/>
-                    <text x="380" y="265" text-anchor="middle" font-size="12" fill="#333" font-weight="bold">DASH完整结构</text>
-                    
-                    <rect x="80" y="280" width="80" height="60" fill="#667eea" rx="5"/>
-                    <text x="120" y="305" text-anchor="middle" font-size="9" fill="white" font-weight="bold">MPD</text>
-                    <text x="120" y="320" text-anchor="middle" font-size="8" fill="white">元数据</text>
-                    
-                    <rect x="180" y="280" width="80" height="60" fill="#e94560" rx="5"/>
-                    <text x="220" y="305" text-anchor="middle" font-size="9" fill="white" font-weight="bold">Period</text>
-                    <text x="220" y="320" text-anchor="middle" font-size="8" fill="white">时间段</text>
-                    
-                    <rect x="280" y="280" width="80" height="60" fill="#28a745" rx="5"/>
-                    <text x="320" y="305" text-anchor="middle" font-size="9" fill="white" font-weight="bold">Adapt</text>
-                    <text x="320" y="320" text-anchor="middle" font-size="8" fill="white">媒体集</text>
-                    
-                    <rect x="380" y="280" width="80" height="60" fill="#764ba2" rx="5"/>
-                    <text x="420" y="305" text-anchor="middle" font-size="9" fill="white" font-weight="bold">Rep</text>
-                    <text x="420" y="320" text-anchor="middle" font-size="8" fill="white">码率版本</text>
-                    
-                    <rect x="480" y="280" width="80" height="60" fill="#f39c12" rx="5"/>
-                    <text x="520" y="305" text-anchor="middle" font-size="9" fill="white" font-weight="bold">Segment</text>
-                    <text x="520" y="320" text-anchor="middle" font-size="8" fill="white">数据分片</text>
-                    
-                    <rect x="580" y="280" width="80" height="60" fill="#e74c3c" rx="5"/>
-                    <text x="620" y="305" text-anchor="middle" font-size="9" fill="white" font-weight="bold">Subseg</text>
-                    <text x="620" y="320" text-anchor="middle" font-size="8" fill="white">子分片</text>
-                </svg>
+            <div class="content-block">
+                <h4>MPD文件示例 - 点播</h4>
+                <div class="code-block">
+                    <pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;MPD xmlns="urn:mpeg:dash:schema:mpd:2011"
+     profiles="urn:mpeg:dash:profile:isoff-on-demand:2011"
+     type="static"
+     mediaPresentationDuration="PT4M30.000S"
+     minBufferTime="PT2.000S"&gt;
+    
+    &lt;Period id="main-content" start="PT0.000S"&gt;
+        
+        &lt;AdaptationSet id="audio-1" group="2"
+                       contentType="audio"
+                       lang="zh-CN"
+                       mimeType="audio/mp4"&gt;
+            
+            &lt;Representation id="audio-128kbps" bandwidth="128000" 
+                           audioSamplingRate="48000" numChannels="2"&gt;
+                &lt;BaseURL&gt;audio/&lt;/BaseURL&gt;
+                &lt;SegmentList duration="4000" timescale="1000"&gt;
+                    &lt;Initialization sourceURL="audio-init.mp4"/&gt;
+                    &lt;SegmentURL media="audio-seg1.m4s" duration="4000"/&gt;
+                    &lt;SegmentURL media="audio-seg2.m4s" duration="4000"/&gt;
+                &lt;/SegmentList&gt;
+            &lt;/Representation&gt;
+            
+            &lt;Representation id="audio-256kbps" bandwidth="256000" 
+                           audioSamplingRate="48000" numChannels="2"&gt;
+                &lt;BaseURL&gt;audio/&lt;/BaseURL&gt;
+                &lt;SegmentList duration="4000" timescale="1000"&gt;
+                    &lt;Initialization sourceURL="audio-hq-init.mp4"/&gt;
+                    &lt;SegmentURL media="audio-hq-seg1.m4s" duration="4000"/&gt;
+                &lt;/SegmentList&gt;
+            &lt;/Representation&gt;
+        &lt;/AdaptationSet&gt;
+    &lt;/Period&gt;
+&lt;/MPD&gt;</pre>
+                </div>
             </div>
 
             <div class="content-block">
-                <h4>MPD文件示例</h4>
+                <h4>MPD字段说明</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>字段</th>
+                            <th>说明</th>
+                            <th>示例值</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>profiles</td>
+                            <td>支持的DASH profile</td>
+                            <td>urn:mpeg:dash:profile:isoff-on-demand:2011</td>
+                        </tr>
+                        <tr>
+                            <td>type</td>
+                            <td>类型：static/live</td>
+                            <td>static</td>
+                        </tr>
+                        <tr>
+                            <td>mediaPresentationDuration</td>
+                            <td>总时长</td>
+                            <td>PT4M30.000S</td>
+                        </tr>
+                        <tr>
+                            <td>AdaptationSet</td>
+                            <td>自适应集</td>
+                            <td>contentType="audio"</td>
+                        </tr>
+                        <tr>
+                            <td>Representation</td>
+                            <td>码率版本</td>
+                            <td>bandwidth等属性</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="content-block">
+                <h4>直播场景MPD示例</h4>
                 <div class="code-block">
-                    <pre><span class="comment"><?xml version="1.0" encoding="UTF-8"?>
-<MPD xmlns="urn:mpeg:dash:schema:mpd:2011" 
-     type="static"
-     mediaPresentationDuration="PT1H0M0.000S"
-     minBufferTime="PT1.5S"
-     profiles="urn:mpeg:dash:profile:isoff-on-demand:2011">
-    
-    <Period duration="PT1H0M0.000S">
-        <AdaptationSet mimeType="audio/mp4" 
+                    <pre>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;MPD xmlns="urn:mpeg:dash:schema:mpd:2011"
+     profiles="urn:mpeg:dash:profile:isoff-live:2011"
+     type="live"
+     availabilityStartTime="2024-01-15T10:00:00.000Z"
+     minBufferTime="PT4.000S"
+     minUpdatePeriod="PT1.000S"&gt;
+
+    &lt;Period id="live-stream" start="PT0.000S"&gt;
+        &lt;AdaptationSet id="audio-live" group="2"
                        contentType="audio"
-                       lang="en">
-            <Representation id="audio_128kbps" 
-                            bandwidth="128000"
-                            audioSamplingRate="48000">
-                <BaseURL>audio/</BaseURL>
-                <SegmentList duration="10">
-                    <SegmentURL media="audio_128kbps_0.m4s"/>
-                    <SegmentURL media="audio_128kbps_1.m4s"/>
-                </SegmentList>
-            </Representation>
-        </AdaptationSet>
-    </Period>
-</MPD></pre>
+                       mimeType="audio/mp4"&gt;
+            
+            &lt;Representation id="live-audio" bandwidth="128000"
+                           audioSamplingRate="48000" numChannels="2"&gt;
+                &lt;BaseURL&gt;live/&lt;/BaseURL&gt;
+                &lt;SegmentTemplate media="audio-seg-$Time$.m4s"
+                                initialization="audio-init.mp4"
+                                timescale="48000"&gt;
+                    &lt;SegmentTimeline&gt;
+                        &lt;S t="0" d="96000" r="10"/&gt;
+                    &lt;/SegmentTimeline&gt;
+                &lt;/SegmentTemplate&gt;
+            &lt;/Representation&gt;
+        &lt;/AdaptationSet&gt;
+    &lt;/Period&gt;
+&lt;/MPD&gt;</pre>
                 </div>
             </div>
         </section>
 
         <section class="section">
-            <h2>🎙️ RTMP - 实时消息传输协议</h2>
+            <h2>RTMP - 实时消息传输协议</h2>
             
             <div class="algorithm-card">
                 <h4>协议概述</h4>
@@ -439,61 +331,15 @@ segment2.ts
                 </ul>
             </div>
 
-            <div class="diagram">
-                <svg viewBox="0 0 750 350" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="100%" height="100%" fill="#f8f9fa"/>
-                    
-                    <text x="375" y="30" text-anchor="middle" font-size="16" fill="#333" font-weight="bold">RTMP协议栈与传输流程</text>
-                    
-                    <rect x="50" y="60" width="150" height="100" fill="white" stroke="#667eea" stroke-width="2" rx="10"/>
-                    <text x="125" y="85" text-anchor="middle" font-size="11" fill="#333" font-weight="bold">推流端</text>
-                    <text x="125" y="105" font-size="9" fill="#666">OBS</text>
-                    <text x="125" y="120" font-size="9" fill="#666">FFmpeg</text>
-                    <text x="125" y="135" font-size="9" fill="#666">手机直播SDK</text>
-                    
-                    <line x1="200" y1="110" x2="295" y2="110" stroke="#e94560" stroke-width="3"/>
-                    
-                    <rect x="300" y="60" width="150" height="100" fill="white" stroke="#e94560" stroke-width="2" rx="10"/>
-                    <text x="375" y="85" text-anchor="middle" font-size="11" fill="#333" font-weight="bold">RTMP服务器</text>
-                    <text x="375" y="105" font-size="9" fill="#666">NGINX-RTMP</text>
-                    <text x="375" y="120" font-size="9" fill="#666">SRS</text>
-                    <text x="375" y="135" font-size="9" fill="#666">FMS</text>
-                    
-                    <line x1="450" y1="110" x2="545" y2="110" stroke="#28a745" stroke-width="3"/>
-                    
-                    <rect x="550" y="60" width="150" height="100" fill="white" stroke="#28a745" stroke-width="2" rx="10"/>
-                    <text x="625" y="85" text-anchor="middle" font-size="11" fill="#333" font-weight="bold">播放端</text>
-                    <text x="625" y="105" font-size="9" fill="#666">Flash Player</text>
-                    <text x="625" y="120" font-size="9" fill="#666">解编码器</text>
-                    <text x="625" y="135" font-size="9" fill="#666">播放器</text>
-                    
-                    <rect x="50" y="200" width="650" height="130" fill="white" stroke="#0f3460" stroke-width="2" rx="10"/>
-                    <text x="375" y="225" text-anchor="middle" font-size="12" fill="#333" font-weight="bold">RTMP消息结构</text>
-                    
-                    <rect x="80" y="240" width="80" height="70" fill="#667eea" rx="5"/>
-                    <text x="120" y="265" text-anchor="middle" font-size="9" fill="white">Header</text>
-                    <text x="120" y="285" text-anchor="middle" font-size="8" fill="white">4-12 bytes</text>
-                    
-                    <rect x="180" y="240" width="80" height="70" fill="#e94560" rx="5"/>
-                    <text x="220" y="265" text-anchor="middle" font-size="9" fill="white">Chunk Size</text>
-                    <text x="220" y="285" text-anchor="middle" font-size="8" fill="white">4 bytes</text>
-                    
-                    <rect x="280" y="240" width="80" height="70" fill="#28a745" rx="5"/>
-                    <text x="320" y="265" text-anchor="middle" font-size="9" fill="white">Timestamp</text>
-                    <text x="320" y="285" text-anchor="middle" font-size="8" fill="white">4 bytes</text>
-                    
-                    <rect x="380" y="240" width="80" height="70" fill="#764ba2" rx="5"/>
-                    <text x="420" y="265" text-anchor="middle" font-size="9" fill="white">Message</text>
-                    <text x="420" y="285" text-anchor="middle" font-size="8" fill="white">Type ID</text>
-                    
-                    <rect x="480" y="240" width="80" height="70" fill="#f39c12" rx="5"/>
-                    <text x="520" y="265" text-anchor="middle" font-size="9" fill="white">Message</text>
-                    <text x="520" y="285" text-anchor="middle" font-size="8" fill="white">Length</text>
-                    
-                    <rect x="580" y="240" width="100" height="70" fill="#e74c3c" rx="5"/>
-                    <text x="630" y="265" text-anchor="middle" font-size="9" fill="white">Message Body</text>
-                    <text x="630" y="285" text-anchor="middle" font-size="8" fill="white">变长</text>
-                </svg>
+            <div class="content-block">
+                <h4>RTMP URL格式</h4>
+                <div class="code-block">
+                    <pre>rtmp://[server]:[port]/[app]/[stream_name]
+
+示例：
+rtmp://live.example.com:1935/live/stream_key
+rtmps://live.example.com:443/live/stream_key</pre>
+                </div>
             </div>
 
             <div class="info-box warning">
@@ -502,25 +348,12 @@ segment2.ts
                     <li>Adobe已停止Flash支持，RTMP逐渐被淘汰</li>
                     <li>现在主要用于推流端（OBS→服务器）</li>
                     <li>播放端通常需要转码为HLS/DASH</li>
-                    <li>部分老旧系统仍在使用</li>
                 </ul>
-            </div>
-
-            <div class="content-block">
-                <h4>RTMP URL格式</h4>
-                <div class="code-block">
-                    <pre>rtmp://[server]:[port]/[app]/[stream_name]
-
-示例：
-rtmp://live.example.com:1935/live/stream_key
-rtmps://live.example.com:443/live/stream_key
-rtmp://192.168.1.100:1935/app/stream</pre>
-                </div>
             </div>
         </section>
 
         <section class="section">
-            <h2>💬 WebRTC - 网页实时通信</h2>
+            <h2>WebRTC - 网页实时通信</h2>
             
             <div class="algorithm-card">
                 <h4>协议概述</h4>
@@ -534,60 +367,6 @@ rtmp://192.168.1.100:1935/app/stream</pre>
                     <li><strong>RTCPeerConnection</strong>：建立P2P连接</li>
                     <li><strong>RTCDataChannel</strong>：传输任意数据</li>
                 </ul>
-            </div>
-
-            <div class="diagram">
-                <svg viewBox="0 0 750 400" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="100%" height="100%" fill="#f8f9fa"/>
-                    
-                    <text x="375" y="30" text-anchor="middle" font-size="16" fill="#333" font-weight="bold">WebRTC连接建立流程</text>
-                    
-                    <rect x="50" y="60" width="150" height="80" fill="white" stroke="#667eea" stroke-width="2" rx="10"/>
-                    <text x="125" y="85" text-anchor="middle" font-size="11" fill="#333" font-weight="bold">呼叫方 (A)</text>
-                    <text x="125" y="110" font-size="9" fill="#666">创建Offer</text>
-                    <text x="125" y="125" font-size="9" fill="#666">创建本地SDP</text>
-                    
-                    <line x1="200" y1="100" x2="295" y2="100" stroke="#667eea" stroke-width="2"/>
-                    
-                    <rect x="300" y="60" width="150" height="80" fill="white" stroke="#28a745" stroke-width="2" rx="10"/>
-                    <text x="375" y="85" text-anchor="middle" font-size="11" fill="#333" font-weight="bold">信令服务器</text>
-                    <text x="375" y="110" font-size="9" fill="#666">WebSocket</text>
-                    <text x="375" y="125" font-size="9" fill="#666">转发信令</text>
-                    
-                    <line x1="450" y1="100" x2="545" y2="100" stroke="#e94560" stroke-width="2"/>
-                    
-                    <rect x="550" y="60" width="150" height="80" fill="white" stroke="#e94560" stroke-width="2" rx="10"/>
-                    <text x="625" y="85" text-anchor="middle" font-size="11" fill="#333" font-weight="bold">被叫方 (B)</text>
-                    <text x="625" y="110" font-size="9" fill="#666">接收Offer</text>
-                    <text x="625" y="125" font-size="9" fill="#666">创建Answer</text>
-                    
-                    <rect x="50" y="180" width="650" height="200" fill="white" stroke="#0f3460" stroke-width="2" rx="10"/>
-                    <text x="375" y="205" text-anchor="middle" font-size="12" fill="#333" font-weight="bold">ICE信令流程 (STUN/TURN)</text>
-                    
-                    <rect x="80" y="220" width="140" height="60" fill="#667eea" rx="5"/>
-                    <text x="150" y="245" text-anchor="middle" font-size="10" fill="white">A: 创建ICE候选</text>
-                    <text x="150" y="265" font-size="9" fill="white">Host/ServerReflexive</text>
-                    
-                    <line x1="220" y1="250" x2="275" y2="250" stroke="#667eea" stroke-width="2"/>
-                    
-                    <rect x="305" y="220" width="140" height="60" fill="#28a745" rx="5"/>
-                    <text x="375" y="245" text-anchor="middle" font-size="10" fill="white">STUN服务器</text>
-                    <text x="375" y="265" font-size="9" fill="white">NAT穿透测试</text>
-                    
-                    <line x1="445" y1="250" x2="500" y2="250" stroke="#e94560" stroke-width="2"/>
-                    
-                    <rect x="530" y="220" width="140" height="60" fill="#e94560" rx="5"/>
-                    <text x="600" y="245" text-anchor="middle" font-size="10" fill="white">B: 创建ICE候选</text>
-                    <text x="600" y="265" font-size="9" fill="white">Host/Relayed</text>
-                    
-                    <rect x="100" y="310" width="250" height="50" fill="#764ba2" rx="5"/>
-                    <text x="225" y="335" text-anchor="middle" font-size="10" fill="white">交换Candidate</text>
-                    <text x="225" y="350" font-size="9" fill="white">通过信令服务器</text>
-                    
-                    <rect x="400" y="310" width="250" height="50" fill="#f39c12" rx="5"/>
-                    <text x="525" y="335" text-anchor="middle" font-size="10" fill="white">P2P连接建立</text>
-                    <text x="525" y="350" font-size="9" fill="white">DTLS/SRTP加密传输</text>
-                </svg>
             </div>
 
             <div class="content-block">
@@ -622,71 +401,25 @@ rtmp://192.168.1.100:1935/app/stream</pre>
                     <li>语音通话：Discord、Web WhatsApp</li>
                     <li>直播互动：弹幕语音、连麦</li>
                     <li>在线教育：实时授课、问答</li>
-                    <li>云游戏：低延迟流媒体</li>
                 </ul>
             </div>
         </section>
 
         <section class="section">
-            <h2>🔐 Smooth Streaming - 平滑流媒体</h2>
+            <h2>Smooth Streaming - 微软平滑流媒体</h2>
             
             <div class="algorithm-card">
                 <h4>协议概述</h4>
-                <p>Smooth Streaming是微软开发的自适应流媒体协议，基于IIS Media Services，广泛用于Microsoft平台和部分视频点播服务。</p>
+                <p>Smooth Streaming是微软开发的自适应流媒体协议，基于IIS Media Services，主要在Microsoft平台使用。</p>
             </div>
 
             <div class="content-block">
                 <h4>Smooth Streaming特点</h4>
                 <ul>
-                    <li><strong>片段格式</strong>：使用.mp4分片（不是.ts）</li>
+                    <li><strong>片段格式</strong>：使用.mp4分片</li>
                     <li><strong>索引文件</strong>：.ismc (Manifest)</li>
                     <li><strong>Fragment</strong>：moof+mdat原子</li>
-                    <li><strong>时间戳</strong>：基于2001年1月1日</li>
                 </ul>
-            </div>
-
-            <div class="diagram">
-                <svg viewBox="0 0 750 300" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="100%" height="100%" fill="#f8f9fa"/>
-                    
-                    <text x="375" y="30" text-anchor="middle" font-size="16" fill="#333" font-weight="bold">Smooth Streaming结构</text>
-                    
-                    <rect x="50" y="60" width="200" height="120" fill="white" stroke="#0f3460" stroke-width="2" rx="10"/>
-                    <text x="150" y="85" text-anchor="middle" font-size="12" fill="#333" font-weight="bold">Manifest文件</text>
-                    <text x="150" y="105" text-anchor="middle" font-size="10" fill="#666">video.ismc</text>
-                    <rect x="70" y="120" width="160" height="50" fill="#f8f9fa" stroke="#667eea" rx="5"/>
-                    <text x="150" y="145" text-anchor="middle" font-size="9" fill="#333">&lt;SmoothStreamingMedia&gt;
-  &lt;StreamIndex&gt;
-  ...&lt;/text>
-                    
-                    <line x1="250" y1="120" x2="295" y2="120" stroke="#667eea" stroke-width="2"/>
-                    
-                    <rect x="300" y="60" width="200" height="120" fill="white" stroke="#e94560" stroke-width="2" rx="10"/>
-                    <text x="400" y="85" text-anchor="middle" font-size="12" fill="#333" font-weight="bold">MP4分片</text>
-                    <text x="400" y="105" text-anchor="middle" font-size="10" fill="#666">video_1000kbps.mp4</text>
-                    <rect x="320" y="120" width="160" height="50" fill="#f8f9fa" stroke="#e94560" rx="5"/>
-                    <text x="400" y="145" text-anchor="middle" font-size="9" fill="#333">Fragment
-  moof + mdat</text>
-                    
-                    <line x1="500" y1="120" x2="545" y2="120" stroke="#28a745" stroke-width="2"/>
-                    
-                    <rect x="550" y="60" width="150" height="120" fill="white" stroke="#28a745" stroke-width="2" rx="10"/>
-                    <text x="625" y="85" text-anchor="middle" font-size="12" fill="#333" font-weight="bold">播放器</text>
-                    <text x="625" y="105" text-anchor="middle" font-size="10" fill="#666">Silverlight</text>
-                    <text x="625" y="120" text-anchor="middle" font-size="10" fill="#666">MSE兼容播放器</text>
-                    
-                    <rect x="50" y="210" width="650" height="80" fill="white" stroke="#0f3460" stroke-width="2" rx="10"/>
-                    <text x="375" y="235" text-anchor="middle" font-size="11" fill="#333" font-weight="bold">Smooth Streaming vs HLS vs DASH</text>
-                    
-                    <rect x="70" y="250" width="200" height="30" fill="#667eea" rx="3"/>
-                    <text x="170" y="270" text-anchor="middle" font-size="9" fill="white">Smooth: .mp4分片 + .ismc</text>
-                    
-                    <rect x="280" y="250" width="200" height="30" fill="#e94560" rx="3"/>
-                    <text x="380" y="270" text-anchor="middle" font-size="9" fill="white">HLS: .ts分片 + .m3u8</text>
-                    
-                    <rect x="490" y="250" width="200" height="30" fill="#28a745" rx="3"/>
-                    <text x="590" y="270" text-anchor="middle" font-size="9" fill="white">DASH: .mp4分片 + .mpd</text>
-                </svg>
             </div>
 
             <div class="info-box warning">
@@ -700,7 +433,7 @@ rtmp://192.168.1.100:1935/app/stream</pre>
         </section>
 
         <section class="section">
-            <h2>📋 协议对比总结</h2>
+            <h2>协议对比总结</h2>
             
             <table>
                 <thead>
@@ -744,16 +477,9 @@ rtmp://192.168.1.100:1935/app/stream</pre>
                     <tr>
                         <td><strong>WebRTC</strong></td>
                         <td>实时通信</td>
-                        <td>< 500ms</td>
+                        <td>&lt; 500ms</td>
                         <td>视频通话、互动直播</td>
                         <td>原生支持</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Smooth Streaming</strong></td>
-                        <td>点播</td>
-                        <td>10-15秒</td>
-                        <td>微软生态</td>
-                        <td>MSE</td>
                     </tr>
                 </tbody>
             </table>
@@ -771,79 +497,8 @@ rtmp://192.168.1.100:1935/app/stream</pre>
         </section>
 
         <section class="section">
-            <h2>🔄 实际架构示例</h2>
+            <h2>实际架构示例</h2>
             
-            <div class="diagram">
-                <svg viewBox="0 0 750 450" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="100%" height="100%" fill="#f8f9fa"/>
-                    
-                    <text x="375" y="25" text-anchor="middle" font-size="16" fill="#333" font-weight="bold">现代音乐流媒体平台架构</text>
-                    
-                    <rect x="50" y="50" width="150" height="60" fill="white" stroke="#667eea" stroke-width="2" rx="5"/>
-                    <text x="125" y="75" text-anchor="middle" font-size="10" fill="#333">用户端</text>
-                    <text x="125" y="95" font-size="9" fill="#666">Web/App/小程序</text>
-                    
-                    <rect x="230" y="50" width="150" height="60" fill="white" stroke="#e94560" stroke-width="2" rx="5"/>
-                    <text x="305" y="75" text-anchor="middle" font-size="10" fill="#333">CDN</text>
-                    <text x="305" y="95" font-size="9" fill="#666">全球节点分发</text>
-                    
-                    <rect x="410" y="50" width="150" height="60" fill="white" stroke="#28a745" stroke-width="2" rx="5"/>
-                    <text x="485" y="75" text-anchor="middle" font-size="10" fill="#333">源站</text>
-                    <text x="485" y="95" font-size="9" fill="#666">存储+转码</text>
-                    
-                    <rect x="590" y="50" width="120" height="60" fill="white" stroke="#764ba2" stroke-width="2" rx="5"/>
-                    <text x="650" y="75" text-anchor="middle" font-size="10" fill="#333">版权</text>
-                    <text x="650" y="95" font-size="9" fill="#666">DRM加密</text>
-                    
-                    <line x1="125" y1="110" x2="125" y2="140" stroke="#667eea" stroke-width="1"/>
-                    <line x1="305" y1="110" x2="305" y2="140" stroke="#667eea" stroke-width="1"/>
-                    <line x1="485" y1="110" x2="485" y2="140" stroke="#667eea" stroke-width="1"/>
-                    <line x1="650" y1="110" x2="650" y2="140" stroke="#667eea" stroke-width="1"/>
-                    
-                    <rect x="50" y="140" width="660" height="280" fill="white" stroke="#0f3460" stroke-width="2" rx="10"/>
-                    <text x="380" y="165" text-anchor="middle" font-size="12" fill="#333" font-weight="bold">音频处理流水线</text>
-                    
-                    <rect x="80" y="180" width="180" height="100" fill="#f8f9fa" stroke="#667eea" stroke-width="2" rx="8"/>
-                    <text x="170" y="205" text-anchor="middle" font-size="11" fill="#333" font-weight="bold">音频源文件</text>
-                    <text x="170" y="230" font-size="9" fill="#666">WAV/FLAC无损</text>
-                    <text x="170" y="250" font-size="9" fill="#666">320kbps MP3</text>
-                    <text x="170" y="270" font-size="9" fill="#666">128kbps AAC</text>
-                    
-                    <rect x="285" y="180" width="180" height="100" fill="#f8f9fa" stroke="#e94560" stroke-width="2" rx="8"/>
-                    <text x="375" y="205" text-anchor="middle" font-size="11" fill="#333" font-weight="bold">转码服务</text>
-                    <text x="375" y="230" font-size="9" fill="#666">FFmpeg集群</text>
-                    <text x="375" y="250" font-size="9" fill="#666">多码率输出</text>
-                    <text x="375" y="270" font-size="9" fill="#666">分片处理</text>
-                    
-                    <line x1="260" y1="230" x2="280" y2="230" stroke="#667eea" stroke-width="2"/>
-                    <text x="270" y="220" font-size="8" fill="#667eea">原始</text>
-                    
-                    <rect x="490" y="180" width="180" height="100" fill="#f8f9fa" stroke="#28a745" stroke-width="2" rx="8"/>
-                    <text x="580" y="205" text-anchor="middle" font-size="11" fill="#333" font-weight="bold">协议封装</text>
-                    <text x="580" y="230" font-size="9" fill="#666">HLS分片</text>
-                    <text x="580" y="250" font-size="9" fill="#666">DASH分片</text>
-                    <text x="580" y="270" font-size="9" fill="#666">m3u8/mpd</text>
-                    
-                    <line x1="465" y1="230" x2="485" y2="230" stroke="#667eea" stroke-width="2"/>
-                    <text x="475" y="220" font-size="8" fill="#667eea">转码</text>
-                    
-                    <rect x="100" y="310" width="250" height="90" fill="#f8f9fa" stroke="#764ba2" stroke-width="2" rx="8"/>
-                    <text x="225" y="335" text-anchor="middle" font-size="11" fill="#333" font-weight="bold">分发网络</text>
-                    <text x="225" y="360" font-size="9" fill="#666">边缘节点缓存</text>
-                    <text x="225" y="380" font-size="9" fill="#666">CDN负载均衡</text>
-                    <text x="225" y="395" font-size="9" fill="#666">HTTPS传输</text>
-                    
-                    <rect x="400" y="310" width="250" height="90" fill="#f8f9fa" stroke="#f39c12" stroke-width="2" rx="8"/>
-                    <text x="525" y="335" text-anchor="middle" font-size="11" fill="#333" font-weight="bold">播放器解码</text>
-                    <text x="525" y="360" font-size="9" fill="#666">HLS.js/Dash.js</text>
-                    <text x="525" y="380" font-size="9" fill="#666">码率自适应</text>
-                    <text x="525" y="395" font-size="9" fill="#666">本地缓存</text>
-                    
-                    <line x1="350" y1="355" x2="395" y2="355" stroke="#667eea" stroke-width="2"/>
-                    <text x="372" y="350" font-size="8" fill="#667eea">HTTP</text>
-                </svg>
-            </div>
-
             <div class="content-block">
                 <h4>关键技术组件</h4>
                 <ul>
@@ -858,6 +513,6 @@ rtmp://192.168.1.100:1935/app/stream</pre>
         </section>
     </div>
 
-    <a href="#" class="back-to-top">↑ 返回顶部</a>
+    <a href="#" class="back-to-top">返回顶部</a>
 </body>
 </html>
