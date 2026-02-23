@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>音频术语通俗解释 - 计算机音频处理学习指南</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="index.html">音频基础</a></li>
+                <li><a href="algorithms.html">常用算法</a></li>
+                <li><a href="ai-audio.html">AI 音频处理</a></li>
+                <li><a href="streaming-protocols.html">在线音频协议</a></li>
+                <li><a href="python-examples.html">Python 示例</a></li>
+                <li><a href="golang-examples.html">Golang 示例</a></li>
+                <li><a href="ffmpeg-audio.html">FFmpeg 处理</a></li>
+                <li><a href="audio-terms.html" style="background: #e94560;">音频术语</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section class="section">
+            <h2>📖 音频术语通俗解释</h2>
+            <p>音频领域有很多专业术语，听起来很高深，但其实概念都很简单。这里用最通俗的语言解释这些术语，让你秒懂！</p>
+
+            <div class="info-box">
+                <h4>💡 阅读指南</h4>
+                <ul>
+                    <li>每个术语都有<strong>"官方定义"</strong>和<strong>"人话解释"</strong></li>
+                    <li>配有生活中的类比，帮助理解</li>
+                    <li>按照从基础到进阶的顺序排列</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🌊 基础概念篇</h2>
+
+            <div class="algorithm-card">
+                <h4>1. 采样率 (Sampling Rate)</h4>
+                <p><strong>官方定义：</strong>每秒钟对模拟信号进行采样的次数，单位 Hz。</p>
+                <div class="content-block" style="background: linear-gradient(135deg, #e8f5e9, #c8e6c9); border-left-color: #28a745;">
+                    <h4>🗣️ 人话解释</h4>
+                    <p>采样率就是<strong>每秒钟拍多少张照片</strong>来记录声音。</p>
+                    <p>想象你要记录一个球的运动轨迹：</p>
+                    <ul>
+                        <li><strong>8kHz</strong> = 每秒拍 8000 张 → 电话音质，能听清说话</li>
+                        <li><strong>44.1kHz</strong> = 每秒拍 44100 张 → CD 音质，很清晰</li>
+                        <li><strong>96kHz</strong> = 每秒拍 96000 张 → 专业录音，细节丰富</li>
+                    </ul>
+                    <p><strong>类比：</strong>就像拍视频，帧率越高，画面越流畅；采样率越高，声音越细腻。</p>
+                </div>
+                <div class="diagram">
+                    <svg viewBox="0 0 500 200" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="100%" height="100%" fill="#f8f9fa"/>
+                        <text x="250" y="25" text-anchor="middle" font-size="12" fill="#333" font-weight="bold">采样率对比（1 秒内）</text>
+                        
+                        <text x="60" y="45" font-size="10" fill="#666">低采样 (8kHz)</text>
+                        <path d="M 20 60 L 100 60" stroke="#667eea" stroke-width="2"/>
+                        <circle cx="20" cy="60" r="3" fill="#667eea"/>
+                        <circle cx="35" cy="60" r="3" fill="#667eea"/>
+                        <circle cx="50" cy="60" r="3" fill="#667eea"/>
+                        <circle cx="65" cy="60" r="3" fill="#667eea"/>
+                        <circle cx="80" cy="60" r="3" fill="#667eea"/>
+                        <circle cx="95" cy="60" r="3" fill="#667eea"/>
+                        <text x="110" y="64" font-size="9" fill="#666">细节丢失</text>
+                        
+                        <text x="60" y="85" font-size="10" fill="#666">CD 音质 (44.1kHz)</text>
+                        <path d="M 20 100 L 200 100" stroke="#28a745" stroke-width="2"/>
+                        <circle cx="20" cy="100" r="2" fill="#28a745"/>
+                        <circle cx="25" cy="100" r="2" fill="#28a745"/>
+                        <circle cx="30" cy="100" r="2" fill="#28a745"/>
+                        <circle cx="35" cy="100" r="2" fill="#28a745"/>
+                        <circle cx="40" cy="100" r="2" fill="#28a745"/>
+                        <circle cx="45" cy="100" r="2" fill="#28a745"/>
+                        <circle cx="50" cy="100" r="2" fill="#28a745"/>
+                        <circle cx="55" cy="100" r="2" fill="#28a745"/>
+                        <circle cx="60" cy="100" r="2" fill="#28a745"/>
+                        <circle cx="65" cy="100" r="2" fill="#28a745"/>
+                        <text x="210" y="104" font-size="9" fill="#666">细节丰富</text>
+                        
+                        <text x="60" y="125" font-size="10" fill="#666">高采样 (96kHz)</text>
+                        <path d="M 20 140 L 380 140" stroke="#e94560" stroke-width="2"/>
+                        <circle cx="20" cy="140" r="1.5" fill="#e94560"/>
+                        <circle cx="23" cy="140" r="1.5" fill="#e94560"/>
+                        <circle cx="26" cy="140" r="1.5" fill="#e94560"/>
+                        <circle cx="29" cy="140" r="1.5" fill="#e94560"/>
+                        <circle cx="32" cy="140" r="1.5" fill="#e94560"/>
+                        <circle cx="35" cy="140" r="1.5" fill="#e94560"/>
+                        <circle cx="38" cy="140" r="1.5" fill="#e94560"/>
+                        <circle cx="41" cy="140" r="1.5" fill="#e94560"/>
+                        <text x="390" y="144" font-size="9" fill="#666">超精细</text>
+                        
+                        <text x="250" y="175" text-anchor="middle" font-size="10" fill="#e94560" font-weight="bold">→ 采样率越高，点越密集，声音越真实</text>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="algorithm-card">
+                <h4>2. 位深度/比特深度 (Bit Depth)</h4>
+                <p><strong>官方定义：</strong>每个采样点用多少比特来表示振幅精度。</p>
+                <div class="content-block" style="background: linear-gradient(135deg, #e8f5e9, #c8e6c9); border-left-color: #28a745;">
+                    <h4>🗣️ 人话解释</h4>
+                    <p>位深度就是<strong>拍照时的色彩精度</strong>，或者说<strong>尺子的刻度精细度</strong>。</p>
+                    <p>想象你要测量一个物体的长度：</p>
+                    <ul>
+                        <li><strong>8-bit</strong> = 尺子只有 256 个刻度 → 粗糙，有量化噪音</li>
+                        <li><strong>16-bit</strong> = 尺子有 65536 个刻度 → CD 音质，很精确</li>
+                        <li><strong>24-bit</strong> = 尺子有 1677 万个刻度 → 专业录音，超精细</li>
+                    </ul>
+                    <p><strong>类比：</strong>就像图片的色深，8bit 图片有色彩断层，24bit 图片色彩过渡平滑。</p>
+                </div>
+                <div class="math-formula">
+                    <strong>简单记：</strong>位深度决定动态范围（最大声和最小声的差距）<br>
+                    16-bit ≈ 96dB 动态范围 | 24-bit ≈ 144dB 动态范围
+                </div>
+            </div>
+
+            <div class="algorithm-card">
+                <h4>3. 比特率 (Bitrate)</h4>
+                <p><strong>官方定义：</strong>每秒钟传输的音频数据量，单位 kbps。</p>
+                <div class="content-block" style="background: linear-gradient(135deg, #e8f5e9, #c8e6c9); border-left-color: #28a745;">
+                    <h4>🗣️ 人话解释</h4>
+                    <p>比特率就是<strong>每秒钟流过多少数据</strong>，相当于<strong>水管的粗细</strong>。</p>
+                    <ul>
+                        <li><strong>64 kbps</strong> = 细水管 → 播客、有声书够用</li>
+                        <li><strong>128 kbps</strong> = 中等水管 → 普通音乐，手机听不错</li>
+                        <li><strong>320 kbps</strong> = 粗水管 → 高质量音乐，细节丰富</li>
+                        <li><strong>1411 kbps</strong> = 超大水管 → CD 无损音质</li>
+                    </ul>
+                    <p><strong>类比：</strong>就像视频画质，比特率越高，音质越好，但文件也越大。</p>
+                </div>
+            </div>
+
+            <div class="algorithm-card">
+                <h4>4. 声道 (Channel)</h4>
+                <p><strong>官方定义：</strong>独立的音频信号通路数量。</p>
+                <div class="content-block" style="background: linear-gradient(135deg, #e8f5e9, #c8e6c9); border-left-color: #28a745;">
+                    <h4>🗣️ 人话解释</h4>
+                    <p>声道就是<strong>有几个喇叭在播放不同的声音</strong>。</p>
+                    <ul>
+                        <li><strong>单声道 (Mono)</strong> = 1 个喇叭 → 电话、老式收音机</li>
+                        <li><strong>立体声 (Stereo)</strong> = 2 个喇叭（左 + 右）→ 耳机、普通音箱</li>
+                        <li><strong>5.1 环绕声</strong> = 6 个喇叭（前左 + 前右 + 中置 + 后左 + 后右 + 低音炮）→ 家庭影院</li>
+                        <li><strong>7.1 环绕声</strong> = 8 个喇叭 → 高端家庭影院</li>
+                    </ul>
+                    <p><strong>类比：</strong>单声道就像一个人说话，立体声像两个人从两边说话，环绕声像一群人围着你说话。</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🎵 音质相关篇</h2>
+
+            <div class="algorithm-card">
+                <h4>5. 有损 vs 无损 (Lossy vs Lossless)</h4>
+                <p><strong>官方定义：</strong>有损压缩会丢弃部分音频数据，无损压缩保留全部数据。</p>
+                <div class="content-block" style="background: linear-gradient(135deg, #e8f5e9, #c8e6c9); border-left-color: #28a745;">
+                    <h4>🗣️ 人话解释</h4>
+                    <p>有损/无损就是<strong>压缩文件时舍不舍得扔掉内容</strong>。</p>
+                    <ul>
+                        <li><strong>有损压缩</strong> = 为了文件小，扔掉一些"不太重要"的声音
+                            <ul>
+                                <li>格式：MP3、AAC、OGG</li>
+                                <li>类比：把照片压缩成 JPG，细节会模糊</li>
+                                <li>优点：文件小，一首歌 3-5MB</li>
+                                <li>缺点：音质有损失，不能恢复</li>
+                            </ul>
+                        </li>
+                        <li><strong>无损压缩</strong> = 压缩但不丢内容，解压后和原来一模一样
+                            <ul>
+                                <li>格式：FLAC、ALAC、WAV</li>
+                                <li>类比：ZIP 压缩包，解压后完全一样</li>
+                                <li>优点：音质完美，可反复压缩解压</li>
+                                <li>缺点：文件大，一首歌 20-50MB</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <div class="diagram">
+                    <svg viewBox="0 0 500 250" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="100%" height="100%" fill="#f8f9fa"/>
+                        <text x="250" y="25" text-anchor="middle" font-size="13" fill="#333" font-weight="bold">有损 vs 无损压缩对比</text>
+                        
+                        <!-- 原始音频 -->
+                        <rect x="30" y="40" width="100" height="60" fill="#667eea" rx="5"/>
+                        <text x="80" y="65" text-anchor="middle" font-size="11" fill="white" font-weight="bold">原始音频</text>
+                        <text x="80" y="85" text-anchor="middle" font-size="9" fill="white">100% 完整</text>
+                        
+                        <!-- 有损压缩 -->
+                        <line x1="130" y1="70" x2="170" y2="70" stroke="#e94560" stroke-width="2" stroke-dasharray="5,5"/>
+                        <text x="150" y="65" text-anchor="middle" font-size="9" fill="#e94560">压缩</text>
+                        
+                        <rect x="170" y="40" width="100" height="60" fill="#ffebee" stroke="#e94560" stroke-width="2" rx="5"/>
+                        <text x="220" y="60" text-anchor="middle" font-size="10" fill="#e94560" font-weight="bold">有损压缩 (MP3)</text>
+                        <text x="220" y="80" text-anchor="middle" font-size="9" fill="#666">≈ 80% 内容</text>
+                        <text x="220" y="95" text-anchor="middle" font-size="9" fill="#666">文件小 3MB</text>
+                        <circle cx="190" cy="50" r="3" fill="#e94560" opacity="0.5"/>
+                        <circle cx="200" cy="55" r="3" fill="#e94560" opacity="0.5"/>
+                        <circle cx="210" cy="48" r="3" fill="#e94560" opacity="0.5"/>
+                        <text x="250" y="55" font-size="9" fill="#e94560">丢弃部分</text>
+                        
+                        <!-- 无损压缩 -->
+                        <line x1="130" y1="150" x2="170" y2="150" stroke="#28a745" stroke-width="2"/>
+                        <text x="150" y="145" text-anchor="middle" font-size="9" fill="#28a745">压缩</text>
+                        
+                        <rect x="30" y="120" width="100" height="60" fill="#667eea" rx="5"/>
+                        <text x="80" y="145" text-anchor="middle" font-size="11" fill="white" font-weight="bold">原始音频</text>
+                        <text x="80" y="165" text-anchor="middle" font-size="9" fill="white">100% 完整</text>
+                        
+                        <rect x="170" y="120" width="100" height="60" fill="#e8f5e9" stroke="#28a745" stroke-width="2" rx="5"/>
+                        <text x="220" y="140" text-anchor="middle" font-size="10" fill="#28a745" font-weight="bold">无损压缩 (FLAC)</text>
+                        <text x="220" y="160" text-anchor="middle" font-size="9" fill="#666">100% 完整</text>
+                        <text x="220" y="175" text-anchor="middle" font-size="9" fill="#666">文件大 30MB</text>
+                        
+                        <line x1="270" y1="150" x2="310" y2="150" stroke="#28a745" stroke-width="2"/>
+                        <text x="290" y="145" text-anchor="middle" font-size="9" fill="#28a745">解压</text>
+                        
+                        <rect x="310" y="120" width="100" height="60" fill="#667eea" rx="5"/>
+                        <text x="360" y="145" text-anchor="middle" font-size="11" fill="white" font-weight="bold">完美还原</text>
+                        <text x="360" y="165" text-anchor="middle" font-size="9" fill="white">100% 一样</text>
+                        
+                        <text x="250" y="210" text-anchor="middle" font-size="11" fill="#e94560">有损：文件小，音质损失，不可恢复</text>
+                        <text x="250" y="230" text-anchor="middle" font-size="11" fill="#28a745">无损：文件大，音质完美，可恢复</text>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="algorithm-card">
+                <h4>6. 动态范围 (Dynamic Range)</h4>
+                <p><strong>官方定义：</strong>最大不失真信号与最小可检测信号的比值，单位 dB。</p>
+                <div class="content-block" style="background: linear-gradient(135deg, #e8f5e9, #c8e6c9); border-left-color: #28a745;">
+                    <h4>🗣️ 人话解释</h4>
+                    <p>动态范围就是<strong>最响的声音和最轻的声音之间的差距</strong>。</p>
+                    <p>想象一个歌手唱歌：</p>
+                    <ul>
+                        <li><strong>大动态范围</strong> = 耳语能听清，呐喊不刺耳 → 听起来自然、有层次</li>
+                        <li><strong>小动态范围</strong> = 所有声音差不多大 → 听起来平、没感情</li>
+                    </ul>
+                    <p><strong>类比：</strong>就像照片的明暗对比，动态范围大的照片亮部不过曝、暗部有细节。</p>
+                    <ul>
+                        <li><strong>电话音质</strong> ≈ 40dB → 只能听清说话</li>
+                        <li><strong>CD 音质</strong> ≈ 96dB → 很好了</li>
+                        <li><strong>专业录音</strong> ≈ 120dB+ → 交响乐从最轻到最响都能录</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="algorithm-card">
+                <h4>7. 信噪比 (SNR - Signal to Noise Ratio)</h4>
+                <p><strong>官方定义：</strong>有用信号功率与噪声功率的比值，单位 dB。</p>
+                <div class="content-block" style="background: linear-gradient(135deg, #e8f5e9, #c8e6c9); border-left-color: #28a745;">
+                    <h4>🗣️ 人话解释</h4>
+                    <p>信噪比就是<strong>有用的声音比背景噪音大多少</strong>。</p>
+                    <p>想象你在一个房间里听音乐：</p>
+                    <ul>
+                        <li><strong>高信噪比 (80dB+)</strong> = 安静的房间里听音乐 → 音乐清晰，几乎听不到底噪</li>
+                        <li><strong>中信噪比 (60dB)</strong> = 普通房间里听音乐 → 音乐清楚，仔细听能听到轻微嘶嘶声</li>
+                        <li><strong>低信噪比 (30dB)</strong> = 菜市场里听音乐 → 音乐和噪音混在一起，听不清</li>
+                    </ul>
+                    <p><strong>类比：</strong>就像在照片里，信噪比高就是画面干净，信噪比低就是有很多噪点。</p>
+                </div>
+            </div>
+
+            <div class="algorithm-card">
+                <h4>8. 频率响应 (Frequency Response)</h4>
+                <p><strong>官方定义：</strong>设备对不同频率信号的响应特性。</p>
+                <div class="content-block" style="background: linear-gradient(135deg, #e8f5e9, #c8e6c9); border-left-color: #28a745;">
+                    <h4>🗣️ 人话解释</h4>
+                    <p>频率响应就是<strong>设备能不能公平地播放所有音调</strong>。</p>
+                    <p>想象一副耳机：</p>
+                    <ul>
+                        <li><strong>好的频率响应</strong> = 低音、中音、高音都一样响亮 → 听到的是原始声音</li>
+                        <li><strong>差的频率响应</strong> = 低音太重或高音太尖 → 听到的是"染色"后的声音</li>
+                    </ul>
+                    <p><strong>人耳听力范围：</strong>20Hz - 20kHz（年轻人）</p>
+                    <ul>
+                        <li><strong>20-250Hz</strong> = 低音（鼓声、贝斯）</li>
+                        <li><strong>250-4000Hz</strong> = 中音（人声、大部分乐器）</li>
+                        <li><strong>4000-20000Hz</strong> = 高音（钹、小提琴高音）</li>
+                    </ul>
+                    <p><strong>类比：</strong>就像显示器的色域，好的显示器能准确显示所有颜色，好的耳机能准确播放所有音调。</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🎚️ 处理效果篇</h2>
+
+            <div class="algorithm-card">
+                <h4>9. 均衡器 (EQ - Equalizer)</h4>
+                <p><strong>官方定义：</strong>调节不同频率信号增益的滤波器。</p>
+                <div class="content-block" style="background: linear-gradient(135deg, #e8f5e9, #c8e6c9); border-left-color: #28a745;">
+                    <h4>🗣️ 人话解释</h4>
+                    <p>均衡器就是<strong>高级音调控制器</strong>，可以分别调节低音、中音、高音。</p>
+                    <p>常见的 EQ 调节：</p>
+                    <ul>
+                        <li><strong>增加低音 (Bass Boost)</strong> = 让鼓声更震撼 → 听电子音乐、嘻哈</li>
+                        <li><strong>增加高音 (Treble Boost)</strong> = 让人声更清晰 → 听古典、爵士</li>
+                        <li><strong>削减中低频</strong> = 减少"闷闷的"感觉 → 让声音更干净</li>
+                    </ul>
+                    <p><strong>类比：</strong>就像照片的色调调节，可以分别调红色、绿色、蓝色；EQ 可以分别调低音、中音、高音。</p>
+                </div>
+                <div class="diagram">
+                    <svg viewBox="0 0 500 200" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="100%" height="100%" fill="#f8f9fa"/>
+                        <text x="250" y="25" text-anchor="middle" font-size="13" fill="#333" font-weight="bold">均衡器 (EQ) 调节示意</text>
+                        
+                        <!-- 频率轴 -->
+                        <line x1="50" y1="170" x2="450" y2="170" stroke="#333" stroke-width="2"/>
+                        <text x="50" y="185" text-anchor="middle" font-size="10" fill="#666">20Hz</text>
+                        <text x="150" y="185" text-anchor="middle" font-size="10" fill="#666">250Hz</text>
+                        <text x="250" y="185" text-anchor="middle" font-size="10" fill="#666">4kHz</text>
+                        <text x="350" y="185" text-anchor="middle" font-size="10" fill="#666">10kHz</text>
+                        <text x="450" y="185" text-anchor="middle" font-size="10" fill="#666">20kHz</text>
+                        
+                        <text x="30" y="100" text-anchor="middle" font-size="10" fill="#666" transform="rotate(-90, 30, 100)">增益</text>
+                        
+                        <!-- 原始响应曲线 -->
+                        <path d="M 50 100 L 450 100" stroke="#999" stroke-width="2" stroke-dasharray="5,5"/>
+                        <text x="460" y="100" font-size="9" fill="#999">原始</text>
+                        
+                        <!-- 低音增强 -->
+                        <path d="M 50 60 Q 100 40, 150 80 L 450 100" fill="none" stroke="#667eea" stroke-width="3" opacity="0.7"/>
+                        <text x="100" y="50" text-anchor="middle" font-size="10" fill="#667eea" font-weight="bold">低音增强</text>
+                        
+                        <!-- 高音增强 -->
+                        <path d="M 50 100 L 300 100 Q 380 60, 450 50" fill="none" stroke="#e94560" stroke-width="3" opacity="0.7"/>
+                        <text x="400" y="45" text-anchor="middle" font-size="10" fill="#e94560" font-weight="bold">高音增强</text>
+                        
+                        <!-- V 型调音 -->
+                        <path d="M 50 70 Q 150 50, 250 90 Q 350 110, 450 60" fill="none" stroke="#28a745" stroke-width="3" opacity="0.7"/>
+                        <text x="250" y="120" text-anchor="middle" font-size="10" fill="#28a745" font-weight="bold">V 型 (流行音乐)</text>
+                        
+                        <text x="250" y="200" text-anchor="middle" font-size="10" fill="#666">← 低音区 | 中音区 | 高音区 →</text>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="algorithm-card">
+                <h4>10. 压缩器 (Compressor)</h4>
+                <p><strong>官方定义：</strong>自动降低超过阈值的信号增益的动态处理器。</p>
+                <div class="content-block" style="background: linear-gradient(135deg, #e8f5e9, #c8e6c9); border-left-color: #28a745;">
+                    <h4>🗣️ 人话解释</h4>
+                    <p>压缩器就是<strong>自动音量调节器</strong>，让大的声音变小，小的声音相对变大。</p>
+                    <p>想象一个歌手唱歌，有时候唱得太响，有时候太轻：</p>
+                    <ul>
+                        <li><strong>不用压缩器</strong> = 响的地方震耳朵，轻的地方听不清</li>
+                        <li><strong>用压缩器</strong> = 所有声音都适中，听起来舒服</li>
+                    </ul>
+                    <p><strong>使用场景：</strong></p>
+                    <ul>
+                        <li><strong>播客/人声</strong> = 让说话声音均匀，不会忽大忽小</li>
+                        <li><strong>音乐</strong> = 让整体听起来更"紧实"、更有力量</li>
+                        <li><strong>过度压缩</strong> = 声音变得扁平、没有感情（某些流行音乐被批评）</li>
+                    </ul>
+                    <p><strong>类比：</strong>就像照片的 HDR 效果，让亮的地方不过曝，暗的地方有细节。</p>
+                </div>
+            </div>
+
+            <div class="algorithm-card">
+                <h4>11. 混响 (Reverb)</h4>
+                <p><strong>官方定义：</strong>模拟声音在空间中多次反射产生的延续效果。</p>
+                <div class="content-block" style="background: linear-gradient(135deg, #e8f5e9, #c8e6c9); border-left-color: #28a745;">
+                    <h4>🗣️ 人话解释</h4>
+                    <p>混响就是<strong>KTV 里的那种"回声"效果</strong>，让声音听起来像是在某个空间里。</p>
+                    <p>不同的混响效果：</p>
+                    <ul>
+                        <li><strong>无混响</strong> = 在衣柜里唱歌 → 干巴巴的，不自然</li>
+                        <li><strong>小混响</strong> = 在卧室里唱歌 → 自然、亲切</li>
+                        <li><strong>中混响</strong> = 在音乐厅里唱歌 → 宏大、有空间感</li>
+                        <li><strong>大混响</strong> = 在大教堂里唱歌 → 空灵、神圣</li>
+                    </ul>
+                    <p><strong>类比：</strong>就像照片的背景虚化，混响给声音添加"空间背景"。</p>
+                </div>
+            </div>
+
+            <div class="algorithm-card">
+                <h4>12. 限幅器 (Limiter)</h4>
+                <p><strong>官方定义：</strong>一种极端压缩器，防止信号超过设定阈值。</p>
+                <div class="content-block" style="background: linear-gradient(135deg, #e8f5e9, #c8e6c9); border-left-color: #28a745;">
+                    <h4>🗣️ 人话解释</h4>
+                    <p>限幅器就是<strong>音量天花板</strong>，不允许声音超过某个界限。</p>
+                    <p>想象一个严格的保安：</p>
+                    <ul>
+                        <li><strong>声音低于天花板</strong> = 放行，不管</li>
+                        <li><strong>声音想超过天花板</strong> = 立刻按下来，绝不通融</li>
+                    </ul>
+                    <p><strong>使用场景：</strong></p>
+                    <ul>
+                        <li><strong>母带处理</strong> = 让音乐整体更响，但不会失真</li>
+                        <li><strong>直播/播客</strong> = 防止突然的大声吓到听众</li>
+                        <li><strong>保护设备</strong> = 防止过大信号烧坏喇叭</li>
+                    </ul>
+                    <p><strong>类比：</strong>就像水管的减压阀，水压太大时自动降压，防止爆管。</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🔌 格式与接口篇</h2>
+
+            <div class="algorithm-card">
+                <h4>13. 常见音频格式</h4>
+                <div class="content-block" style="background: linear-gradient(135deg, #e8f5e9, #c8e6c9); border-left-color: #28a745;">
+                    <h4>🗣️ 人话解释</h4>
+                    <p>音频格式就是<strong>声音的包装方式</strong>，不同的包装有不同的特点。</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>格式</th>
+                                <th>人话解释</th>
+                                <th>使用场景</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>MP3</strong></td>
+                                <td>音频界的"JPEG"，有损压缩，文件小</td>
+                                <td>在线音乐、手机播放</td>
+                            </tr>
+                            <tr>
+                                <td><strong>WAV</strong></td>
+                                <td>音频界的"RAW"，未压缩，原汁原味</td>
+                                <td>专业录音、音频编辑</td>
+                            </tr>
+                            <tr>
+                                <td><strong>FLAC</strong></td>
+                                <td>音频界的"ZIP"，无损压缩，完美还原</td>
+                                <td>音乐收藏、Hi-Fi 播放</td>
+                            </tr>
+                            <tr>
+                                <td><strong>AAC</strong></td>
+                                <td>MP3 的升级版，同文件大小音质更好</td>
+                                <td>Apple Music、YouTube</td>
+                            </tr>
+                            <tr>
+                                <td><strong>OGG</strong></td>
+                                <td>开源免费的 MP3 替代品</td>
+                                <td>游戏音频、开源项目</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="algorithm-card">
+                <h4>14. 接口类型</h4>
+                <div class="content-block" style="background: linear-gradient(135deg, #e8f5e9, #c8e6c9); border-left-color: #28a745;">
+                    <h4>🗣️ 人话解释</h4>
+                    <p>音频接口就是<strong>连接音频设备的插头类型</strong>。</p>
+                    <ul>
+                        <li><strong>3.5mm 耳机孔</strong> = 手机、电脑最常见的圆孔
+                            <ul><li>优点：通用、便宜</li><li>缺点：容易坏、音质一般</li></ul>
+                        </li>
+                        <li><strong>6.35mm 大耳机孔</strong> = 专业耳机、功放设备
+                            <ul><li>优点：接触好、音质好</li><li>缺点：体积大</li></ul>
+                        </li>
+                        <li><strong>XLR (卡农口)</strong> = 专业麦克风用的三针接口
+                            <ul><li>优点：平衡传输、抗干扰</li><li>缺点：需要专业设备</li></ul>
+                        </li>
+                        <li><strong>USB</strong> = 数字传输，直接连电脑
+                            <ul><li>优点：方便、即插即用</li><li>缺点：需要驱动</li></ul>
+                        </li>
+                        <li><strong>光纤/同轴</strong> = 数字音频传输
+                            <ul><li>优点：音质好、抗干扰</li><li>缺点：设备贵</li></ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="algorithm-card">
+                <h4>15. 平衡 vs 非平衡 (Balanced vs Unbalanced)</h4>
+                <p><strong>官方定义：</strong>平衡传输使用三根线（正相、反相、地线），非平衡使用两根线（信号、地线）。</p>
+                <div class="content-block" style="background: linear-gradient(135deg, #e8f5e9, #c8e6c9); border-left-color: #28a745;">
+                    <h4>🗣️ 人话解释</h4>
+                    <p>平衡/非平衡就是<strong>抗干扰能力的区别</strong>。</p>
+                    <ul>
+                        <li><strong>非平衡 (Unbalanced)</strong> = 单线传输
+                            <ul>
+                                <li>就像一个人传话，容易被干扰听错</li>
+                                <li>线长了会有嘶嘶声、嗡嗡声</li>
+                                <li>适合短距离（&lt; 5 米），如耳机线</li>
+                            </ul>
+                        </li>
+                        <li><strong>平衡 (Balanced)</strong> = 双线传输 + 抵消噪音
+                            <ul>
+                                <li>就像两个人同时传同样的话，接收端对比一下就知道哪个是噪音</li>
+                                <li>线再长也很干净，没有底噪</li>
+                                <li>适合长距离（&gt; 5 米），如专业录音棚</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p><strong>类比：</strong>非平衡就像单声道收音机，有干扰就听不清；平衡就像立体声 + 降噪，干扰被抵消了。</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>📱 实用场景篇</h2>
+
+            <div class="algorithm-card">
+                <h4>🎧 场景 1：买耳机时看什么参数？</h4>
+                <div class="content-block" style="background: linear-gradient(135deg, #fff3e0, #ffe0b2); border-left-color: #f39c12;">
+                    <h4>💡 重点关注</h4>
+                    <ul>
+                        <li><strong>阻抗 (Ω)</strong>：
+                            <ul>
+                                <li>低阻抗 (16-32Ω) = 手机直推，方便</li>
+                                <li>高阻抗 (250Ω+) = 需要耳放，但音质更好</li>
+                            </ul>
+                        </li>
+                        <li><strong>灵敏度 (dB)</strong>：
+                            <ul>
+                                <li>越高越好推，100dB+ 手机就能推好</li>
+                                <li>太低需要耳放</li>
+                            </ul>
+                        </li>
+                        <li><strong>频响范围</strong>：
+                            <ul>
+                                <li>20Hz-20kHz = 标准，覆盖人耳范围</li>
+                                <li>标称 5Hz-40kHz = 营销噱头，人耳听不到</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p><strong>人话总结：</strong>手机用选低阻抗高灵敏度，追求音质上高阻抗 + 耳放。</p>
+                </div>
+            </div>
+
+            <div class="algorithm-card">
+                <h4>🎤 场景 2：录播客/视频需要什么？</h4>
+                <div class="content-block" style="background: linear-gradient(135deg, #fff3e0, #ffe0b2); border-left-color: #f39c12;">
+                    <h4>💡 基础配置</h4>
+                    <ul>
+                        <li><strong>麦克风</strong>：USB 麦克风最方便，XLR 麦克风音质更好</li>
+                        <li><strong>采样率</strong>：44.1kHz 或 48kHz 足够（视频用 48kHz）</li>
+                        <li><strong>位深度</strong>：24-bit 录音，后期空间大</li>
+                        <li><strong>格式</strong>：WAV 录音，导出 MP3 发布</li>
+                    </ul>
+                    <h4>🎚️ 后期处理</h4>
+                    <ul>
+                        <li><strong>降噪</strong> = 去掉背景嘶嘶声</li>
+                        <li><strong>EQ</strong> = 削减低频嗡嗡声，增加人声清晰度</li>
+                        <li><strong>压缩</strong> = 让音量均匀，不会忽大忽小</li>
+                        <li><strong>限幅</strong> = 防止突然的大声</li>
+                    </ul>
+                    <p><strong>人话总结：</strong>24bit/48kHz 录音 → 降噪 → EQ → 压缩 → 限幅 → 导出 MP3。</p>
+                </div>
+            </div>
+
+            <div class="algorithm-card">
+                <h4>🎵 场景 3：为什么我的音乐听起来"不够响"？</h4>
+                <div class="content-block" style="background: linear-gradient(135deg, #fff3e0, #ffe0b2); border-left-color: #f39c12;">
+                    <h4>💡 原因分析</h4>
+                    <ul>
+                        <li><strong>动态范围大</strong> = 轻的地方真的很轻，响的地方才响 → 正常，这是音乐的本来的样子</li>
+                        <li><strong>对比流媒体</strong> = Spotify/Apple Music 会自动调整音量 → 不是你的问题</li>
+                        <li><strong>设备问题</strong> = 手机/电脑推力不足 → 换个耳放或耳机</li>
+                    </ul>
+                    <h4>🔧 解决方案</h4>
+                    <ul>
+                        <li><strong>软件增益</strong> = 用播放器增益（但可能失真）</li>
+                        <li><strong>硬件升级</strong> = 买个好点的耳放</li>
+                        <li><strong>接受现实</strong> = 动态大是好事，说明录音质量好</li>
+                    </ul>
+                    <p><strong>人话总结：</strong>音乐不是越响越好，动态范围大反而是音质好的表现。</p>
+                </div>
+            </div>
+
+            <div class="algorithm-card">
+                <h4>📊 场景 4：音频文件为什么这么大？</h4>
+                <div class="content-block" style="background: linear-gradient(135deg, #fff3e0, #ffe0b2); border-left-color: #f39c12;">
+                    <h4>💡 文件大小计算</h4>
+                    <div class="math-formula">
+                        文件大小 ≈ 采样率 × 位深度 × 声道数 × 时长 ÷ 8
+                    </div>
+                    <p><strong>举例：</strong>一首 4 分钟的 CD 音质歌曲</p>
+                    <ul>
+                        <li>44100 Hz × 16 bit × 2 声道 × 240 秒 ÷ 8 = 约 42 MB (WAV)</li>
+                        <li>压缩成 MP3 (320kbps) = 约 9 MB</li>
+                        <li>压缩成 MP3 (128kbps) = 约 4 MB</li>
+                    </ul>
+                    <h4>🔧 减小文件大小</h4>
+                    <ul>
+                        <li><strong>转成有损格式</strong> = MP3/AAC，文件最小</li>
+                        <li><strong>转成无损压缩</strong> = FLAC，文件减半但音质不变</li>
+                        <li><strong>降低采样率</strong> = 从 96kHz 降到 44.1kHz（不推荐）</li>
+                    </ul>
+                    <p><strong>人话总结：</strong>要文件小就转 MP3，要音质好就存 FLAC，别存 WAV（太大）。</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🎯 快速对照表</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>术语</th>
+                        <th>一句话解释</th>
+                        <th>生活类比</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>采样率</td>
+                        <td>每秒拍多少张声音照片</td>
+                        <td>视频帧率</td>
+                    </tr>
+                    <tr>
+                        <td>位深度</td>
+                        <td>声音的精度/刻度精细度</td>
+                        <td>尺子刻度</td>
+                    </tr>
+                    <tr>
+                        <td>比特率</td>
+                        <td>每秒流过多少数据</td>
+                        <td>水管粗细</td>
+                    </tr>
+                    <tr>
+                        <td>声道</td>
+                        <td>有几个喇叭放不同声音</td>
+                        <td>几个人从不同方向说话</td>
+                    </tr>
+                    <tr>
+                        <td>有损压缩</td>
+                        <td>为了文件小扔掉一些内容</td>
+                        <td>JPG 图片</td>
+                    </tr>
+                    <tr>
+                        <td>无损压缩</td>
+                        <td>压缩但不丢内容，完美还原</td>
+                        <td>ZIP 压缩包</td>
+                    </tr>
+                    <tr>
+                        <td>动态范围</td>
+                        <td>最响和最轻的差距</td>
+                        <td>照片明暗对比</td>
+                    </tr>
+                    <tr>
+                        <td>信噪比</td>
+                        <td>有用声音比噪音大多少</td>
+                        <td>照片干净程度</td>
+                    </tr>
+                    <tr>
+                        <td>均衡器 (EQ)</td>
+                        <td>分别调节低音中音高音</td>
+                        <td>照片色调调节</td>
+                    </tr>
+                    <tr>
+                        <td>压缩器</td>
+                        <td>自动调节音量均匀</td>
+                        <td>照片 HDR 效果</td>
+                    </tr>
+                    <tr>
+                        <td>混响</td>
+                        <td>KTV 回声效果</td>
+                        <td>照片背景虚化</td>
+                    </tr>
+                    <tr>
+                        <td>限幅器</td>
+                        <td>音量天花板</td>
+                        <td>水管减压阀</td>
+                    </tr>
+                    <tr>
+                        <td>平衡传输</td>
+                        <td>双线传输抵消噪音</td>
+                        <td>两个人传话对比</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="info-box success">
+                <h4>🎉 恭喜你！</h4>
+                <p>现在你已经掌握了音频领域最常见的专业术语！下次看到这些词，不会再一头雾水了。</p>
+                <p><strong>记住：</strong>所有专业术语背后都是简单的概念，只是用了"高大上"的名字而已。</p>
+            </div>
+        </section>
+    </div>
+
+    <a href="#" class="back-to-top">↑ 返回顶部</a>
+</body>
+</html>
