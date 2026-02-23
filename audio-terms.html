@@ -684,6 +684,459 @@
             </div>
         </section>
 
+        <section class="section">
+            <h2>🗜️ 压缩算法与文件格式</h2>
+            <p>音频压缩技术和文件格式是两个相关但不同的概念。这里详细解释它们之间的联系与区别，以及压缩算法的发展历程。</p>
+
+            <div class="algorithm-card">
+                <h4>📦 压缩算法 vs 文件格式：有什么区别？</h4>
+                <div class="content-block" style="background: linear-gradient(135deg, #fff3e0, #ffe0b2); border-left-color: #f39c12;">
+                    <h4>🗣️ 人话解释</h4>
+                    <p><strong>压缩算法</strong>是"怎么打包"，<strong>文件格式</strong>是"用什么盒子装"。</p>
+                    <ul>
+                        <li><strong>压缩算法（Codec）</strong> = 把声音变小的方法
+                            <ul><li>如：MP3 编码、AAC 编码、FLAC 编码</li></ul>
+                        </li>
+                        <li><strong>文件格式（Container）</strong> = 存储音频的容器
+                            <ul><li>如：.mp3 文件、.m4a 文件、.mkv 文件</li></ul>
+                        </li>
+                    </ul>
+                    <p><strong>重要：</strong>同一个文件格式可以包含不同的压缩算法。</p>
+                    <div class="diagram">
+                        <svg viewBox="0 0 500 280" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="100%" height="100%" fill="#f8f9fa"/>
+                            <text x="250" y="25" text-anchor="middle" font-size="13" fill="#333" font-weight="bold">压缩算法与文件格式关系</text>
+                            
+                            <rect x="30" y="40" width="200" height="110" fill="white" stroke="#667eea" stroke-width="2" rx="8"/>
+                            <text x="130" y="65" text-anchor="middle" font-size="12" fill="#667eea" font-weight="bold">压缩算法 (Codec)</text>
+                            <text x="130" y="85" text-anchor="middle" font-size="10" fill="#666">"怎么打包"</text>
+                            <rect x="50" y="95" width="160" height="20" fill="#e8f4f8" rx="3"/>
+                            <text x="130" y="110" text-anchor="middle" font-size="9" fill="#333">MP3 编码</text>
+                            <rect x="50" y="120" width="160" height="20" fill="#e8f4f8" rx="3"/>
+                            <text x="130" y="135" text-anchor="middle" font-size="9" fill="#333">AAC 编码</text>
+                            <rect x="50" y="145" width="160" height="20" fill="#e8f4f8" rx="3"/>
+                            <text x="130" y="160" text-anchor="middle" font-size="9" fill="#333">FLAC 编码</text>
+                            
+                            <rect x="270" y="40" width="200" height="110" fill="white" stroke="#e94560" stroke-width="2" rx="8"/>
+                            <text x="370" y="65" text-anchor="middle" font-size="12" fill="#e94560" font-weight="bold">文件格式 (Container)</text>
+                            <text x="370" y="85" text-anchor="middle" font-size="10" fill="#666">"用什么盒子"</text>
+                            <rect x="290" y="95" width="160" height="20" fill="#ffebee" rx="3"/>
+                            <text x="370" y="110" text-anchor="middle" font-size="9" fill="#333">.mp3 文件</text>
+                            <rect x="290" y="120" width="160" height="20" fill="#ffebee" rx="3"/>
+                            <text x="370" y="135" text-anchor="middle" font-size="9" fill="#333">.m4a/.mp4 文件</text>
+                            <rect x="290" y="145" width="160" height="20" fill="#ffebee" rx="3"/>
+                            <text x="370" y="160" text-anchor="middle" font-size="9" fill="#333">.flac/.wav 文件</text>
+                            
+                            <line x1="230" y1="95" x2="265" y2="95" stroke="#667eea" stroke-width="2" stroke-dasharray="5,5"/>
+                            <line x1="230" y1="130" x2="265" y2="130" stroke="#667eea" stroke-width="2" stroke-dasharray="5,5"/>
+                            <text x="247" y="155" text-anchor="middle" font-size="9" fill="#666">组合</text>
+                            
+                            <rect x="100" y="180" width="300" height="90" fill="white" stroke="#28a745" stroke-width="2" rx="8"/>
+                            <text x="250" y="205" text-anchor="middle" font-size="12" fill="#28a745" font-weight="bold">常见组合示例</text>
+                            <text x="120" y="230" text-anchor="start" font-size="10" fill="#666">• MP3 编码 → .mp3 文件</text>
+                            <text x="120" y="250" text-anchor="start" font-size="10" fill="#666">• AAC 编码 → .m4a/.mp4 文件</text>
+                            <text x="300" y="230" text-anchor="start" font-size="10" fill="#666">• FLAC 编码 → .flac 文件</text>
+                            <text x="300" y="250" text-anchor="start" font-size="10" fill="#666">• PCM 编码 → .wav 文件</text>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="algorithm-card">
+                <h4>📊 常见文件格式与压缩算法对照表</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>文件格式</th>
+                            <th>常见压缩算法</th>
+                            <th>压缩类型</th>
+                            <th>特点</th>
+                            <th>典型用途</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>.mp3</strong></td>
+                            <td>MP3 (MPEG-1 Layer 3)</td>
+                            <td>有损</td>
+                            <td>兼容性好，文件小</td>
+                            <td>音乐播放、播客</td>
+                        </tr>
+                        <tr>
+                            <td><strong>.m4a/.mp4</strong></td>
+                            <td>AAC、ALAC</td>
+                            <td>有损/无损</td>
+                            <td>苹果生态，效率高</td>
+                            <td>iTunes、Apple Music</td>
+                        </tr>
+                        <tr>
+                            <td><strong>.flac</strong></td>
+                            <td>FLAC</td>
+                            <td>无损</td>
+                            <td>压缩率约 50%，开源</td>
+                            <td>音乐收藏、Hi-Fi</td>
+                        </tr>
+                        <tr>
+                            <td><strong>.wav</strong></td>
+                            <td>PCM (未压缩)</td>
+                            <td>无损</td>
+                            <td>原始音质，文件大</td>
+                            <td>专业录音、编辑</td>
+                        </tr>
+                        <tr>
+                            <td><strong>.ogg</strong></td>
+                            <td>Vorbis、Opus</td>
+                            <td>有损</td>
+                            <td>开源免费，效率高</td>
+                            <td>游戏、流媒体</td>
+                        </tr>
+                        <tr>
+                            <td><strong>.webm</strong></td>
+                            <td>Opus、Vorbis</td>
+                            <td>有损</td>
+                            <td>网页优化，低延迟</td>
+                            <td>Web 音频、视频</td>
+                        </tr>
+                        <tr>
+                            <td><strong>.wma</strong></td>
+                            <td>WMA、WMA Lossless</td>
+                            <td>有损/无损</td>
+                            <td>微软专有</td>
+                            <td>Windows 系统</td>
+                        </tr>
+                        <tr>
+                            <td><strong>.ape</strong></td>
+                            <td>Monkey's Audio</td>
+                            <td>无损</td>
+                            <td>压缩率高，解码慢</td>
+                            <td>音乐收藏（老格式）</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>📜 音频压缩算法发展史</h2>
+            <p>音频压缩技术的发展经历了近 100 年的演进，从最早的电话通信到现代的 AI 神经编码，每一次突破都改变了我们听音乐的方式。</p>
+
+            <div class="algorithm-card">
+                <h4>🕰️ 第一代：电话时代 (1920s-1970s)</h4>
+                <div class="content-block" style="background: linear-gradient(135deg, #e3f2fd, #bbdefb); border-left-color: #2196f3;">
+                    <h4>技术特点</h4>
+                    <p>这个时期的"压缩"主要是为了在有限的带宽内传输语音，而不是为了存储。</p>
+                    <ul>
+                        <li><strong>1920s</strong> - 电话系统使用频带限制 (300Hz-3.4kHz)
+                            <ul><li>目的：在一条线路上复用更多通话</li></ul>
+                        </li>
+                        <li><strong>1972</strong> - ITU-T G.711 标准 (PCM 编码)
+                            <ul><li>64kbps，8kHz 采样，8bit 量化</li><li>用于电话网络，音质一般但可靠</li></ul>
+                        </li>
+                        <li><strong>1970s</strong> - 自适应差分 PCM (ADPCM)
+                            <ul><li>利用相邻样本的相关性</li><li>压缩率 2:1，用于早期数字电话</li></ul>
+                        </li>
+                    </ul>
+                    <p><strong>类比：</strong>就像把信纸折叠起来塞进信封，目的是节省空间，但信的内容不变。</p>
+                </div>
+            </div>
+
+            <div class="algorithm-card">
+                <h4>🕰️ 第二代：感知编码革命 (1980s-1990s)</h4>
+                <div class="content-block" style="background: linear-gradient(135deg, #fff3e0, #ffe0b2); border-left-color: #ff9800;">
+                    <h4>技术突破</h4>
+                    <p>发现人耳的"缺陷"，利用心理声学模型去掉人耳听不到的声音。</p>
+                    <ul>
+                        <li><strong>1982</strong> - CD 标准 (红皮书)
+                            <ul><li>44.1kHz/16bit 立体声，1411kbps</li><li>未压缩，音质完美但文件巨大</li><li>一张 CD 只能装 74 分钟音乐</li></ul>
+                        </li>
+                        <li><strong>1987</strong> - MPEG 音频编码标准启动
+                            <ul><li>德国弗劳恩霍夫研究所主导</li><li>研究如何用更少的数据表示音乐</li></ul>
+                        </li>
+                        <li><strong>1991</strong> - <span style="color:#e94560; font-weight:bold;">MP3 (MPEG-1 Layer 3)</span> 诞生
+                            <ul><li>利用掩蔽效应：强音会掩盖附近的弱音</li><li>去掉"听不见"的声音，节省空间</li><li>128kbps 就能达到接近 CD 的音质</li><li>压缩率约 11:1，一首歌只要 3-5MB</li></ul>
+                        </li>
+                        <li><strong>1997</strong> - MP3 播放器出现 (Diamond Rio)
+                            <ul><li>第一台便携式 MP3 播放器</li><li>32MB 存储，能装约 7 首歌</li></ul>
+                        </li>
+                        <li><strong>1999</strong> - Napster 上线
+                            <ul><li>P2P 音乐分享，MP3 格式爆红</li><li>彻底改变音乐产业</li></ul>
+                        </li>
+                    </ul>
+                    <div class="info-box">
+                        <h4>🧠 心理声学原理（人耳的"bug"）</h4>
+                        <ul>
+                            <li><strong>频率掩蔽</strong>：大声音会掩盖附近频率的小声音</li>
+                            <li><strong>时间掩蔽</strong>：大声音前后短时间内听不到小声音</li>
+                            <li><strong>听阈限制</strong>：低于某个强度就听不见</li>
+                            <li><strong>频率范围</strong>：人耳只能听到 20Hz-20kHz</li>
+                        </ul>
+                        <p><strong>MP3 的聪明之处：</strong>只保留人耳能听到的声音，去掉其他"无用"数据。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="algorithm-card">
+                <h4>🕰️ 第三代：效率提升 (2000s-2010s)</h4>
+                <div class="content-block" style="background: linear-gradient(135deg, #e8f5e9, #c8e6c9); border-left-color: #4caf50;">
+                    <h4>技术演进</h4>
+                    <p>在 MP3 的基础上继续改进，追求更高的压缩效率和更好的音质。</p>
+                    <ul>
+                        <li><strong>1997</strong> - <span style="color:#28a745; font-weight:bold;">Vorbis</span> (开源替代 MP3)
+                            <ul><li>开源免费，无需专利费</li><li>同码率下音质优于 MP3</li><li>用于 Ogg 容器</li></ul>
+                        </li>
+                        <li><strong>2001</strong> - <span style="color:#28a745; font-weight:bold;">AAC</span> (MPEG-2/4 Part 3)
+                            <ul><li>MP3 的"继任者"</li><li>更高效的编码算法</li><li>128kbps AAC ≈ 192kbps MP3</li><li>被 iTunes、iPhone 采用，成为主流</li></ul>
+                        </li>
+                        <li><strong>2001</strong> - <span style="color:#28a745; font-weight:bold;">WMA</span> (微软)
+                            <ul><li>Windows Media Audio</li><li>试图挑战 MP3，但未成功</li></ul>
+                        </li>
+                        <li><strong>2003</strong> - <span style="color:#28a745; font-weight:bold;">FLAC</span> (无损压缩)
+                            <ul><li>Free Lossless Audio Codec</li><li>压缩率约 50%，解压后完美还原</li><li>开源免费，成为无损音乐标准</li></ul>
+                        </li>
+                        <li><strong>2010</strong> - <span style="color:#28a745; font-weight:bold;">Opus</span> (全能编码器)
+                            <ul><li>结合 Skype 的 SILK 和 Xiph.Org 的 CELT</li><li>从低码率语音到高码率音乐全覆盖</li><li>延迟极低，适合实时通信</li><li>WebRTC 标准，用于 WhatsApp、Discord</li></ul>
+                        </li>
+                    </ul>
+                    <div class="diagram">
+                        <svg viewBox="0 0 500 200" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="100%" height="100%" fill="#f8f9fa"/>
+                            <text x="250" y="25" text-anchor="middle" font-size="13" fill="#333" font-weight="bold">同音质下码率对比 (kbps)</text>
+                            
+                            <rect x="50" y="40" width="80" height="120" fill="#667eea" rx="5"/>
+                            <text x="90" y="100" text-anchor="middle" font-size="11" fill="white" font-weight="bold">MP3</text>
+                            <text x="90" y="120" text-anchor="middle" font-size="10" fill="white">192</text>
+                            <text x="90" y="145" text-anchor="middle" font-size="9" fill="#666">1991 年</text>
+                            
+                            <rect x="150" y="55" width="80" height="105" fill="#e94560" rx="5"/>
+                            <text x="190" y="100" text-anchor="middle" font-size="11" fill="white" font-weight="bold">AAC</text>
+                            <text x="190" y="120" text-anchor="middle" font-size="10" fill="white">128</text>
+                            <text x="190" y="145" text-anchor="middle" font-size="9" fill="#666">2001 年</text>
+                            
+                            <rect x="250" y="70" width="80" height="90" fill="#28a745" rx="5"/>
+                            <text x="290" y="100" text-anchor="middle" font-size="11" fill="white" font-weight="bold">Opus</text>
+                            <text x="290" y="120" text-anchor="middle" font-size="10" fill="white">96</text>
+                            <text x="290" y="145" text-anchor="middle" font-size="9" fill="#666">2010 年</text>
+                            
+                            <rect x="350" y="85" width="80" height="75" fill="#764ba2" rx="5"/>
+                            <text x="390" y="100" text-anchor="middle" font-size="11" fill="white" font-weight="bold">AI 编码</text>
+                            <text x="390" y="120" text-anchor="middle" font-size="10" fill="white">64</text>
+                            <text x="390" y="145" text-anchor="middle" font-size="9" fill="#666">2020s</text>
+                            
+                            <text x="250" y="180" text-anchor="middle" font-size="10" fill="#666">→ 达到相同音质，所需码率越来越低</text>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="algorithm-card">
+                <h4>🕰️ 第四代：AI 神经编码 (2020s-至今)</h4>
+                <div class="content-block" style="background: linear-gradient(135deg, #f3e5f5, #e1bee7); border-left-color: #9c27b0;">
+                    <h4>技术突破</h4>
+                    <p>使用深度学习和神经网络，实现前所未有的压缩效率。</p>
+                    <ul>
+                        <li><strong>2019</strong> - Google Lyra / SoundStream
+                            <ul><li>神经音频编解码器</li><li>3kbps 就能达到可懂语音</li><li>比传统编码低 10 倍码率</li></ul>
+                        </li>
+                        <li><strong>2020</strong> - Microsoft Nuwa / VALL-E
+                            <ul><li>AI 语音合成与压缩结合</li><li>3 秒样本克隆任意人声</li></ul>
+                        </li>
+                        <li><strong>2021</strong> - Meta EnCodec
+                            <ul><li>端到端神经编解码器</li><li>用于 AudioGen、MusicGen</li><li>6kbps 高质量音频</li></ul>
+                        </li>
+                        <li><strong>2023</strong> - Apple 无损压缩升级
+                            <ul><li>ALAC 改进版本</li><li>更好的压缩率</li></ul>
+                        </li>
+                        <li><strong>2024</strong> - 神经无损编码研究
+                            <ul><li>结合传统无损与 AI 预测</li><li>目标：完美还原 + 超高压缩率</li></ul>
+                        </li>
+                    </ul>
+                    <div class="info-box warning">
+                        <h4>🤖 AI 编码的原理</h4>
+                        <p>传统编码：分析声音 → 去掉听不见的部分 → 量化编码</p>
+                        <p>AI 编码：训练神经网络 → 学习声音特征 → 生成参数 → 接收端用 AI 重建</p>
+                        <p><strong>类比：</strong>传统编码像压缩图片 (ZIP)，AI 编码像让画家根据描述重新画一幅画。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="algorithm-card">
+                <h4>📊 压缩算法发展时间线</h4>
+                <div class="diagram">
+                    <svg viewBox="0 0 700 400" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="100%" height="100%" fill="#f8f9fa"/>
+                        <text x="350" y="25" text-anchor="middle" font-size="14" fill="#333" font-weight="bold">音频压缩算法发展时间线</text>
+                        
+                        <!-- 时间线 -->
+                        <line x1="50" y1="350" x2="650" y2="350" stroke="#667eea" stroke-width="3"/>
+                        
+                        <!-- 1970s -->
+                        <circle cx="80" cy="350" r="6" fill="#2196f3"/>
+                        <text x="80" y="370" text-anchor="middle" font-size="10" fill="#666">1972</text>
+                        <text x="80" y="320" text-anchor="middle" font-size="9" fill="#2196f3">G.711</text>
+                        <text x="80" y="332" text-anchor="middle" font-size="8" fill="#666">电话 PCM</text>
+                        
+                        <!-- 1982 -->
+                        <circle cx="130" cy="350" r="6" fill="#2196f3"/>
+                        <text x="130" y="370" text-anchor="middle" font-size="10" fill="#666">1982</text>
+                        <text x="130" y="320" text-anchor="middle" font-size="9" fill="#2196f3">CD</text>
+                        <text x="130" y="332" text-anchor="middle" font-size="8" fill="#666">44.1kHz/16bit</text>
+                        
+                        <!-- 1991 -->
+                        <circle cx="190" cy="350" r="6" fill="#ff9800"/>
+                        <text x="190" y="370" text-anchor="middle" font-size="10" fill="#666">1991</text>
+                        <text x="190" y="300" text-anchor="middle" font-size="10" fill="#ff9800" font-weight="bold">MP3</text>
+                        <text x="190" y="315" text-anchor="middle" font-size="8" fill="#666">感知编码革命</text>
+                        
+                        <!-- 1997 -->
+                        <circle cx="240" cy="350" r="6" fill="#4caf50"/>
+                        <text x="240" y="370" text-anchor="middle" font-size="10" fill="#666">1997</text>
+                        <text x="240" y="320" text-anchor="middle" font-size="9" fill="#4caf50">Vorbis</text>
+                        <text x="240" y="332" text-anchor="middle" font-size="8" fill="#666">开源替代</text>
+                        
+                        <!-- 2001 -->
+                        <circle cx="290" cy="350" r="6" fill="#4caf50"/>
+                        <text x="290" y="370" text-anchor="middle" font-size="10" fill="#666">2001</text>
+                        <text x="290" y="310" text-anchor="middle" font-size="10" fill="#4caf50" font-weight="bold">AAC</text>
+                        <text x="290" y="325" text-anchor="middle" font-size="8" fill="#666">效率提升</text>
+                        <text x="290" y="340" text-anchor="middle" font-size="9" fill="#4caf50">FLAC</text>
+                        <text x="290" y="355" text-anchor="middle" font-size="8" fill="#666">无损压缩</text>
+                        
+                        <!-- 2010 -->
+                        <circle cx="380" cy="350" r="6" fill="#4caf50"/>
+                        <text x="380" y="370" text-anchor="middle" font-size="10" fill="#666">2010</text>
+                        <text x="380" y="320" text-anchor="middle" font-size="9" fill="#4caf50">Opus</text>
+                        <text x="380" y="332" text-anchor="middle" font-size="8" fill="#666">全能编码</text>
+                        
+                        <!-- 2019 -->
+                        <circle cx="470" cy="350" r="6" fill="#9c27b0"/>
+                        <text x="470" y="370" text-anchor="middle" font-size="10" fill="#666">2019</text>
+                        <text x="470" y="300" text-anchor="middle" font-size="10" fill="#9c27b0" font-weight="bold">Lyra</text>
+                        <text x="470" y="315" text-anchor="middle" font-size="8" fill="#666">神经编码</text>
+                        
+                        <!-- 2021 -->
+                        <circle cx="520" cy="350" r="6" fill="#9c27b0"/>
+                        <text x="520" y="370" text-anchor="middle" font-size="10" fill="#666">2021</text>
+                        <text x="520" y="310" text-anchor="middle" font-size="10" fill="#9c27b0" font-weight="bold">EnCodec</text>
+                        <text x="520" y="325" text-anchor="middle" font-size="8" fill="#666">端到端 AI</text>
+                        
+                        <!-- 2024 -->
+                        <circle cx="600" cy="350" r="6" fill="#e94560"/>
+                        <text x="600" y="370" text-anchor="middle" font-size="10" fill="#666">2024</text>
+                        <text x="600" y="290" text-anchor="middle" font-size="11" fill="#e94560" font-weight="bold">AI 无损</text>
+                        <text x="600" y="305" text-anchor="middle" font-size="8" fill="#666">神经 + 传统</text>
+                        
+                        <!-- 图例 -->
+                        <rect x="50" y="50" width="15" height="15" fill="#2196f3" rx="3"/>
+                        <text x="70" y="62" font-size="9" fill="#666">第一代：电话</text>
+                        
+                        <rect x="180" y="50" width="15" height="15" fill="#ff9800" rx="3"/>
+                        <text x="200" y="62" font-size="9" fill="#666">第二代：感知编码</text>
+                        
+                        <rect x="350" y="50" width="15" height="15" fill="#4caf50" rx="3"/>
+                        <text x="370" y="62" font-size="9" fill="#666">第三代：效率提升</text>
+                        
+                        <rect x="520" y="50" width="15" height="15" fill="#9c27b0" rx="3"/>
+                        <text x="540" y="62" font-size="9" fill="#666">第四代：AI 编码</text>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="algorithm-card">
+                <h4>📈 压缩效率对比</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>编码格式</th>
+                            <th>典型码率</th>
+                            <th>压缩率</th>
+                            <th>文件大小 (3 分钟)</th>
+                            <th>音质评价</th>
+                            <th>年代</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>CD (PCM)</strong></td>
+                            <td>1411 kbps</td>
+                            <td>1:1 (无压缩)</td>
+                            <td>~30 MB</td>
+                            <td>参考标准</td>
+                            <td>1982</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MP3</strong></td>
+                            <td>128 kbps</td>
+                            <td>11:1</td>
+                            <td>~3 MB</td>
+                            <td>良好</td>
+                            <td>1991</td>
+                        </tr>
+                        <tr>
+                            <td><strong>AAC</strong></td>
+                            <td>128 kbps</td>
+                            <td>11:1</td>
+                            <td>~3 MB</td>
+                            <td>优秀</td>
+                            <td>2001</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Opus</strong></td>
+                            <td>96 kbps</td>
+                            <td>15:1</td>
+                            <td>~2.2 MB</td>
+                            <td>优秀+</td>
+                            <td>2010</td>
+                        </tr>
+                        <tr>
+                            <td><strong>FLAC</strong></td>
+                            <td>~700 kbps</td>
+                            <td>2:1</td>
+                            <td>~15 MB</td>
+                            <td>完美还原</td>
+                            <td>2003</td>
+                        </tr>
+                        <tr>
+                            <td><strong>EnCodec (AI)</strong></td>
+                            <td>64 kbps</td>
+                            <td>22:1</td>
+                            <td>~1.5 MB</td>
+                            <td>优秀 (神经)</td>
+                            <td>2021</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Lyra (AI)</strong></td>
+                            <td>3 kbps</td>
+                            <td>470:1</td>
+                            <td>~70 KB</td>
+                            <td>可懂 (语音)</td>
+                            <td>2019</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="info-box success">
+                    <h4>🎯 总结</h4>
+                    <ul>
+                        <li><strong>1991-2024</strong>：MP3 到 AI 编码，压缩效率提升约 20 倍</li>
+                        <li><strong>音质趋势</strong>：从"去掉听不见的"到"AI 智能重建"</li>
+                        <li><strong>未来方向</strong>：神经无损编码，兼顾完美音质和超高压缩率</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="info-box">
+                <h4>💡 如何选择？</h4>
+                <ul>
+                    <li><strong>日常听歌</strong> → AAC 256kbps 或 Opus 160kbps（音质好，文件小）</li>
+                    <li><strong>音乐收藏</strong> → FLAC（无损，可反复转换）</li>
+                    <li><strong>专业编辑</strong> → WAV（未压缩，编辑无损失）</li>
+                    <li><strong>网络传输</strong> → Opus（低延迟，兼容性好）</li>
+                    <li><strong>语音通话</strong> → Opus 或 AI 编码（极低码率）</li>
+                </ul>
+            </div>
+        </section>
+
     <a href="#" class="back-to-top">↑ 返回顶部</a>
     </main>
 
