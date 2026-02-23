@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FFmpeg 音频处理 - 计算机音频处理学习指南</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <nav>
+        <div class="container">
+            <ul>
+                <li><a href="index.html">音频基础</a></li>
+                <li><a href="algorithms.html">常用算法</a></li>
+                <li><a href="ai-audio.html">AI 音频处理</a></li>
+                <li><a href="streaming-protocols.html">在线音频协议</a></li>
+                <li><a href="python-examples.html">Python 示例</a></li>
+                <li><a href="golang-examples.html">Golang 示例</a></li>
+                <li><a href="ffmpeg-audio.html" style="background: #e94560;">FFmpeg 处理</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section class="section">
+            <h2>🎬 FFmpeg 音频处理基础</h2>
+            <p>FFmpeg 是一个开源的跨平台音视频处理工具，可以录制、转换、流式传输音视频。它提供了强大的命令行接口来处理音频文件。</p>
+
+            <div class="info-box">
+                <h4>FFmpeg 核心组件</h4>
+                <ul>
+                    <li><strong>ffmpeg</strong>：音视频转码、合成工具</li>
+                    <li><strong>ffprobe</strong>：媒体文件分析工具</li>
+                    <li><strong>ffplay</strong>：简易媒体播放器</li>
+                    <li><strong>libavcodec</strong>：音视频编解码库</li>
+                    <li><strong>libavformat</strong>：音视频格式封装库</li>
+                </ul>
+            </div>
+
+            <div class="content-block">
+                <h4>安装 FFmpeg</h4>
+                <div class="code-block">
+                    <pre><span class="comment"># macOS</span>
+<span class="keyword">brew</span> install ffmpeg
+
+<span class="comment"># Ubuntu/Debian</span>
+<span class="keyword">sudo apt</span> install ffmpeg
+
+<span class="comment"># Windows (使用 Chocolatey)</span>
+<span class="keyword">choco</span> install ffmpeg
+
+<span class="comment"># 验证安装</span>
+<span class="keyword">ffmpeg</span> -version
+<span class="keyword">ffprobe</span> -version</pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>📊 音频文件信息查看</h2>
+            <p>使用 ffprobe 可以查看音频文件的详细信息，包括编码格式、采样率、位深度、声道数等。</p>
+
+            <div class="content-block">
+                <h4>查看音频文件基本信息</h4>
+                <div class="code-block">
+                    <pre><span class="comment"># 查看音频文件详细信息</span>
+<span class="keyword">ffprobe</span> -i input.mp3
+
+<span class="comment"># 以 JSON 格式输出</span>
+<span class="keyword">ffprobe</span> -i input.mp3 -print_format json -show_format -show_streams
+
+<span class="comment"># 只显示音频流信息</span>
+<span class="keyword">ffprobe</span> -i input.mp3 -select_streams a -show_entries stream=codec_name,channels,sample_rate,bit_rate -of default=noprint_wrappers=1
+
+<span class="comment"># 查看音频时长</span>
+<span class="keyword">ffprobe</span> -i input.mp3 -show_entries format=duration -of default=noprint_wrappers=1:nokey=1</pre>
+                </div>
+            </div>
+
+            <div class="diagram">
+                <svg viewBox="0 0 600 350" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="100%" height="100%" fill="#f8f9fa"/>
+                    
+                    <text x="300" y="30" text-anchor="middle" font-size="16" fill="#333" font-weight="bold">FFprobe 音频分析流程</text>
+                    
+                    <rect x="50" y="60" width="150" height="80" fill="white" stroke="#667eea" stroke-width="2" rx="10"/>
+                    <text x="125" y="90" text-anchor="middle" font-size="12" fill="#333" font-weight="bold">音频文件</text>
+                    <text x="125" y="115" text-anchor="middle" font-size="10" fill="#666">input.mp3</text>
+                    <text x="125" y="130" text-anchor="middle" font-size="10" fill="#666">WAV/FLAC 等</text>
+                    
+                    <rect x="250" y="60" width="150" height="80" fill="white" stroke="#e94560" stroke-width="2" rx="10"/>
+                    <text x="325" y="90" text-anchor="middle" font-size="12" fill="#333" font-weight="bold">FFprobe</text>
+                    <text x="325" y="115" text-anchor="middle" font-size="10" fill="#666">解析容器</text>
+                    <text x="325" y="130" text-anchor="middle" font-size="10" fill="#666">提取元数据</text>
+                    
+                    <rect x="450" y="60" width="150" height="80" fill="white" stroke="#28a745" stroke-width="2" rx="10"/>
+                    <text x="525" y="90" text-anchor="middle" font-size="12" fill="#333" font-weight="bold">输出信息</text>
+                    <text x="525" y="115" text-anchor="middle" font-size="10" fill="#666">编码/采样率</text>
+                    <text x="525" y="130" text-anchor="middle" font-size="10" fill="#666">声道/比特率</text>
+                    
+                    <line x1="200" y1="100" x2="245" y2="100" stroke="#667eea" stroke-width="2"/>
+                    <line x1="400" y1="100" x2="445" y2="100" stroke="#e94560" stroke-width="2"/>
+                    
+                    <rect x="100" y="180" width="400" height="150" fill="white" stroke="#0f3460" stroke-width="2" rx="10"/>
+                    <text x="300" y="210" text-anchor="middle" font-size="14" fill="#333" font-weight="bold">典型输出示例</text>
+                    
+                    <text x="120" y="240" font-size="10" fill="#666">Input #0, mp3, from 'input.mp3':</text>
+                    <text x="120" y="260" font-size="10" fill="#666">Duration: 00:03:45.67, start: 0.000000</text>
+                    <text x="120" y="280" font-size="10" fill="#666">Audio: mp3, 44100 Hz, stereo, 192 kb/s</text>
+                    <text x="120" y="305" font-size="10" fill="#e94560">→ 时长：3 分 45 秒</text>
+                    <text x="300" y="305" font-size="10" fill="#e94560">→ 采样率：44.1kHz</text>
+                    <text x="450" y="305" font-size="10" fill="#e94560">→ 比特率：192kbps</text>
+                </svg>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🔄 音频格式转换</h2>
+            <p>FFmpeg 支持几乎所有常见的音频格式之间的相互转换。</p>
+
+            <div class="content-block">
+                <h4>基本格式转换</h4>
+                <div class="code-block">
+                    <pre><span class="comment"># MP3 转 WAV（无损）</span>
+<span class="keyword">ffmpeg</span> -i input.mp3 output.wav
+
+<span class="comment"># WAV 转 MP3（指定比特率）</span>
+<span class="keyword">ffmpeg</span> -i input.wav -b:a 320k output.mp3
+
+<span class="comment"># 转换为 FLAC（无损压缩）</span>
+<span class="keyword">ffmpeg</span> -i input.wav output.flac
+
+<span class="comment"># 转换为 AAC（高质量）</span>
+<span class="keyword">ffmpeg</span> -i input.wav -c:a aac -b:a 256k output.m4a
+
+<span class="comment"># 转换为 OGG（开源格式）</span>
+<span class="keyword">ffmpeg</span> -i input.wav -c:a libvorbis -q:a 10 output.ogg</pre>
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h4>批量格式转换</h4>
+                <div class="code-block">
+                    <pre><span class="comment"># 批量转换当前目录所有 WAV 为 MP3</span>
+<span class="keyword">for</span> file <span class="keyword">in</span> *.wav; <span class="keyword">do</span>
+    <span class="keyword">ffmpeg</span> -i <span class="string">"$file"</span> -b:a 320k <span class="string">"${file%.wav}.mp3"</span>
+<span class="keyword">done</span>
+
+<span class="comment"># 使用 find 批量转换子目录中的文件</span>
+<span class="keyword">find</span> . -name <span class="string">"*.wav"</span> -exec ffmpeg -i {} -b:a 256k {}.mp3 \;</pre>
+                </div>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>格式</th>
+                        <th>类型</th>
+                        <th>特点</th>
+                        <th>适用场景</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>WAV</td>
+                        <td>无损</td>
+                        <td>未压缩，文件大</td>
+                        <td>专业音频编辑</td>
+                    </tr>
+                    <tr>
+                        <td>MP3</td>
+                        <td>有损</td>
+                        <td>兼容性好，文件小</td>
+                        <td>音乐播放、流媒体</td>
+                    </tr>
+                    <tr>
+                        <td>FLAC</td>
+                        <td>无损压缩</td>
+                        <td>压缩率约 50%</td>
+                        <td>音乐收藏、存档</td>
+                    </tr>
+                    <tr>
+                        <td>AAC</td>
+                        <td>有损</td>
+                        <td>同码率音质优于 MP3</td>
+                        <td>Apple 设备、流媒体</td>
+                    </tr>
+                    <tr>
+                        <td>OGG</td>
+                        <td>有损</td>
+                        <td>开源免费</td>
+                        <td>游戏音频、开源项目</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="section">
+            <h2>⚙️ 音频参数调整</h2>
+            <p>FFmpeg 可以精确控制音频的各种参数，包括采样率、位深度、声道数、比特率等。</p>
+
+            <div class="content-block">
+                <h4>采样率转换</h4>
+                <div class="code-block">
+                    <pre><span class="comment"># 重采样到 44.1kHz（CD 标准）</span>
+<span class="keyword">ffmpeg</span> -i input.wav -ar 44100 output_44k.wav
+
+<span class="comment"># 重采样到 48kHz（视频标准）</span>
+<span class="keyword">ffmpeg</span> -i input.wav -ar 48000 output_48k.wav
+
+<span class="comment"># 重采样到 96kHz（高解析度）</span>
+<span class="keyword">ffmpeg</span> -i input.wav -ar 96000 output_96k.wav
+
+<span class="comment"># 降采样到 8kHz（电话音质）</span>
+<span class="keyword">ffmpeg</span> -i input.wav -ar 8000 output_phone.wav</pre>
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h4>声道处理</h4>
+                <div class="code-block">
+                    <pre><span class="comment"># 立体声转单声道</span>
+<span class="keyword">ffmpeg</span> -i input.wav -ac 1 output_mono.wav
+
+<span class="comment"># 单声道转立体声</span>
+<span class="keyword">ffmpeg</span> -i input_mono.wav -ac 2 output_stereo.wav
+
+<span class="comment"># 5.1 环绕声转立体声</span>
+<span class="keyword">ffmpeg</span> -i input_5.1.wav -ac 2 output_stereo.wav
+
+<span class="comment"># 提取特定声道（提取左声道）</span>
+<span class="keyword">ffmpeg</span> -i input.wav -af <span class="string">"pan=mono|c0=FL"</span> output_left.wav</pre>
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h4>比特率控制</h4>
+                <div class="code-block">
+                    <pre><span class="comment"># 固定比特率 (CBR)</span>
+<span class="keyword">ffmpeg</span> -i input.wav -b:a 192k output_cbr.mp3
+
+<span class="comment"># 可变比特率 (VBR) - 质量优先</span>
+<span class="keyword">ffmpeg</span> -i input.wav -q:a 2 output_vbr.mp3
+
+<span class="comment"># 平均比特率 (ABR)</span>
+<span class="keyword">ffmpeg</span> -i input.wav -b:a 256k -q:a 2 output_abr.mp3
+
+<span class="comment"># 比特率对照表</span>
+<span class="comment"># 64k   - 语音/播客</span>
+<span class="comment"># 128k  - 标准音质</span>
+<span class="comment"># 192k  - 良好音质</span>
+<span class="comment"># 320k  - 高质量/CD 音质</span></pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🎚️ 音频滤镜处理</h2>
+            <p>FFmpeg 提供了丰富的音频滤镜，可以进行音量调整、均衡器、混响、变速等各种处理。</p>
+
+            <div class="content-block">
+                <h4>音量调整</h4>
+                <div class="code-block">
+                    <pre><span class="comment"># 增加音量（+3dB）</span>
+<span class="keyword">ffmpeg</span> -i input.wav -af <span class="string">"volume=+3dB"</span> output_louder.wav
+
+<span class="comment"># 降低音量（-6dB）</span>
+<span class="keyword">ffmpeg</span> -i input.wav -af <span class="string">"volume=-6dB"</span> output_quieter.wav
+
+<span class="comment"># 音量标准化（峰值归一化）</span>
+<span class="keyword">ffmpeg</span> -i input.wav -af <span class="string">"volumedetect"</span> -f null -
+
+<span class="comment"># 动态范围压缩</span>
+<span class="keyword">ffmpeg</span> -i input.wav -af <span class="string">"acompressor=threshold=0.089:ratio=9:attack=200:release=1000"</span> output_compressed.wav</pre>
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h4>均衡器处理</h4>
+                <div class="code-block">
+                    <pre><span class="comment"># 三段均衡器（低音 + 中音 + 高音）</span>
+<span class="keyword">ffmpeg</span> -i input.wav -af <span class="string">"equalizer=f=100:t=q:w=100:g=5,equalizer=f=1000:t=q:w=500:g=-3,equalizer=f=8000:t=q:w=2000:g=3"</span> output_eq.wav
+
+<span class="comment"># 低音增强</span>
+<span class="keyword">ffmpeg</span> -i input.wav -af <span class="string">"bass=g=5:f=100"</span> output_bass.wav
+
+<span class="comment"># 高音增强</span>
+<span class="keyword">ffmpeg</span> -i input.wav -af <span class="string">"treble=g=5:f=5000"</span> output_treble.wav
+
+<span class="comment"># 低通滤波器（只保留低频）</span>
+<span class="keyword">ffmpeg</span> -i input.wav -af <span class="string">"lowpass=f=1000"</span> output_lowpass.wav
+
+<span class="comment"># 高通滤波器（只保留高频）</span>
+<span class="keyword">ffmpeg</span> -i input.wav -af <span class="string">"highpass=f=2000"</span> output_highpass.wav</pre>
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h4>时间与音高调整</h4>
+                <div class="code-block">
+                    <pre><span class="comment"># 加速播放（1.5 倍速）</span>
+<span class="keyword">ffmpeg</span> -i input.wav -af <span class="string">"atempo=1.5"</span> output_faster.wav
+
+<span class="comment"># 减速播放（0.75 倍速）</span>
+<span class="keyword">ffmpeg</span> -i input.wav -af <span class="string">"atempo=0.75"</span> output_slower.wav
+
+<span class="comment"># 变速不变调（范围 0.5-2.0）</span>
+<span class="keyword">ffmpeg</span> -i input.wav -af <span class="string">"atempo=1.25"</span> output_tempo.wav
+
+<span class="comment"># 变调不变速（半音为单位）</span>
+<span class="keyword">ffmpeg</span> -i input.wav -af <span class="string">"asetrate=44100*1.059463,aresample=44100"</span> output_pitch_up.wav</pre>
+                </div>
+            </div>
+
+            <div class="diagram">
+                <svg viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="100%" height="100%" fill="#f8f9fa"/>
+                    
+                    <text x="300" y="30" text-anchor="middle" font-size="16" fill="#333" font-weight="bold">FFmpeg 音频滤镜处理链</text>
+                    
+                    <rect x="50" y="60" width="120" height="70" fill="white" stroke="#667eea" stroke-width="2" rx="8"/>
+                    <text x="110" y="85" text-anchor="middle" font-size="11" fill="#333" font-weight="bold">原始音频</text>
+                    <text x="110" y="105" text-anchor="middle" font-size="9" fill="#666">input.wav</text>
+                    <text x="110" y="120" text-anchor="middle" font-size="9" fill="#666">44.1kHz/16bit</text>
+                    
+                    <rect x="200" y="60" width="100" height="70" fill="#667eea" rx="8"/>
+                    <text x="250" y="85" text-anchor="middle" font-size="11" fill="white" font-weight="bold">volume</text>
+                    <text x="250" y="105" text-anchor="middle" font-size="9" fill="white">音量调整</text>
+                    <text x="250" y="120" text-anchor="middle" font-size="9" fill="white">+3dB</text>
+                    
+                    <rect x="320" y="60" width="100" height="70" fill="#e94560" rx="8"/>
+                    <text x="370" y="85" text-anchor="middle" font-size="11" fill="white" font-weight="bold">equalizer</text>
+                    <text x="370" y="105" text-anchor="middle" font-size="9" fill="white">均衡器</text>
+                    <text x="370" y="120" text-anchor="middle" font-size="9" fill="white">三段 EQ</text>
+                    
+                    <rect x="440" y="60" width="100" height="70" fill="#28a745" rx="8"/>
+                    <text x="490" y="85" text-anchor="middle" font-size="11" fill="white" font-weight="bold">acompressor</text>
+                    <text x="490" y="105" text-anchor="middle" font-size="9" fill="white">动态压缩</text>
+                    <text x="490" y="120" text-anchor="middle" font-size="9" fill="white">阈值/ratio</text>
+                    
+                    <rect x="560" y="60" width="120" height="70" fill="white" stroke="#0f3460" stroke-width="2" rx="8"/>
+                    <text x="620" y="85" text-anchor="middle" font-size="11" fill="#333" font-weight="bold">输出音频</text>
+                    <text x="620" y="105" text-anchor="middle" font-size="9" fill="#666">output.wav</text>
+                    <text x="620" y="120" text-anchor="middle" font-size="9" fill="#666">处理后</text>
+                    
+                    <line x1="170" y1="95" x2="195" y2="95" stroke="#667eea" stroke-width="2"/>
+                    <line x1="300" y1="95" x2="315" y2="95" stroke="#667eea" stroke-width="2"/>
+                    <line x1="420" y1="95" x2="435" y2="95" stroke="#e94560" stroke-width="2"/>
+                    <line x1="540" y1="95" x2="555" y2="95" stroke="#28a745" stroke-width="2"/>
+                    
+                    <rect x="100" y="170" width="400" height="200" fill="white" stroke="#0f3460" stroke-width="2" rx="10"/>
+                    <text x="300" y="200" text-anchor="middle" font-size="14" fill="#333" font-weight="bold">常用滤镜组合示例</text>
+                    
+                    <text x="120" y="230" font-size="10" fill="#666" font-weight="bold">播客处理链：</text>
+                    <text x="120" y="250" font-size="9" fill="#333">volume=+2dB → highpass=f=80 →</text>
+                    <text x="120" y="265" font-size="9" fill="#333">equalizer → acompressor → limiter</text>
+                    
+                    <text x="120" y="295" font-size="10" fill="#666" font-weight="bold">音乐母带处理：</text>
+                    <text x="120" y="315" font-size="9" fill="#333">equalizer(三段) → acompressor →</text>
+                    <text x="120" y="330" font-size="9" fill="#333">alimiter → volumedetect</text>
+                    
+                    <text x="350" y="360" font-size="10" fill="#e94560" font-weight="bold">→ 多个滤镜用逗号连接</text>
+                </svg>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>✂️ 音频剪辑与合并</h2>
+            <p>FFmpeg 可以精确地剪辑音频片段，也可以将多个音频文件合并成一个。</p>
+
+            <div class="content-block">
+                <h4>音频剪辑</h4>
+                <div class="code-block">
+                    <pre><span class="comment"># 从 30 秒开始截取 60 秒</span>
+<span class="keyword">ffmpeg</span> -i input.wav -ss 00:00:30 -t 00:01:00 -c copy output.wav
+
+<span class="comment"># 从 1 分 30 秒截取到 2 分 45 秒</span>
+<span class="keyword">ffmpeg</span> -i input.wav -ss 00:01:30 -to 00:02:45 -c copy output.wav
+
+<span class="comment"># 精确剪辑（先 -ss 更快）</span>
+<span class="keyword">ffmpeg</span> -ss 00:00:10 -i input.wav -t 00:00:30 -c:a pcm_s16le output.wav
+
+<span class="comment"># 淡入淡出效果</span>
+<span class="keyword">ffmpeg</span> -i input.wav -af <span class="string">"afade=t=in:st=0:d=3,afade=t=out:st=57:d=3"</span> output_fade.wav</pre>
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h4>音频合并</h4>
+                <div class="code-block">
+                    <pre><span class="comment"># 方法 1：使用 concat 协议（相同格式）</span>
+<span class="keyword">echo</span> <span class="string">"file 'part1.wav'"</span> > list.txt
+<span class="keyword">echo</span> <span class="string">"file 'part2.wav'"</span> >> list.txt
+<span class="keyword">echo</span> <span class="string">"file 'part3.wav'"</span> >> list.txt
+<span class="keyword">ffmpeg</span> -f concat -i list.txt -c copy output.wav
+
+<span class="comment"># 方法 2：使用 concat 滤镜（可处理不同格式）</span>
+<span class="keyword">ffmpeg</span> -i input1.wav -i input2.wav -filter_complex <span class="string">"[0:0][1:0]concat=n=2:v=0:a=1[out]"</span> -map <span class="string">"[out]"</span> output.wav
+
+<span class="comment"># 方法 3：批量合并当前目录所有 MP3</span>
+<span class="keyword">for</span> f <span class="keyword">in</span> *.mp3; <span class="keyword">do</span> <span class="keyword">echo</span> <span class="string">"file '$f'"</span>; <span class="keyword">done</span> > list.txt
+<span class="keyword">ffmpeg</span> -f concat -i list.txt -c copy merged.mp3</pre>
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h4>音频混合</h4>
+                <div class="code-block">
+                    <pre><span class="comment"># 混合两个音频文件（叠加）</span>
+<span class="keyword">ffmpeg</span> -i background.wav -i voice.wav -filter_complex <span class="string">"amix=inputs=2:duration=first:dropout_transition=3"</span> output_mix.wav
+
+<span class="comment"># 背景音乐 + 人声（调整音量比例）</span>
+<span class="keyword">ffmpeg</span> -i bgm.wav -i voice.wav -filter_complex <span class="string">"[0:0]volume=0.3[bg];[bg][1:0]amix=inputs=2:duration=first"</span> output.wav
+
+<span class="comment"># 交叉淡入淡出混合</span>
+<span class="keyword">ffmpeg</span> -i song1.wav -i song2.wav -filter_complex <span class="string">"[0:0][1:0]acrossfade=d=10:c1=tri:c2=tri"</span> output_crossfade.wav</pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🎵 音频提取与分离</h2>
+            <p>从视频中提取音频，或从立体声中分离特定声道。</p>
+
+            <div class="content-block">
+                <h4>从视频提取音频</h4>
+                <div class="code-block">
+                    <pre><span class="comment"># 提取音频为 WAV（无损）</span>
+<span class="keyword">ffmpeg</span> -i video.mp4 -vn -acodec pcm_s16le audio.wav
+
+<span class="comment"># 提取音频为 MP3（320k）</span>
+<span class="keyword">ffmpeg</span> -i video.mp4 -vn -b:a 320k audio.mp3
+
+<span class="comment"># 提取音频为 AAC</span>
+<span class="keyword">ffmpeg</span> -i video.mp4 -vn -c:a aac -b:a 256k audio.m4a
+
+<span class="comment"># 提取音频并标准化音量</span>
+<span class="keyword">ffmpeg</span> -i video.mp4 -vn -af <span class="string">"loudnorm=I=-16:TP=-1.5:LRA=11"</span> audio_normalized.wav</pre>
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h4>声道分离</h4>
+                <div class="code-block">
+                    <pre><span class="comment"># 分离左右声道为独立文件</span>
+<span class="keyword">ffmpeg</span> -i stereo.wav -map_channel 0.0.0 -ac 1 left.wav
+<span class="keyword">ffmpeg</span> -i stereo.wav -map_channel 0.0.1 -ac 1 right.wav
+
+<span class="comment"># 使用 pan 滤镜分离声道</span>
+<span class="keyword">ffmpeg</span> -i stereo.wav -af <span class="string">"pan=mono|c0=FL"</span> left_only.wav
+<span class="keyword">ffmpeg</span> -i stereo.wav -af <span class="string">"pan=mono|c0=FR"</span> right_only.wav
+
+<span class="comment"># 交换左右声道</span>
+<span class="keyword">ffmpeg</span> -i input.wav -af <span class="string">"pan=stereo|c0=c1|c1=c0"</span> swapped.wav</pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>📈 音频可视化与分析</h2>
+            <p>FFmpeg 可以生成音频的频谱图、波形图等可视化内容。</p>
+
+            <div class="content-block">
+                <h4>生成频谱图</h4>
+                <div class="code-block">
+                    <pre><span class="comment"># 生成音频频谱图</span>
+<span class="keyword">ffmpeg</span> -i input.wav -filter_complex <span class="string">"showspectrumpic=s=1280x720:legend=1"</span> spectrum.png
+
+<span class="comment"># 生成彩色频谱图</span>
+<span class="keyword">ffmpeg</span> -i input.wav -filter_complex <span class="string">"showspectrumpic=s=1920x1080:color=intensity:legend=1:scale=lin"</span> spectrum_hd.png
+
+<span class="comment"># 生成声波图</span>
+<span class="keyword">ffmpeg</span> -i input.wav -filter_complex <span class="string">"showwavespic=s=1280x720:colors=blue|red"</span> waveform.png</pre>
+                </div>
+            </div>
+
+            <div class="diagram">
+                <svg viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="specGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+                            <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:1" />
+                            <stop offset="25%" style="stop-color:#16213e;stop-opacity:1" />
+                            <stop offset="50%" style="stop-color:#0f3460;stop-opacity:1" />
+                            <stop offset="75%" style="stop-color:#e94560;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#f39c12;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <rect width="100%" height="100%" fill="#f8f9fa"/>
+                    
+                    <text x="300" y="30" text-anchor="middle" font-size="16" fill="#333" font-weight="bold">音频频谱图示例</text>
+                    
+                    <rect x="50" y="50" width="500" height="200" fill="#1a1a2e" rx="5"/>
+                    
+                    <rect x="50" y="50" width="500" height="200" fill="url(#specGrad)" opacity="0.7"/>
+                    
+                    <line x1="50" y1="250" x2="550" y2="250" stroke="#333" stroke-width="2"/>
+                    <text x="50" y="270" font-size="10" fill="#666">0Hz</text>
+                    <text x="300" y="270" text-anchor="middle" font-size="10" fill="#666">10kHz</text>
+                    <text x="550" y="270" text-anchor="end" font-size="10" fill="#666">22kHz</text>
+                    
+                    <text x="30" y="150" text-anchor="middle" font-size="10" fill="#666" transform="rotate(-90, 30, 150)">强度</text>
+                    
+                    <rect x="50" y="280" width="500" height="15" fill="#f8f9fa" stroke="#333"/>
+                    <rect x="50" y="280" width="100" height="15" fill="#1a1a2e"/>
+                    <rect x="150" y="280" width="100" height="15" fill="#0f3460"/>
+                    <rect x="250" y="280" width="100" height="15" fill="#e94560"/>
+                    <rect x="350" y="280" width="100" height="15" fill="#f39c12"/>
+                    <text x="560" y="292" font-size="9" fill="#666">低</text>
+                    <text x="580" y="292" font-size="9" fill="#666">高</text>
+                </svg>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🔧 高级技巧与批处理</h2>
+
+            <div class="content-block">
+                <h4>音频标准化</h4>
+                <div class="code-block">
+                    <pre><span class="comment"># EBU R128 响度标准化（播客标准）</span>
+<span class="keyword">ffmpeg</span> -i input.wav -af <span class="string">"loudnorm=I=-16:TP=-1.5:LRA=11:print_format=summary"</span> output_normalized.wav
+
+<span class="comment"># 峰值标准化（-1dB 峰值）</span>
+<span class="keyword">ffmpeg</span> -i input.wav -af <span class="string">"alimiter=limit=-1dB"</span> output_limited.wav
+
+<span class="comment"># 批量标准化多个文件</span>
+<span class="keyword">for</span> file <span class="keyword">in</span> *.wav; <span class="keyword">do</span>
+    <span class="keyword">ffmpeg</span> -i <span class="string">"$file"</span> -af <span class="string">"loudnorm=I=-16:TP=-1.5"</span> <span class="string">"${file%.wav}_normalized.wav"</span>
+<span class="keyword">done</span></pre>
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h4>降噪处理</h4>
+                <div class="code-block">
+                    <pre><span class="comment"># 使用 RNNoise 降噪（需要编译支持）</span>
+<span class="keyword">ffmpeg</span> -i noisy.wav -af <span class="string">"arnndn=model=rnnoise_data/tt.rnn"</span> output_clean.wav
+
+<span class="comment"># 简单高通滤波去除低频噪音</span>
+<span class="keyword">ffmpeg</span> -i input.wav -af <span class="string">"highpass=f=80"</span> output_hp.wav
+
+<span class="comment"># 去除恒定频率噪音（如交流声）</span>
+<span class="keyword">ffmpeg</span> -i input.wav -af <span class="string">"notch=f=50:width_type=q:width=10"</span> output_no_hum.wav</pre>
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h4>实用脚本示例</h4>
+                <div class="code-block">
+                    <pre><span class="comment">#!/bin/bash
+# 批量转换音频文件为 MP3（320k）</span>
+<span class="keyword">for</span> file <span class="keyword">in</span> *.wav *.flac *.m4a; <span class="keyword">do</span>
+    [ -f <span class="string">"$file"</span> ] || <span class="keyword">continue</span>
+    <span class="keyword">echo</span> <span class="string">"处理：$file"</span>
+    <span class="keyword">ffmpeg</span> -i <span class="string">"$file"</span> -b:a 320k <span class="string">"${file%.*}.mp3"</span> -y
+<span class="keyword">done</span>
+
+<span class="comment">#!/bin/bash
+# 批量提取视频中的音频</span>
+<span class="keyword">for</span> video <span class="keyword">in</span> *.mp4 *.mov *.avi; <span class="keyword">do</span>
+    [ -f <span class="string">"$video"</span> ] || <span class="keyword">continue</span>
+    <span class="keyword">echo</span> <span class="string">"提取：$video"</span>
+    <span class="keyword">ffmpeg</span> -i <span class="string">"$video"</span> -vn -b:a 256k <span class="string">"${video%.*}.m4a"</span> -y
+<span class="keyword">done</span></pre>
+                </div>
+            </div>
+
+            <div class="info-box warning">
+                <h4>⚠️ 注意事项</h4>
+                <ul>
+                    <li>使用 <code>-c copy</code> 可以避免重新编码，保持原质量且速度更快</li>
+                    <li>多次有损压缩会累积质量损失，尽量保持原始文件</li>
+                    <li>处理前先用 <code>ffprobe</code> 查看源文件参数</li>
+                    <li>批量处理时先用少量文件测试命令</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>📚 常用命令速查表</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>任务</th>
+                        <th>命令</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>查看音频信息</td>
+                        <td><code>ffprobe -i input.mp3</code></td>
+                    </tr>
+                    <tr>
+                        <td>MP3 转 WAV</td>
+                        <td><code>ffmpeg -i input.mp3 output.wav</code></td>
+                    </tr>
+                    <tr>
+                        <td>WAV 转 MP3（320k）</td>
+                        <td><code>ffmpeg -i input.wav -b:a 320k output.mp3</code></td>
+                    </tr>
+                    <tr>
+                        <td>改变采样率</td>
+                        <td><code>ffmpeg -i input.wav -ar 48000 output.wav</code></td>
+                    </tr>
+                    <tr>
+                        <td>立体声转单声道</td>
+                        <td><code>ffmpeg -i input.wav -ac 1 output.wav</code></td>
+                    </tr>
+                    <tr>
+                        <td>剪辑音频</td>
+                        <td><code>ffmpeg -i input.wav -ss 00:00:30 -t 00:01:00 -c copy output.wav</code></td>
+                    </tr>
+                    <tr>
+                        <td>合并音频</td>
+                        <td><code>ffmpeg -f concat -i list.txt -c copy output.wav</code></td>
+                    </tr>
+                    <tr>
+                        <td>调整音量</td>
+                        <td><code>ffmpeg -i input.wav -af "volume=+3dB" output.wav</code></td>
+                    </tr>
+                    <tr>
+                        <td>变速播放</td>
+                        <td><code>ffmpeg -i input.wav -af "atempo=1.5" output.wav</code></td>
+                    </tr>
+                    <tr>
+                        <td>从视频提取音频</td>
+                        <td><code>ffmpeg -i video.mp4 -vn -b:a 256k audio.m4a</code></td>
+                    </tr>
+                    <tr>
+                        <td>生成频谱图</td>
+                        <td><code>ffmpeg -i input.wav -filter_complex "showspectrumpic" spectrum.png</code></td>
+                    </tr>
+                    <tr>
+                        <td>响度标准化</td>
+                        <td><code>ffmpeg -i input.wav -af "loudnorm=I=-16:TP=-1.5" output.wav</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+
+    <a href="#" class="back-to-top">↑ 返回顶部</a>
+</body>
+</html>
