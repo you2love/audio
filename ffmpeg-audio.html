@@ -7,23 +7,27 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
-    <nav>
-        <div class="container">
-            <ul>
-                <li><a href="index.html">音频基础</a></li>
-                <li><a href="algorithms.html">常用算法</a></li>
-                <li><a href="ai-audio.html">AI 音频处理</a></li>
-                <li><a href="streaming-protocols.html">在线音频协议</a></li>
-                <li><a href="python-examples.html">Python 示例</a></li>
-                <li><a href="golang-examples.html">Golang 示例</a></li>
-                <li><a href="audio-terms.html">音频术语</a></li>
-                <li><a href="ffmpeg-audio.html" style="background: #e94560;">FFmpeg 处理</a></li>
-            </ul>
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>🎵 音频教程</h2>
+            <p>计算机音频处理学习指南</p>
         </div>
-    </nav>
+        <ul class="nav-tree">
+            <li><a href="index.html"><span class="nav-icon">🔊</span>音频基础</a></li>
+            <li><a href="algorithms.html"><span class="nav-icon">⚙️</span>常用算法</a></li>
+            <li><a href="ai-audio.html"><span class="nav-icon">🤖</span>AI 音频处理</a></li>
+            <li><a href="streaming-protocols.html"><span class="nav-icon">📡</span>在线音频协议</a></li>
+            <li><a href="python-examples.html"><span class="nav-icon">🐍</span>Python 示例</a></li>
+            <li><a href="golang-examples.html"><span class="nav-icon">💻</span>Golang 示例</a></li>
+            <li><a href="ffmpeg-audio.html" class="active"><span class="nav-icon">🎬</span>FFmpeg 处理</a></li>
+            <li><a href="audio-terms.html"><span class="nav-icon">📖</span>音频术语</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
 
     <div class="container">
+
         <section class="section">
             <h2>🎬 FFmpeg 音频处理基础</h2>
             <p>FFmpeg 是一个开源的跨平台音视频处理工具，可以录制、转换、流式传输音视频。它提供了强大的命令行接口来处理音频文件。</p>
@@ -640,8 +644,9 @@
                 </tbody>
             </table>
         </section>
-    </div>
 
     <a href="#" class="back-to-top">↑ 返回顶部</a>
+    </main>
+
 </body>
 </html>
