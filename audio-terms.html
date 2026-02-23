@@ -21,6 +21,7 @@
             <li><a href="golang-examples.html"><span class="nav-icon">💻</span>Golang 示例</a></li>
             <li><a href="ffmpeg-audio.html"><span class="nav-icon">🎬</span>FFmpeg 处理</a></li>
             <li><a href="audio-terms.html" class="active"><span class="nav-icon">📖</span>音频术语</a></li>
+            <li><a href="neural-codec.html"><span class="nav-icon">🧠</span>神经编解码器</a></li>
         </ul>
     </aside>
 
@@ -946,8 +947,18 @@
                         <li><strong>2023</strong> - Apple 无损压缩升级
                             <ul><li>ALAC 改进版本</li><li>更好的压缩率</li></ul>
                         </li>
-                        <li><strong>2024</strong> - 神经无损编码研究
-                            <ul><li>结合传统无损与 AI 预测</li><li>目标：完美还原 + 超高压缩率</li></ul>
+                        <li><strong>2024</strong> - HILCodec / APCodec / ERVQ
+                            <ul><li>方差约束残差量化</li><li>并行幅度/相位编码</li><li>增强码本平衡技术</li></ul>
+                        </li>
+                        <li><strong>2025</strong> - MelCap / LDCodec / SpectroStream
+                            <ul><li><span style="color:#e94560;font-weight:bold;">单码本突破</span>：MelCap 证明单码本可捕获跨域通用音频</li>
+                            <li><span style="color:#e94560;font-weight:bold;">低复杂度</span>：LDCodec 解码成本&lt;0.3 GMACs/s</li>
+                            <li><span style="color:#e94560;font-weight:bold;">频谱域编码</span>：STFTCodec、SpectroStream 提升相位保持</li>
+                            <li><span style="color:#e94560;font-weight:bold;">稀疏量化</span>：SwitchCodec 指数级增加有效码空间</li>
+                            <li><span style="color:#e94560;font-weight:bold;">可解释性</span>：RVQ 阶段解耦语义/说话人/音高</li></ul>
+                        </li>
+                        <li><strong>2026</strong> - 神经编解码器商用普及
+                            <ul><li>CES 2026 展示空间音频普及化</li><li>情感智能语音成标配</li><li>开放式音频设备兴起</li></ul>
                         </li>
                     </ul>
                     <div class="info-box warning">
@@ -1104,6 +1115,38 @@
                             <td>2021</td>
                         </tr>
                         <tr>
+                            <td><strong>HILCodec</strong></td>
+                            <td>3 kbps</td>
+                            <td>470:1</td>
+                            <td>~70 KB</td>
+                            <td>MUSHRA 75+</td>
+                            <td>2024</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MelCap</strong></td>
+                            <td>2.6 kbps</td>
+                            <td>540:1</td>
+                            <td>~60 KB</td>
+                            <td>ViSQOL 4.29</td>
+                            <td>2025</td>
+                        </tr>
+                        <tr>
+                            <td><strong>LDCodec</strong></td>
+                            <td>6 kbps</td>
+                            <td>235:1</td>
+                            <td>~140 KB</td>
+                            <td>ViSQOL 4.14</td>
+                            <td>2025</td>
+                        </tr>
+                        <tr>
+                            <td><strong>SwitchCodec</strong></td>
+                            <td>2.7 kbps</td>
+                            <td>520:1</td>
+                            <td>~63 KB</td>
+                            <td>稀疏 REVQ</td>
+                            <td>2025</td>
+                        </tr>
+                        <tr>
                             <td><strong>Lyra (AI)</strong></td>
                             <td>3 kbps</td>
                             <td>470:1</td>
@@ -1116,9 +1159,11 @@
                 <div class="info-box success">
                     <h4>🎯 总结</h4>
                     <ul>
-                        <li><strong>1991-2024</strong>：MP3 到 AI 编码，压缩效率提升约 20 倍</li>
-                        <li><strong>音质趋势</strong>：从"去掉听不见的"到"AI 智能重建"</li>
-                        <li><strong>未来方向</strong>：神经无损编码，兼顾完美音质和超高压缩率</li>
+                        <li><strong>1991-2026</strong>：MP3 到神经编解码器，压缩效率提升约 500 倍</li>
+                        <li><strong>音质趋势</strong>：从"去掉听不见的"到"AI 智能重建"到"解耦可控编辑"</li>
+                        <li><strong>2025 突破</strong>：单码本技术、频谱域编码、稀疏量化、可解释性</li>
+                        <li><strong>2026 趋势</strong>：空间音频普及、情感智能语音、开放式音频设备</li>
+                        <li><strong>未来方向</strong>：神经无损编码、跨域通用表示、实时移动端部署</li>
                     </ul>
                 </div>
             </div>

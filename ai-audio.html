@@ -21,6 +21,7 @@
             <li><a href="golang-examples.html"><span class="nav-icon">💻</span>Golang 示例</a></li>
             <li><a href="ffmpeg-audio.html"><span class="nav-icon">🎬</span>FFmpeg 处理</a></li>
             <li><a href="audio-terms.html"><span class="nav-icon">📖</span>音频术语</a></li>
+            <li><a href="neural-codec.html"><span class="nav-icon">🧠</span>神经编解码器</a></li>
         </ul>
     </aside>
 
@@ -326,6 +327,30 @@
                         <td>即时声音克隆</td>
                         <td>配音、虚拟人</td>
                     </tr>
+                    <tr>
+                        <td><strong>MelCap (2025)</strong></td>
+                        <td>神经编解码</td>
+                        <td>单码本 2.6kbps</td>
+                        <td>通用音频表示</td>
+                    </tr>
+                    <tr>
+                        <td><strong>LDCodec (2025)</strong></td>
+                        <td>低复杂度编解码</td>
+                        <td>6kbps &lt;0.3 GMACs</td>
+                        <td>移动端部署</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SpectroStream (2025)</strong></td>
+                        <td>频谱编解码</td>
+                        <td>STFT 多通道</td>
+                        <td>专业音频处理</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SwitchCodec (2025)</strong></td>
+                        <td>稀疏量化</td>
+                        <td>2.7kbps 指数码空间</td>
+                        <td>超低比特率通信</td>
+                    </tr>
                 </tbody>
             </table>
         </section>
@@ -377,11 +402,12 @@
             </table>
 
             <div class="info-box success">
-                <h4>年技术突破</h4>
+                <h4>2026 年技术突破</h4>
                 <ul>
-                    <li>多模态音频理解：同时处理音频、文本和视觉信息</li>
-                    <li>少样本/零样本学习：极少样本即可完成复杂任务</li>
-                    <li>持续学习：模型可在运行中不断改进</li>
+                    <li><strong>神经编解码器成熟</strong>：HILCodec、MelCap、APCodec 等模型商用</li>
+                    <li><strong>可解释性突破</strong>：RVQ 阶段解耦语义/说话人/音高 (Sadok et al., 2025)</li>
+                    <li><strong>频谱域编码</strong>：从波形域向频谱域演进，相位保持能力提升</li>
+                    <li><strong>实时性优化</strong>：严格因果设计，延迟&10ms 支持流式传输</li>
                     <li>端侧大模型：10B参数模型可在手机运行</li>
                 </ul>
             </div>
