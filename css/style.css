@@ -89,12 +89,8 @@ body {
     flex: 1;
     margin-left: 260px;
     padding: 30px;
-    max-width: calc(1200px - 260px);
-}
-
-.container {
-    max-width: 100%;
-    margin: 0 auto;
+    width: calc(100% - 260px);
+    min-height: 100vh;
 }
 
 .section {
@@ -386,7 +382,7 @@ footer a {
     .main-content {
         margin-left: 0;
         padding: 15px;
-        max-width: 100%;
+        width: 100%;
     }
 
     .section {
@@ -395,6 +391,19 @@ footer a {
 
     .sidebar-header h2 {
         font-size: 1.3em;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+    }
+
+    .sidebar.show {
+        transform: translateX(0);
     }
 }
 
@@ -468,37 +477,9 @@ footer a {
     z-index: 999;
 }
 
-/* 移动端菜单按钮 */
-.menu-toggle {
-    display: none;
-    position: fixed;
-    top: 15px;
-    right: 15px;
-    z-index: 1001;
-    background: #e94560;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1.5em;
-}
-
 @media (max-width: 768px) {
-    .menu-toggle {
-        display: block;
-    }
-
-    .sidebar {
-        transform: translateX(-100%);
-        transition: transform 0.3s ease;
-    }
-
-    .sidebar.show {
-        transform: translateX(0);
-    }
-
-    .main-content {
-        margin-left: 0;
+    .back-to-top {
+        right: 20px;
+        bottom: 20px;
     }
 }
