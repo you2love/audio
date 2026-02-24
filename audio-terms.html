@@ -446,8 +446,257 @@
                                 <td>开源免费的 MP3 替代品</td>
                                 <td>游戏音频、开源项目</td>
                             </tr>
+                            <tr>
+                                <td><strong>Opus</strong></td>
+                                <td>全能型编码器，低延迟高效率</td>
+                                <td>实时通信、WebRTC、Discord</td>
+                            </tr>
+                            <tr>
+                                <td><strong>MOD/XM</strong></td>
+                                <td>模块音乐格式，自带乐器采样</td>
+                                <td>复古游戏音乐、Chiptune、Demo 场景</td>
+                            </tr>
                         </tbody>
                     </table>
+                </div>
+            </div>
+
+            <div class="algorithm-card">
+                <h4>🎹 MOD/XM：模块音乐格式</h4>
+                <div class="content-block" style="background: linear-gradient(135deg, #f3e5f5, #e1bee7); border-left-color: #9c27b0;">
+                    <h4>🗣️ 人话解释</h4>
+                    <p>MOD/XM 是一种<strong>自带乐器包的"乐谱"格式</strong>，文件超小但能播放完整音乐。</p>
+                    <p>想象一个自动钢琴：</p>
+                    <ul>
+                        <li><strong>乐谱</strong> = 音符序列（哪个键什么时候按）</li>
+                        <li><strong>乐器采样</strong> = 钢琴、鼓、吉他的录音样本</li>
+                        <li><strong>播放器</strong> = 根据乐谱用乐器采样演奏</li>
+                    </ul>
+                    <p><strong>关键特点：</strong></p>
+                    <ul>
+                        <li><strong>文件极小</strong>：一首 3 分钟音乐只要 50-300KB（因为复用采样）</li>
+                        <li><strong>可编辑性强</strong>：可以单独修改每个乐器、每个音符</li>
+                        <li><strong>循环友好</strong>：适合游戏背景音乐无限循环</li>
+                        <li><strong>复古情怀</strong>：90 年代 Demo 场景和 DOS 游戏的主流格式</li>
+                    </ul>
+                </div>
+
+                <div class="diagram">
+                    <svg viewBox="0 0 600 320" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="100%" height="100%" fill="#f8f9fa"/>
+                        <text x="300" y="25" text-anchor="middle" font-size="14" fill="#333" font-weight="bold">模块音乐工作原理</text>
+
+                        <!-- 乐器采样库 -->
+                        <rect x="30" y="50" width="180" height="120" fill="#e3f2fd" stroke="#2196f3" stroke-width="2" rx="8"/>
+                        <text x="120" y="75" text-anchor="middle" font-size="12" fill="#2196f3" font-weight="bold">乐器采样库</text>
+                        <rect x="50" y="85" width="140" height="20" fill="#2196f3" rx="3"/>
+                        <text x="120" y="100" text-anchor="middle" font-size="9" fill="white">钢琴 C4</text>
+                        <rect x="50" y="110" width="140" height="20" fill="#2196f3" rx="3"/>
+                        <text x="120" y="125" text-anchor="middle" font-size="9" fill="white">军鼓</text>
+                        <rect x="50" y="135" width="140" height="20" fill="#2196f3" rx="3"/>
+                        <text x="120" y="150" text-anchor="middle" font-size="9" fill="white">贝斯 E2</text>
+                        <rect x="50" y="160" width="140" height="20" fill="#2196f3" rx="3"/>
+                        <text x="120" y="175" text-anchor="middle" font-size="9" fill="white">...</text>
+
+                        <!-- 乐谱序列 -->
+                        <rect x="250" y="50" width="180" height="120" fill="#ffebee" stroke="#e94560" stroke-width="2" rx="8"/>
+                        <text x="340" y="75" text-anchor="middle" font-size="12" fill="#e94560" font-weight="bold">乐谱序列 (Pattern)</text>
+                        <text x="270" y="95" text-anchor="start" font-size="9" fill="#666">C-4 钢琴 1/4 拍</text>
+                        <text x="270" y="110" text-anchor="start" font-size="9" fill="#666">E-4 钢琴 1/4 拍</text>
+                        <text x="270" y="125" text-anchor="start" font-size="9" fill="#666">G-4 钢琴 1/2 拍</text>
+                        <text x="270" y="140" text-anchor="start" font-size="9" fill="#666">C-2 贝斯 1 拍</text>
+                        <text x="270" y="155" text-anchor="start" font-size="9" fill="#666">--- 军鼓 1/4 拍</text>
+
+                        <!-- 播放器 -->
+                        <rect x="470" y="50" width="100" height="60" fill="#e8f5e9" stroke="#28a745" stroke-width="2" rx="8"/>
+                        <text x="520" y="75" text-anchor="middle" font-size="11" fill="#28a745" font-weight="bold">播放器</text>
+                        <text x="520" y="95" text-anchor="middle" font-size="9" fill="#666">合成引擎</text>
+
+                        <!-- 输出 -->
+                        <rect x="450" y="140" width="140" height="50" fill="#fff3e0" stroke="#f39c12" stroke-width="2" rx="8"/>
+                        <text x="520" y="160" text-anchor="middle" font-size="11" fill="#f39c12" font-weight="bold">音频输出</text>
+                        <text x="520" y="180" text-anchor="middle" font-size="9" fill="#666">立体声波形</text>
+
+                        <!-- 箭头 -->
+                        <line x1="210" y1="110" x2="245" y2="110" stroke="#667eea" stroke-width="2" marker-end="url(#arrow)"/>
+                        <line x1="430" y1="110" x2="465" y2="110" stroke="#667eea" stroke-width="2" marker-end="url(#arrow)"/>
+                        <line x1="520" y1="110" x2="520" y2="135" stroke="#667eea" stroke-width="2" marker-end="url(#arrow)"/>
+
+                        <!-- 箭头定义 -->
+                        <defs>
+                            <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                                <path d="M0,0 L0,6 L9,3 z" fill="#667eea" />
+                            </marker>
+                        </defs>
+
+                        <!-- 文件大小对比 -->
+                        <rect x="30" y="200" width="540" height="100" fill="white" stroke="#9c27b0" stroke-width="2" rx="8"/>
+                        <text x="300" y="225" text-anchor="middle" font-size="12" fill="#9c27b0" font-weight="bold">文件大小对比（3 分钟音乐）</text>
+                        
+                        <rect x="60" y="245" width="100" height="40" fill="#667eea" rx="5"/>
+                        <text x="110" y="260" text-anchor="middle" font-size="10" fill="white" font-weight="bold">MOD/XM</text>
+                        <text x="110" y="280" text-anchor="middle" font-size="11" fill="white">50-300 KB</text>
+                        
+                        <rect x="200" y="245" width="100" height="40" fill="#e94560" rx="5"/>
+                        <text x="250" y="260" text-anchor="middle" font-size="10" fill="white" font-weight="bold">MP3</text>
+                        <text x="250" y="280" text-anchor="middle" font-size="11" fill="white">3-5 MB</text>
+                        
+                        <rect x="340" y="245" width="100" height="40" fill="#28a745" rx="5"/>
+                        <text x="390" y="260" text-anchor="middle" font-size="10" fill="white" font-weight="bold">FLAC</text>
+                        <text x="390" y="280" text-anchor="middle" font-size="11" fill="white">15-30 MB</text>
+                        
+                        <rect x="480" y="245" width="80" height="40" fill="#764ba2" rx="5"/>
+                        <text x="520" y="260" text-anchor="middle" font-size="10" fill="white" font-weight="bold">WAV</text>
+                        <text x="520" y="280" text-anchor="middle" font-size="11" fill="white">~30 MB</text>
+                    </svg>
+                </div>
+
+                <div class="info-box" style="margin-top: 20px;">
+                    <h4>📜 模块音乐格式家族</h4>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>格式</th>
+                                <th>诞生</th>
+                                <th>特点</th>
+                                <th>代表作品</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>MOD</strong></td>
+                                <td>1987 (Amiga)</td>
+                                <td>鼻祖，4 声道，采样精度 8-bit</td>
+                                <td>早期 DOS 游戏 BGM</td>
+                            </tr>
+                            <tr>
+                                <td><strong>S3M</strong></td>
+                                <td>1994</td>
+                                <td>Stereo 支持，更多声道</td>
+                                <td>Demo 场景音乐</td>
+                            </tr>
+                            <tr>
+                                <td><strong>XM</strong></td>
+                                <td>1994 (FastTracker 2)</td>
+                                <td>支持包络、振动效果，最流行</td>
+                                <td>《Unreal》游戏音乐</td>
+                            </tr>
+                            <tr>
+                                <td><strong>IT</strong></td>
+                                <td>1995 (Impulse Tracker)</td>
+                                <td>高级效果器，专业级模块音乐</td>
+                                <td>《Unreal Tournament》</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="info-box warning" style="margin-top: 15px;">
+                    <h4>💡 为什么现在还有人用？</h4>
+                    <ul>
+                        <li><strong>复古游戏开发</strong>：独立游戏追求 8/16 比特风格</li>
+                        <li><strong>Chiptune 音乐</strong>：电子音乐人喜欢芯片音乐风格</li>
+                        <li><strong>Demo 场景</strong>：64KB/4KB 极限大小音乐创作比赛</li>
+                        <li><strong>文件极小</strong>：嵌入式设备、网页游戏加载快</li>
+                        <li><strong>可实时编辑</strong>：游戏内动态音乐系统</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="algorithm-card">
+                <h4>📻 Opus vs AAC：主流格式详解</h4>
+                <div class="content-block" style="background: linear-gradient(135deg, #e3f2fd, #bbdefb); border-left-color: #2196f3;">
+                    <h4>🗣️ 人话解释</h4>
+                    <p>Opus 和 AAC 是当今最流行的两种有损音频格式，各有优势。</p>
+                    
+                    <h4 style="margin-top: 15px;">🎵 AAC (Advanced Audio Coding)</h4>
+                    <ul>
+                        <li><strong>诞生时间</strong>：1997 年，MP3 的"继任者"</li>
+                        <li><strong>优势</strong>：
+                            <ul>
+                                <li>同码率下音质优于 MP3（128kbps AAC ≈ 192kbps MP3）</li>
+                                <li>苹果生态全面支持（iPhone、iPad、Apple Music）</li>
+                                <li>适合音乐播放，中高频表现优秀</li>
+                            </ul>
+                        </li>
+                        <li><strong>劣势</strong>：
+                            <ul>
+                                <li>专利授权费用（虽然已过期，但部分实现仍需授权）</li>
+                                <li>延迟较高，不适合实时通信</li>
+                                <li>低码率下（&lt;64kbps）音质下降明显</li>
+                            </ul>
+                        </li>
+                        <li><strong>典型应用</strong>：Apple Music、YouTube、iPhone 录音、Netflix</li>
+                    </ul>
+
+                    <h4 style="margin-top: 15px;">🎙️ Opus</h4>
+                    <ul>
+                        <li><strong>诞生时间</strong>：2010 年，结合 Skype SILK 和 Xiph.Org CELT</li>
+                        <li><strong>优势</strong>：
+                            <ul>
+                                <li><strong>全能型</strong>：从 6kbps 语音到 510kbps 高清音频全覆盖</li>
+                                <li><strong>超低延迟</strong>：最低 2.5ms，适合实时通话、直播</li>
+                                <li><strong>开源免费</strong>：无专利限制，任意使用</li>
+                                <li><strong>低码率优秀</strong>：48kbps Opus ≈ 128kbps MP3</li>
+                                <li><strong>自适应</strong>：可根据网络状况动态调整码率</li>
+                            </ul>
+                        </li>
+                        <li><strong>劣势</strong>：
+                            <ul>
+                                <li>音乐播放领域认知度不如 AAC</li>
+                                <li>部分老设备不支持</li>
+                            </ul>
+                        </li>
+                        <li><strong>典型应用</strong>：WhatsApp、Discord、Zoom、WebRTC、Telegram</li>
+                    </ul>
+                </div>
+
+                <div class="diagram">
+                    <svg viewBox="0 0 600 280" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="100%" height="100%" fill="#f8f9fa"/>
+                        <text x="300" y="25" text-anchor="middle" font-size="14" fill="#333" font-weight="bold">Opus vs AAC：同音质码率对比</text>
+
+                        <!-- AAC 条形 -->
+                        <rect x="80" y="60" width="150" height="180" fill="#ffebee" stroke="#e94560" stroke-width="2" rx="8"/>
+                        <text x="155" y="85" text-anchor="middle" font-size="13" fill="#e94560" font-weight="bold">AAC</text>
+                        
+                        <rect x="100" y="100" width="110" height="120" fill="#e94560" rx="3"/>
+                        <text x="155" y="175" text-anchor="middle" font-size="11" fill="white" font-weight="bold">128 kbps</text>
+                        <text x="155" y="195" text-anchor="middle" font-size="9" fill="#666">优秀音质</text>
+                        
+                        <text x="155" y="255" text-anchor="middle" font-size="9" fill="#666">Apple Music</text>
+                        <text x="155" y="270" text-anchor="middle" font-size="9" fill="#666">YouTube</text>
+
+                        <!-- Opus 条形 -->
+                        <rect x="370" y="60" width="150" height="180" fill="#e8f5e9" stroke="#28a745" stroke-width="2" rx="8"/>
+                        <text x="445" y="85" text-anchor="middle" font-size="13" fill="#28a745" font-weight="bold">Opus</text>
+                        
+                        <rect x="390" y="130" width="110" height="90" fill="#28a745" rx="3"/>
+                        <text x="445" y="190" text-anchor="middle" font-size="11" fill="white" font-weight="bold">96 kbps</text>
+                        <text x="445" y="210" text-anchor="middle" font-size="9" fill="#666">同等音质</text>
+                        
+                        <text x="445" y="255" text-anchor="middle" font-size="9" fill="#666">Discord</text>
+                        <text x="445" y="270" text-anchor="middle" font-size="9" fill="#666">WhatsApp</text>
+
+                        <!-- 对比说明 -->
+                        <line x1="230" y1="150" x2="260" y2="150" stroke="#667eea" stroke-width="2"/>
+                        <text x="245" y="145" text-anchor="middle" font-size="9" fill="#667eea">同等音质</text>
+                        <line x1="230" y1="170" x2="260" y2="170" stroke="#667eea" stroke-width="2"/>
+                        <text x="245" y="185" text-anchor="middle" font-size="9" fill="#667eea">Opus 省 25%</text>
+
+                        <text x="300" y="250" text-anchor="middle" font-size="10" fill="#666">→ 相同音质下，Opus 所需码率比 AAC 低约 25%</text>
+                    </svg>
+                </div>
+
+                <div class="info-box" style="margin-top: 20px;">
+                    <h4>💡 如何选择？</h4>
+                    <ul>
+                        <li><strong>音乐播放/收藏</strong> → AAC 256kbps（苹果生态）或 Opus 160kbps（安卓/通用）</li>
+                        <li><strong>语音通话/直播</strong> → Opus（低延迟，自适应）</li>
+                        <li><strong>视频配乐</strong> → AAC（兼容性最好）</li>
+                        <li><strong>网络流媒体</strong> → Opus（带宽友好）</li>
+                        <li><strong>跨平台应用</strong> → Opus（开源免费，无专利问题）</li>
+                    </ul>
                 </div>
             </div>
 
